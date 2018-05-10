@@ -80,10 +80,35 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<a href="index.php"><img src="images/aeblogo.png" alt="Agrupamento de Escolas da Batalha" /></a>
 			</div>
 			  <div class="cart">
-			  	   <p><span><img src="images/bcart48.png" alt="Carrinho"></span><div id="dd" class="wrapper-dropdown-2"> 0 livro(s)
-			  	   	<ul class="dropdown">
-							<li>Não tem qualquer livro no seu carrinho.</li>
-					</ul></div></p>
+			  	   <p><span><img src="images/bcart48.png" alt="Carrinho"></span>
+				   <?php 
+				   	//abrir ligação à bd
+					include("ligar_db.php");
+					mysqli_set_charset($ligacao, "utf8");
+					
+					// prepara sessão de requisição
+					$sessao = session_id();
+					
+					// seleciona os livros requisitados temporariamente 	
+					$sql0 = "SELECT COUNT(idLivro) AS itens FROM temprequisicao WHERE sessao = '".$sessao."'";
+					$consulta0 = mysqli_query($ligacao, $sql0);
+					$resultado0 = mysqli_fetch_assoc($consulta0);
+
+					// se houver livros já requisitados, extrai o valor da contagem
+					if (mysqli_num_rows($consulta0) > 0) { 
+							$itens = $resultado0['itens']; 
+							$msg = "Tem ".$itens." livros no seu carrinho.";
+					} else {
+							$itens = 0;
+							$msg = "Não tem qualquer livro no seu carrinho.";
+					}
+					?>
+						<div id="dd" class="wrapper-dropdown-2"><?php echo $itens ?> livro(s)
+							<ul class="dropdown">
+								<li><?php echo $msg ?></li>
+						</ul>
+						</div>
+					</p>
 			  </div>
 			  <script type="text/javascript">
 			function DropDown(el) {
@@ -146,9 +171,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     	<div class="content_top">
     		<div class="back-links">
 	<?php
-		//abrir ligação à bd
-		include("ligar_db.php");
-		mysqli_set_charset($ligacao, "utf8");
+		////abrir ligação à bd
+		//include("ligar_db.php");
+		//mysqli_set_charset($ligacao, "utf8");
 		if(!isset($_GET['id'])) {
 			//não existe id
 			header("Location: index.php");
@@ -156,14 +181,18 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		}
 		else {
 			$idLivro = $_GET['id'];
-			$obterDados = mysqli_query($ligacao, "SELECT * FROM livros1 WHERE idLivro='$idLivro'");
+			$obterDados = mysqli_query($ligacao, "SELECT * FROM livros WHERE idLivro='$idLivro'");
 			$categoriaID = mysqli_fetch_array($obterDados)[1];
-			$obterDados = mysqli_query($ligacao, "SELECT * FROM livros1 WHERE idLivro='$idLivro'");
+			$obterDados = mysqli_query($ligacao, "SELECT * FROM livros WHERE idLivro='$idLivro'");
 			$tituloLink = mysqli_fetch_array($obterDados)[3];
 			$obterCat = mysqli_query($ligacao, "SELECT * FROM categorias WHERE idCat='$categoriaID'");
 			$categoriaLink = mysqli_fetch_array($obterCat);
 		}
-		$consulta = "SELECT * FROM livros1 WHERE idLivro='$idLivro'";
+
+		//// prepara sessão de requisição
+		//$sessao = session_id();
+		
+		$consulta = "SELECT * FROM livros WHERE idLivro='$idLivro'";
 		$resultado = mysqli_query($ligacao, $consulta);
 		if(empty(mysqli_num_rows($resultado))){
 			//não foi encontrado o registo
@@ -214,24 +243,49 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<h3><?php echo $autor; ?></h3>
 					<h3><?php echo $editora[1] ?></h3>
 					<h3><?php echo "Ano de edição: ".$ano; ?></h3>
-				<div class="share-desc">
-					<div class="share">
-						<p>Partilhar livro:</p>
-						<ul>
-					    	<li><img src="images/facebook.png" alt="" /></li>
-					    	<li><img src="images/twitter.png" alt="" /></li>
-							<li><a href="#"><img src="images/mail2.png" alt="" /></a></li>
-			    		</ul>
+					<?php
+						// seleciona a quantidade temporaria 	
+						$sql2 = "SELECT quantidade FROM temprequisicao WHERE sessao = '".$sessao."' AND idLivro = '".$idLivro. "'";
+						$consulta2 = mysqli_query($ligacao, $sql2);
+						$resultado2 = mysqli_fetch_assoc($consulta2);
+						// se houver quantidades já inseridas, extrai valores para os mostrar
+						if (mysqli_num_rows($consulta2) > 0) { 
+							$quantidade = $resultado2['quantidade']; 
+							}
+						// se não houver quantidade já inserida, atribui valor zero
+						else {
+							$quantidade = 0;
+						}
+					?>
+					<div class="share-desc">
+						<div class="share">
+							<form method="POST" action="atualizarRequisitar.php">
+						
+							<p>Quantidade:</p>
+							<p>
+								<input type="text" name="quantidade" id="quantidade" size="10" value="<?php echo $quantidade ?>"/>
+								<?php
+										if ($quantidade > 0) {
+											echo "<input type='submit' name='submit' value='Alterar' />&nbsp;&nbsp;";
+											echo "<input type='submit' name='submit' value='Remover' />";
+										// se a quantidade for nula, permite adicionar artigo
+										} else {
+											echo "<input type='submit' name='submit' value='Adicionar' />";
+										}
+										echo "<input type='hidden' name='idLivro' value='".$idLivro."'/>";	
+									?>
+							</p>
+							</form>
+						</div>
+						<div class="clear"></div>
 					</div>
-					<div class="add-cart"><h4><a href="#"><img src="images/bcart24.png" alt="Carrinho"></a></h4></div>
-					<div class="clear"></div>
+					<div class="wish-list">
+						<ul>
+							<li class="wish"><a href="listarequisitar.php">Ver lista de requisição</a></li>
+							<li class="wish"><a href="#">Finalizar</a></li>
+						</ul>
+					</div>
 				</div>
-				 <div class="wish-list">
-				 	<ul>
-				 		<li class="wish"><a href="#">Adicionar à Wishlist</a></li>
-				 	</ul>
-				 </div>
-			</div>
 			<div class="clear"></div>
 		  </div>
 		<div class="product_desc">	
@@ -245,7 +299,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<div class="product-desc">
 						<p>Lorem Ipsum is simply dummy text of the <span>printing and typesetting industry</span>. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
 						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, <span>when an unknown printer took a galley of type and scrambled</span> it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.<span> It has survived not only five centuries</span>, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>					</div>
+					</div>
 
 
 				<div class="review">
@@ -303,7 +357,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
    <div class="section group">
 	<?php
 		//procurar 4 livros aleatoriamente para exibir aqui
-		$consulta="SELECT * FROM livros1 WHERE (idCat=$categoriaID AND idLivro<>$idLivro) ORDER BY RAND() LIMIT 4";
+		$consulta="SELECT * FROM livros WHERE (idCat=$categoriaID AND idLivro<>$idLivro) ORDER BY RAND() LIMIT 4";
 		$resultado = mysqli_query($ligacao, $consulta);
 		
 		while ($linha = mysqli_fetch_array($resultado)){

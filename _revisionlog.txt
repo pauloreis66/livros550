@@ -1,0 +1,9 @@
+10-05-2017:
+--- alterada estrutura da base de dados (ver livros550_db.png)
+--- style.css tem novos elementos -> .share .listagrid
+--- incluído código para atualizar carrinho de compras -> index.php, preview.php, ...
+
+--- preview.php -> inclui form para inserir quantidade
+--- atualizarRequisitar.php -> novo script para controlar quantidade
+--- listarequisitar.php - > novo script para exibir lista de requisições
+--- finalizarequisitar.php e finalizarequisitar2.php - > scripts para concluir a requisição

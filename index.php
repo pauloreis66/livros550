@@ -64,10 +64,35 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<a href="index.php"><img src="images/aeblogo.png" alt="Agrupamento de Escolas da Batalha" /></a>
 			</div>
 			  <div class="cart">
-			  	   <p><span><img src="images/bcart48.png" alt="Carrinho"></span><div id="dd" class="wrapper-dropdown-2"> 0 livro(s)
-			  	   	<ul class="dropdown">
-							<li>Não tem qualquer livro no seu carrinho.</li>
-					</ul></div></p>
+					<p><span><img src="images/bcart48.png" alt="Carrinho"></span>
+					<?php 
+				   	//abrir ligação à bd
+					include("ligar_db.php");
+					mysqli_set_charset($ligacao, "utf8");
+					
+					// prepara sessão de requisição
+					$sessao = session_id();
+					
+					// seleciona os livros requisitados temporariamente 	
+					$sql0 = "SELECT COUNT(idLivro) AS itens FROM temprequisicao WHERE sessao = '".$sessao."'";
+					$consulta0 = mysqli_query($ligacao, $sql0);
+					$resultado0 = mysqli_fetch_assoc($consulta0);
+
+					// se houver livros já requisitados, extrai o valor da contagem
+					if (mysqli_num_rows($consulta0) > 0) { 
+							$itens = $resultado0['itens']; 
+							$msg = "Tem ".$itens." livros no seu carrinho.";
+					} else {
+							$itens = 0;
+							$msg = "Não tem qualquer livro no seu carrinho.";
+					}
+					?>
+						<div id="dd" class="wrapper-dropdown-2"><?php echo $itens ?> livro(s)
+							<ul class="dropdown">
+								<li><?php echo $msg ?></li>
+						</ul>
+						</div>
+					</p>
 			  </div>
 			  <script type="text/javascript">
 			function DropDown(el) {
@@ -130,9 +155,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				  <ul>
 				  	<h3>Categorias</h3>
 <?php
-	//connect to database
-	include("ligar_db.php");
-	mysqli_set_charset($ligacao, "utf8");
+	////connect to database
+	//include("ligar_db.php");
+	//mysqli_set_charset($ligacao, "utf8");
 	
 	$campo1="idCat";
 	$campo2="categoria";
@@ -220,7 +245,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	      <div class="section group">
 	<?php
 		//exibir os 4 livros registados mais recentemente
-		$consulta="SELECT * FROM livros1 ORDER BY DataReg DESC LIMIT 4";
+		$consulta="SELECT * FROM livros ORDER BY DataReg DESC LIMIT 4";
 		$resultado = mysqli_query($ligacao, $consulta);
 		
 		while ($linha = mysqli_fetch_array($resultado)){
@@ -277,7 +302,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<div class="section group">
 	<?php
 		//procurar 4 livros aleatoriamente para exibir aqui
-		$consulta="SELECT * FROM livros1 ORDER BY RAND() LIMIT 4";
+		$consulta="SELECT * FROM livros ORDER BY RAND() LIMIT 4";
 		$resultado = mysqli_query($ligacao, $consulta);
 		
 		while ($linha = mysqli_fetch_array($resultado)){
