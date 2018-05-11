@@ -62,12 +62,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<a href="index.php"><img src="images/aeblogo.png" alt="" /></a>
 			</div>
 			  <div class="cart">
-			  	   <p><span><img src="images/bcart48.png" alt="Carrinho"></span>
-					<?php 
+					<p><span><img src="images/bcart48.png" alt="Carrinho"></span>
+				   <?php 
 				   	//abrir ligação à bd
 					include("ligar_db.php");
 					mysqli_set_charset($ligacao, "utf8");
 					
+					session_start();
 					// prepara sessão de requisição
 					$sessao = session_id();
 					
@@ -125,8 +126,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<div class="header_bottom">
 	     	<div class="menu">
 	     		<ul>
-			    	<li class="active"><a href="index.php">Home</a></li>
-			    	<li><a href="about.html">Sobre</a></li>
+			    	<li><a href="index.php">Home</a></li>
+			    	<li class="active"><a href="sobre.php">Sobre</a></li>
 			    	<li><a href="listarequisitar.php">Requisitar</a></li>
 			    	<li><a href="contacto.php">Contacto</a></li>
 			    	<div class="clear"></div>
@@ -140,75 +141,50 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	     	<div class="clear"></div>
 	     </div>	     	
    </div>
- <div class="main">
-    <div class="content">
-    	<div class="section group">
-				<div class="col span_2_of_3">
-				  <div class="signup">
-				  <center><img src="images/user75.png" alt="Avatar"></center>
-				  	<h2><center>Registo de novo utilizador</center></h2>
-					    <form name="form_login" method="POST" action="processarRegistar.php">
-							<div><?php
-									if(isset($_GET['erro'])) { //SE EXISTIR ERRO 
-										echo ("<p class='erro'>Todos os campos de preenchimento obrigatório.</p>");
-									}
-							?>&nbsp;</div>
-					    	<div>
-						    	<span><label>Utilizador / Nº Cartão</label></span>
-						    	<span><input type="text" name="login" id="login" placeholder="Insira o seu nome de utilizador"></span>
-						    </div>
-					    	<div>
-						    	<span><label>Nome e Apelido</label></span>
-						    	<span><input type="text" name="nome" id="nome" placeholder="Insira o seu nome próprio e apelido"></span>
-						    </div>
-					    	<div>
-						    	<span><label>Email</label></span>
-						    	<span><input type="text" name="email" id="email" placeholder="Insira o contacto de correio eletrónico "></span>
-						    </div>
-							<div>
-						    	<span><label>Cargo/Função</label></span>
-						    	<span><input type="text" name="cargo" id="cargo" placeholder="Insira o seu cargo ou função (ex. professor, aluno)"></span>
-						    </div>
-						    <div>
-						    	<span><label>Palavra-passe</label></span>
-						    	<span><input type="password" name="senha" id="senha" placeholder="Insira a sua senha pretendida para acesso"></span>
-						    </div>
-						    <div>
-						    	<span><label>Repetir Palavra-passe</label></span>
-						    	<span><input type="password" name="resenha" id="resenha" placeholder="Digite novamente a senha pretendida"></span>
-						    </div>
-
-						  <div>
-							<span><label>Ao criar uma conta está de acordo com a nossa <a href="#">Privacidade &amp; Termos de Utilização</a>.</label></span>
-						  </div>
-						  
-						  <div>
-							<span><input type="reset" value="Cancelar" class="myButton">
-							<input type="submit" value="Registar" class="myButton"></span>
-						  </div>
-						  
-					    </form>
-				  </div>
-  				</div>
-				<div class="col span_1_of_3">
-					<div class="contact_info">
-    	 				<h3>Find Us Here</h3>
-
-      				</div>
-      			<div class="company_address">
-				     	<h3>Company Information :</h3>
-						    	<p>500 Lorem Ipsum Dolor Sit,</p>
-						   		<p>22-56-2-9 Sit Amet, Lorem,</p>
-						   		<p>USA</p>
-				   		<p>Phone:(00) 222 666 444</p>
-				   		<p>Fax: (000) 000 00 00 0</p>
-				 	 	<p>Email: <span><a href="mailto:@example.com">info@mycompany.com</a></span></p>
-				   		<p>Follow on: <span>Facebook</span>, <span>Twitter</span></p>
-				   </div>
-				 </div>
-			  </div>		
-         </div> 
-    </div>
+	<div class="main">
+		<div class="content">
+			<div class="section group">
+		
+				<div class="col_1_of_3 span_1_of_3">
+					<h3>Who We Are</h3>
+					<img src="images/about_img.jpg" alt="">
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+				</div>
+			
+				<div class="col_1_of_3 span_1_of_3">
+					<h3>Our History</h3>
+					<div class="history-desc">
+						<div class="year"><p>1998 -</p></div>
+						<p class="history">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+						<div class="clear"></div>
+					</div>
+					<div class="history-desc">
+						<div class="year"><p>2001 -</p></div>
+						<p class="history">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+						<div class="clear"></div>
+					</div>
+				</div>
+				
+				<div class="col_1_of_3 span_1_of_3">
+					<h3>Opportunities</h3>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+				    <div class="list">
+					     <ul>
+					     	<li><a href="#">Text of the printing</a></li>
+					     	<li><a href="#">Lorem Ipsum has been the standard</a></li>
+					     	<li><a href="#">Dummy text ever since the 1500s</a></li>
+					     	<li><a href="#">Unknown printer took a galley</a></li>
+					     	<li><a href="#">Led it to make a type specimen</a></li>
+					     	<li><a href="#">Not only five centuries</a></li>
+					     </ul>
+					 </div>
+					 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+				</div>
+			
+			</div>		
+		</div> 
+   </div>
  </div>
    <div class="footer">
    	  <div class="wrap">	

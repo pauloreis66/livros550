@@ -128,8 +128,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	     	<div class="menu">
 	     		<ul>
 			    	<li class="active"><a href="index.php">Home</a></li>
-			    	<li><a href="about.html">Sobre</a></li>
-			    	<li><a href="delivery.html">Requisitar</a></li>
+			    	<li><a href="sobre.php">Sobre</a></li>
+			    	<li><a href="listarequisitar.php">Requisitar</a></li>
 			    	<li><a href="contacto.php">Contacto</a></li>
 					<?php
 						//verificar se é administrador

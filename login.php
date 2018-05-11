@@ -51,10 +51,35 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<a href="index.php"><img src="images/aeblogo.png" alt="" /></a>
 			</div>
 			  <div class="cart">
-			  	   <p><span><img src="images/cart32.png" alt="Carrinho"></span><div id="dd" class="wrapper-dropdown-2"> 0 livro(s)
-				   <ul class="dropdown">
-							<li>Não tem qualquer livro no seu carrinho.</li>
-					</ul></div></p>
+			  	   <p><span><img src="images/bcart48.png" alt="Carrinho"></span>
+					<?php 
+				   	//abrir ligação à bd
+					include("ligar_db.php");
+					mysqli_set_charset($ligacao, "utf8");
+					
+					// prepara sessão de requisição
+					$sessao = session_id();
+					
+					// seleciona os livros requisitados temporariamente 	
+					$sql0 = "SELECT COUNT(idLivro) AS itens FROM temprequisicao WHERE sessao = '".$sessao."'";
+					$consulta0 = mysqli_query($ligacao, $sql0);
+					$resultado0 = mysqli_fetch_assoc($consulta0);
+
+					// se houver livros já requisitados, extrai o valor da contagem
+					if (mysqli_num_rows($consulta0) > 0) { 
+							$itens = $resultado0['itens']; 
+							$msg = "Tem ".$itens." livros no seu carrinho.";
+					} else {
+							$itens = 0;
+							$msg = "Não tem qualquer livro no seu carrinho.";
+					}
+					?>
+						<div id="dd" class="wrapper-dropdown-2"><?php echo $itens ?> livro(s)
+							<ul class="dropdown">
+								<li><?php echo $msg ?></li>
+						</ul>
+						</div>
+					</p>
 			  </div>
 			  <script type="text/javascript">
 			function DropDown(el) {
@@ -119,11 +144,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							?>&nbsp;</div>
 					    	<div>
 						    	<span><label>Utilizador / Nº Cartão</label></span>
-						    	<span><input type="text" name="login" id="login" placeholder="Insira nome de utilizador"></span>
+						    	<input type="text" name="login" id="login" placeholder="Insira nome de utilizador">
 						    </div>
 						    <div>
 						    	<span><label>Senha</label></span>
-						    	<span><input type="password" name="senha" id="senha" placeholder="Insira a senha"></span>
+						    	<input type="password" name="senha" id="senha" placeholder="Insira a senha">
 						    </div>
 						   <div>
 						   		<span><input type="submit" name="entrar" id="entrar" value="Login" class="myButton"></span>
