@@ -295,7 +295,7 @@ body {
 }
 /***** Content *****/
 .content {
-	padding: 20px 0;
+	padding: 10px 0;
 	background: #FFF;
 }
 .content h2 {
@@ -648,7 +648,7 @@ body {
 }
 
 .product-details{
-	margin:30px 0;
+	margin:5px 0;
 }
 .span_1_of_2 {
 	width: 67.1%;
@@ -663,6 +663,13 @@ body {
 	width: 53.2%;
 		border-top: 1px solid #E6E6E6;
 }
+
+.span_3_of_3 {
+	width: 98%;
+		border-top: 1px solid #E6E6E6;
+}
+
+
 .span_3_of_1 {
 	width: 25.2%;
 	padding: 1.5%;
@@ -748,6 +755,39 @@ body {
 .share li img {
 	vertical-align:middle; 
 }
+
+.share input[type="text"] {
+	font-size: 0.8125em;
+	width: 25%;
+	padding: 10px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+}
+
+.share input[type="submit"] {
+    font-size:1em;
+	padding:10px 15px;
+	font-family: 'ambleregular';
+	background:#CD1F25;
+	color: #FFF;
+	text-decoration: none;
+	border:none;
+	cursor:pointer;
+	outline: 0;
+	-webkit-transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-o-transition: all 0.5s ease-in-out;
+	transition: all 0.5s ease-in-out;
+}
+
+.share input[type="submit"]:hover {
+	text-shadow: 0px 0px 1px #000;
+    background: #292929;
+}
+
+
 .wish-list{
 	padding:15px 0;
 	border-bottom: 1px solid #E6E6E6;
@@ -913,7 +953,7 @@ body {
 		resize:none;
 		height:120px;
 }
-.your-review input[type="submit"]{
+.your-review input[type="submit"] {
     font-size:1em;
 	padding:10px 15px;
 	font-family: 'ambleregular';
@@ -928,10 +968,12 @@ body {
 	-o-transition: all 0.5s ease-in-out;
 	transition: all 0.5s ease-in-out;
 }
-.your-review input[type="submit"]:hover{
+
+.your-review input[type="submit"]:hover {
 	text-shadow: 0px 0px 1px #000;
     background: #292929;
 }
+
 .span_3_of_1 li a {
 	font-size:0.8em;
 	/**padding:8px 0 8px 20px; **/
@@ -997,7 +1039,7 @@ body {
 	/*box-shadow: inset 0px 2px 5px #707070; */
 }
 .signup div {
-	padding: 5px 0;
+	padding: 2px 0;
 }
 
 .signup span {
@@ -1048,7 +1090,8 @@ body {
 	color: #fff;
 	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
 }
-.signup input[type="submit"]:hover, .signup input[type="reset"]:hover {
+
+.signup input[type="submit"]:hover {
 	background: #5e5e5e;
 	background: -moz-linear-gradient(top,  #5e5e5e 0%, #404040 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#5e5e5e), color-stop(100%,#404040));
@@ -1112,27 +1155,38 @@ body {
 	margin-top: 0px;
 	text-transform: uppercase;
  }
+ 
+ .span_1_of_3  h4 {
+	color: #000096;
+	margin-bottom: 0.5em;
+	font-size: 1.3em;
+	line-height: 1.0;
+	font-family: 'ambleregular';
+	font-weight: normal;
+	margin-top: 0px;
+	text-transform: uppercase;
+ }
+ 
 .span_1_of_3  p {
 	font-size: 0.8125em;
 	padding: 0.5em 0;
 	color:#727272;
-	line-height: 1.8em;
+	line-height: 1.6em;
 	font-family: Arial, Helvetica, sans-serif;
 }
 .year {
 	float: left;
-	width:50px;
 }
 .year p {
 	color: #E4292F;
-	font-size: 0.95em;
+	font-size: 0.8125em;
 }
 .span_1_of_3  p.history {
 	float: left;
 	width: 85%;
 	font-size: 0.8125em;
 	color:#727272;
-	line-height: 1.8em;
+	line-height: 1.6em;
 }
 .span_1_of_3 .list li a {
 	font-size: 0.82em;
@@ -1145,6 +1199,16 @@ body {
 .span_1_of_3 .list li a:hover {
 	text-decoration:underline;
 }
+
+.span_1_of_3 .list2 li {
+	font-size: 0.82em;
+	padding:7px 15px;
+	color: #727272;
+	background: url(../images/drop_arrow.png) no-repeat 0px 10px;
+	display: block;
+}
+
+
 /* Delivery  ============================================================================= */
 .section {
 	clear: both;
@@ -1375,7 +1439,7 @@ body {
 }
 .span_2_of_3  h2, .span_1_of_3  h2 {
 	margin-bottom: 0.5em;
-	line-height: 1.2;
+	line-height: 1.0;
 	font-family: 'ambleregular';
 	font-weight: normal;
 	margin-top: 0px;
@@ -1605,7 +1669,7 @@ body {
 	overflow-x:auto;
 }
 
-.gridtable p{
+.gridtable p {
 	font-size:0.9em;
 	padding:5px 0;
 	color: #969696;
@@ -1647,7 +1711,7 @@ body {
 	font-weight: normal;
 }
 
-.gridtable a {
+.gridtable a, .listagrid a {
 	color: #E4292F;
 }
 .gridtable a:hover{
@@ -1659,6 +1723,62 @@ body {
 .gridtable tr:nth-child(even){background-color: #f2f2f2}
 /****END MY TABLES STYLE****/
 
+
+.listagrid table {
+    font-family: 'ambleregular';
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.listagrid td, .listagrid th {
+    border: 1px solid #ddd;
+    padding: 8px;
+	vertical-align: top;
+}
+
+.listagrid tr:nth-child(even){background-color: #f2f2f2;}
+
+.listagrid tr:hover {background-color: #ddd;}
+
+.listagrid th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #000000;
+    color: white;
+}
+
+.listagrid input[type="text"] {
+	font-size: 0.8125em;
+	width: 60%;
+	padding: 10px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+	text-align: center;
+}
+
+.listagrid input[type="submit"] {
+    font-size:0.8125em;
+	padding:10px 12px;
+	font-family: 'ambleregular';
+	background:#CD1F25;
+	color: #FFF;
+	text-decoration: none;
+	border:none;
+	cursor:pointer;
+	outline: 0;
+	-webkit-transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-o-transition: all 0.5s ease-in-out;
+	transition: all 0.5s ease-in-out;
+}
+
+.listagrid input[type="submit"]:hover {
+	text-shadow: 0px 0px 1px #000;
+    background: #292929;
+}
 
 /****MY DROPDOWN MENU****/
 .dropdownmenu {
