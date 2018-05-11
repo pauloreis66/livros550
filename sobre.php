@@ -144,43 +144,59 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<div class="main">
 		<div class="content">
 			<div class="section group">
-		
 				<div class="col_1_of_3 span_1_of_3">
-					<h3>Who We Are</h3>
+					<h4>CATÁLOGO DE LIVROS TÉCNICOS</h4>
 					<img src="images/about_img.jpg" alt="">
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+					<p>O CATÁLOGO DE LIVROS TÉCNICOS é uma plataforma de inventariação dos livros de âmbito técnico disponíveis para apoio aos Cursos Profissionais de Informática do Agrupamento de Escolas da Batalha.</p>
+					<p>Como plataforma pretende fazer o registo de livros técnicos, mantendo um inventário permamente e facilmente acessível através de métodos de pesquisa e ordenação dos títulos existentes.</p>
+					<p>Possibilita ainda a gestão das requisição de livros por alunos e professores desta instituição de ensino.</p>
 				</div>
+				
+				<div class="col_1_of_3 span_1_of_3">
+					<h4>COMO USAR ESTA PLATAFORMA?</h4>
+					<p>Os conteúdos existentes no CATÁLOGO DE LIVROS TÉCNICOS são produzidos internamente no Agrupamento de Escolas da Batalha, sendo o Grupo 550 - Informática o responsável pela atualização da informação aqui constante.</p>
+					<p>O acervo de livros existente nesta plataforma está disponível a qualquer visitante para consulta informativa (título, editora, ano de edição, ISBN, sinopse).</p>
+					<p>Para aceder às funcionalidade de requisição e consultas avançadas é necessário um registo de utilizador. Registar-se é simples, só precisa de um endereço de email e uma password.</p>
+				    <div class="list">
+					     <ul>
+							<li><a href="#">Privacidade & Termos de Utilização</a></li>
+							<li><a href="#">Regulamento de Requisição de Livros</a></li>
+					     	<li><a href="registar.php">Registo de novo utilizador</a></li>
+					     	<li><a href="login.php">Autenticação de utilizador</a></li>
+					     </ul>
+					 </div>
+					 <p>Ao registar-se ficará com acesso à sua área de utilizador onde poderá gerir os seus dados pessoais, requisitar livros, validar a devolução dos mesmos.</p>
+				</div>
+				
 			
 				<div class="col_1_of_3 span_1_of_3">
-					<h3>Our History</h3>
+					<h4>COMO REQUISITAR OS LIVROS?</h4>
 					<div class="history-desc">
-						<div class="year"><p>1998 -</p></div>
-						<p class="history">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+						<div class="year"><p>UTENTES</p></div>
+						<p class="history">Os livros do CATÁLOGO DE LIVROS TÉCNICOS podem ser requisitados por qualquer aluno ou professor do Agrupamento de Escolas da Batalha, respeitando o disposto no Regulamento desta iniciativa.</p>
 						<div class="clear"></div>
 					</div>
 					<div class="history-desc">
-						<div class="year"><p>2001 -</p></div>
-						<p class="history">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+						<div class="year"><p>REQUISIÇÃO</p></div>
+						<p class="history">Para requisitar um livro o interessado terá que:</p>
+						<div class="clear"></div>
+					</div>
+					<div class="list2">
+						<ul>
+							<li>Estar devidamente autenticado na plataforma.</li>
+							<li>Selecionar o livro e adicionar ao carrinho de compras.</b>
+							<li>Finalizar a operação de requisição.</b>
+							<li>Concordar com a declaração de empréstimo.</b>
+						</ul>
+					</div>
+					<div class="history-desc">
+						<div class="year"><p>ENTREGA E DEVOLUÇÃO</p></div>
+						<p class="history">A entrega do livro ao interessado será feita por um professsor responsável do Grupo 550.</p>
+						<p class="history">A devolução do livro será feita a um professsor responsável do Grupo 550.</p>
 						<div class="clear"></div>
 					</div>
 				</div>
 				
-				<div class="col_1_of_3 span_1_of_3">
-					<h3>Opportunities</h3>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-				    <div class="list">
-					     <ul>
-					     	<li><a href="#">Text of the printing</a></li>
-					     	<li><a href="#">Lorem Ipsum has been the standard</a></li>
-					     	<li><a href="#">Dummy text ever since the 1500s</a></li>
-					     	<li><a href="#">Unknown printer took a galley</a></li>
-					     	<li><a href="#">Led it to make a type specimen</a></li>
-					     	<li><a href="#">Not only five centuries</a></li>
-					     </ul>
-					 </div>
-					 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-				</div>
 			
 			</div>		
 		</div> 
