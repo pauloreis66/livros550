@@ -68,7 +68,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					include("ligar_db.php");
 					mysqli_set_charset($ligacao, "utf8");
 					
-					session_start();
 					// prepara sessão de requisição
 					$sessao = session_id();
 					
@@ -139,8 +138,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	     		</form>
 	     	</div>
 	     	<div class="clear"></div>
-	     </div>	     	
-   </div>
+	</div>	     	
+ </div>
  <div class="main">
     <div class="content">
     	<div class="section group">
@@ -178,45 +177,47 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 									<br><small><a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3071.482880427657!2d-8.820538784979828!3d39.661351079460026!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd227543cb0288ad%3A0xb7675d134de618f4!2sAgrupamento+de+escolas+da+Batalha!5e0!3m2!1spt-PT!2spt!4v1526058613970" style="color:#666;text-align:left;font-size:12px">Ver Mapa maior</a></small>
 							  </div>
       				</div>
-      			<div class="company_address">
+					<div class="company_address">
 				     	<h3>O nosso endereço:</h3>
 						<p>Agrupamento de Escolas da Batalha</p>
 						<p>Estrada da Freiria</p>
 						<p>2440-062 Batalha</p>
 				   		<p><img src="images/telefone.png">244 769 290</p>
 				 	 	<p><img src="images/email.png">es3batalha@gmail.com</p>
-				   </div>
-				 </div>
+					</div>
+				</div>
 			  </div>		
-         </div> 
+          
     </div>
  </div>
    <div class="footer">
    	  <div class="wrap">	
-	     <div class="section group">
+	     	<div class="section group">
 				<div class="col_1_of_4 span_1_of_4">
 						<h4>Informação</h4>
 						<ul>
 						<li><a href="sobre.php">Sobre...</a></li>
-						<li><a href="contacto.php">Contactos</a></li>
-						<li><a href="#">Advanced Search</a></li>
+						<li><a href="policy.php">Privacidade & Termos de Utilização</a></li>
+						<li><a href="regulamento.php">Regulamento de Requisição de Livros</a></li>
 						</ul>
-					</div>
+				</div>
 				<div class="col_1_of_4 span_1_of_4">
-					<h4>Why buy from us</h4>
+					<h4>A sua Conta</h4>
 						<ul>
-						<li><a href="about.html">About Us</a></li>
-						<li><a href="contact.html">Customer Service</a></li>
-						<li><a href="#">Privacy Policy</a></li>
+						<li><a href="login.php">Login</a></li>
+						<li><a href="perfil.php">Perfil de utilizador</a></li>
+						<li><a href="requisicoes.php">Requisições</a></li>
+						<li><a href="devolucoes.php">Devoluções</a></li>
 						</ul>
 				</div>
 				<div class="col_1_of_4 span_1_of_4">
 					<h4>Rede Social</h4>
 						<div class="social-icons">
 					   		  <ul>
-							      <li><a href="www.facebook.com/aebatalha" target="_blank"><img src="images/facebook.png" alt="" /></a></li>
-							      <li><a href="http://esbatalha.ccems.pt/" target="_blank"><img src="images/www.png" alt="" /></a></li>
-							      <li><a href="http://esbat-m.ccems.pt" target="_blank"><img src="images/moodle.png" alt="" /> </a></li>
+							      <li><a href="www.facebook.com/aebatalha" target="_blank"><img src="images/facebook.png" alt="Facebook" /></a></li>
+							      <li><a href="http://esbatalha.ccems.pt/" target="_blank"><img src="images/www.png" alt="Página Web" /></a></li>
+							      <li><a href="http://esbat-m.ccems.pt" target="_blank"><img src="images/moodle.png" alt="Moodle" /> </a></li>
+								  <li><a href="http://www.alfabetoaeb.pt" target="_blank"><img src="images/alfabeto.png" alt="Jornal Alfabeto" /> </a></li>
 							      <div class="clear"></div>
 						     </ul>
    	 					</div>
@@ -224,7 +225,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="col_1_of_4 span_1_of_4">
 					<h4>Contacto</h4>
 						<ul>
-							<li><span>Estrada da Freiria 2440-062 Batalha</span></li>
+							<li><span>Rua da Freiria<br />2440-062 Batalha</span></li>
 							<li><span><img src="images/telefone.png">244 769 290</span></li>
 							<li><span><img src="images/email.png">es3batalha@gmail.com</span></li>
 						</ul>
@@ -232,8 +233,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			</div>			
         </div>
         <div class="copy_right">
-				<p>&copy; 2018 All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a> adaptado para o AEB</p>
-		   </div>
+				<p>&copy; 2018 All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a> adaptado para o AEB.</p>
+		</div>
     </div>
     <script type="text/javascript">
 		$(document).ready(function() {			

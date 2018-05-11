@@ -148,7 +148,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	     		</form>
 	     	</div>
 	     	<div class="clear"></div>
-	     </div>	     
+	</div>	     
 	<div class="header_slide">
 			<div class="header_bottom_left">				
 				<div class="categories">
@@ -176,7 +176,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 ?>
 				  </ul>
 				</div>					
-	  	     </div>
+	  	    </div>
 					 <div class="header_bottom_right">					 
 					 	 <div class="slider">					     
 							 <div id="slider">
@@ -196,14 +196,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 									  <div class="clear"></div>				
 				                  </div>	
 						             	<div class="slide">
-						             		<div class="slider-text">
-		                                 <h1>Clearance<br><span>SALE</span></h1>
-		                                 <h2>UPTo 40% OFF</h2>
-									   <div class="features_list">
+						             	<div class="slider-text">
+											<h1>Clearance<br><span>SALE</span></h1>
+											<h2>UPTo 40% OFF</h2>
+											<div class="features_list">
 									   	<h4>Get to Know More About Our Memorable Services</h4>							               
 							            </div>
-							             <a href="preview.html" class="button">Shop Now</a>
-					                   </div>		
+												<a href="preview.html" class="button">Shop Now</a>
+											</div>		
 						             	 <div class="slider-img">
 									     <a href="preview.html"><img src="images/slide-3-image.jpg" alt="learn more" /></a>
 									  </div>						             					                 
@@ -341,36 +341,37 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			//fim do ciclo
 			}
 			?>
-			</div>
-    </div>
+		</div>
  </div>
 </div>
    <div class="footer">
    	  <div class="wrap">	
-	     <div class="section group">
+	    	<div class="section group">
 				<div class="col_1_of_4 span_1_of_4">
 						<h4>Informação</h4>
 						<ul>
 						<li><a href="sobre.php">Sobre...</a></li>
-						<li><a href="contacto.php">Contactos</a></li>
-						<li><a href="#">Advanced Search</a></li>
+						<li><a href="policy.php">Privacidade & Termos de Utilização</a></li>
+						<li><a href="regulamento.php">Regulamento de Requisição de Livros</a></li>
 						</ul>
 					</div>
 				<div class="col_1_of_4 span_1_of_4">
-					<h4>Why buy from us</h4>
+					<h4>A sua Conta</h4>
 						<ul>
-						<li><a href="about.html">About Us</a></li>
-						<li><a href="contact.html">Customer Service</a></li>
-						<li><a href="#">Privacy Policy</a></li>
+						<li><a href="login.php">Login</a></li>
+						<li><a href="perfil.php">Perfil de utilizador</a></li>
+						<li><a href="requisicoes.php">Requisições</a></li>
+						<li><a href="devolucoes.php">Devoluções</a></li>
 						</ul>
 				</div>
 				<div class="col_1_of_4 span_1_of_4">
 					<h4>Rede Social</h4>
 						<div class="social-icons">
 					   		  <ul>
-							      <li><a href="www.facebook.com/aebatalha" target="_blank"><img src="images/facebook.png" alt="" /></a></li>
-							      <li><a href="http://esbatalha.ccems.pt/" target="_blank"><img src="images/www.png" alt="" /></a></li>
-							      <li><a href="http://esbat-m.ccems.pt" target="_blank"><img src="images/moodle.png" alt="" /> </a></li>
+							      <li><a href="www.facebook.com/aebatalha" target="_blank"><img src="images/facebook.png" alt="Facebook" /></a></li>
+							      <li><a href="http://esbatalha.ccems.pt/" target="_blank"><img src="images/www.png" alt="Página Web" /></a></li>
+							      <li><a href="http://esbat-m.ccems.pt" target="_blank"><img src="images/moodle.png" alt="Moodle" /> </a></li>
+								  <li><a href="http://www.alfabetoaeb.pt" target="_blank"><img src="images/alfabeto.png" alt="Jornal Alfabeto" /> </a></li>
 							      <div class="clear"></div>
 						     </ul>
    	 					</div>
@@ -378,7 +379,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="col_1_of_4 span_1_of_4">
 					<h4>Contacto</h4>
 						<ul>
-							<li><span>Estrada da Freiria 2440-062 Batalha</span></li>
+							<li><span>Rua da Freiria<br />2440-062 Batalha</span></li>
 							<li><span><img src="images/telefone.png">244 769 290</span></li>
 							<li><span><img src="images/email.png">es3batalha@gmail.com</span></li>
 						</ul>
@@ -386,8 +387,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			</div>			
         </div>
         <div class="copy_right">
-				<p>&copy; 2018 All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a> adaptado para o AEB</p>
-		   </div>
+				<p>&copy; 2018 All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a> adaptado para o AEB.</p>
+		</div>
     </div>
     <script type="text/javascript">
 		$(document).ready(function() {			

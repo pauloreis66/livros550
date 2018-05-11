@@ -64,10 +64,35 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<a href="index.php"><img src="images/aeblogo.png" alt="Agrupamento de Escolas da Batalha" /></a>
 			</div>
 			  <div class="cart">
-			  	   <p><span><img src="images/bcart48.png" alt="Carrinho"></span><div id="dd" class="wrapper-dropdown-2"> 0 livro(s)
-			  	   	<ul class="dropdown">
-							<li>Não tem qualquer livro no seu carrinho.</li>
-					</ul></div></p>
+					<p><span><img src="images/bcart48.png" alt="Carrinho"></span>
+					<?php 
+				   	//abrir ligação à bd
+					include("ligar_db.php");
+					mysqli_set_charset($ligacao, "utf8");
+					
+					// prepara sessão de requisição
+					$sessao = session_id();
+					
+					// seleciona os livros requisitados temporariamente 	
+					$sql0 = "SELECT COUNT(idLivro) AS itens FROM temprequisicao WHERE sessao = '".$sessao."'";
+					$consulta0 = mysqli_query($ligacao, $sql0);
+					$resultado0 = mysqli_fetch_assoc($consulta0);
+
+					// se houver livros já requisitados, extrai o valor da contagem
+					if (mysqli_num_rows($consulta0) > 0) { 
+							$itens = $resultado0['itens']; 
+							$msg = "Tem ".$itens." livros no seu carrinho.";
+					} else {
+							$itens = 0;
+							$msg = "Não tem qualquer livro no seu carrinho.";
+					}
+					?>
+						<div id="dd" class="wrapper-dropdown-2"><?php echo $itens ?> livro(s)
+							<ul class="dropdown">
+								<li><?php echo $msg ?></li>
+						</ul>
+						</div>
+					</p>
 			  </div>
 			  <script type="text/javascript">
 			function DropDown(el) {
@@ -103,8 +128,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	     	<div class="menu">
 	     		<ul>
 			    	<li class="active"><a href="index.php">Home</a></li>
-			    	<li><a href="about.html">Sobre</a></li>
-			    	<li><a href="delivery.html">Requisitar</a></li>
+			    	<li><a href="sobre.php">Sobre</a></li>
+			    	<li><a href="listarequisitar.php">Requisitar</a></li>
 			    	<li><a href="contacto.php">Contacto</a></li>
 					<?php
 						//verificar se é administrador
@@ -130,9 +155,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				  <ul>
 				  	<h3>Categorias</h3>
 <?php
-	include("ligar_db.php");
-	mysqli_set_charset($ligacao, "utf8");
-	
 	$campo1="idCat";
 	$campo2="categoria";
 	
@@ -200,10 +222,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	
 	//criar a consulta à base de dados
 	if ($mode !=0) {
-		$consulta = "SELECT * FROM livros1 WHERE idCat='$categoriaID' ORDER BY titulo ASC LIMIT $primeiroReg, $registosPagina";
+		$consulta = "SELECT * FROM livros WHERE idCat='$categoriaID' ORDER BY titulo ASC LIMIT $primeiroReg, $registosPagina";
 	}
 	else {
-		$consulta = "SELECT * FROM livros1 ORDER BY titulo ASC LIMIT $primeiroReg, $registosPagina";
+		$consulta = "SELECT * FROM livros ORDER BY titulo ASC LIMIT $primeiroReg, $registosPagina";
 	}
 	$resultado = mysqli_query($ligacao, $consulta);
 	
@@ -257,10 +279,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <?php
 		//calcular o numero de registos e numero de paginas necessarias
 		if ($mode !=0) {
-			$sqlTodosReg = mysqli_query($ligacao, "SELECT * FROM livros1 WHERE idCat='$categoriaID' ORDER BY titulo ASC");
+			$sqlTodosReg = mysqli_query($ligacao, "SELECT * FROM livros WHERE idCat='$categoriaID' ORDER BY titulo ASC");
 		}
 		else {
-			$sqlTodosReg = mysqli_query($ligacao, "SELECT * FROM livros1 ORDER BY titulo ASC");
+			$sqlTodosReg = mysqli_query($ligacao, "SELECT * FROM livros ORDER BY titulo ASC");
 		}
 		$totalRegistos = mysqli_num_rows($sqlTodosReg);
 		$totalPaginas = ceil($totalRegistos / $registosPagina);
@@ -335,6 +357,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		</div>
 		<div class="clear"></div>
 </div>
+
+
 			</div>
 		   <div class="clear"></div>
 		</div>
@@ -345,59 +369,47 @@ License URL: http://creativecommons.org/licenses/by/3.0/
    	  <div class="wrap">	
 	     <div class="section group">
 				<div class="col_1_of_4 span_1_of_4">
-						<h4>Information</h4>
+						<h4>Informação</h4>
 						<ul>
-						<li><a href="about.html">About Us</a></li>
-						<li><a href="contact.html">Customer Service</a></li>
-						<li><a href="#">Advanced Search</a></li>
-						<li><a href="delivery.html">Orders and Returns</a></li>
-						<li><a href="contact.html">Contact Us</a></li>
+						<li><a href="sobre.php">Sobre...</a></li>
+						<li><a href="policy.php">Privacidade & Termos de Utilização</a></li>
+						<li><a href="regulamento.php">Regulamento de Requisição de Livros</a></li>
 						</ul>
 					</div>
 				<div class="col_1_of_4 span_1_of_4">
-					<h4>Why buy from us</h4>
+					<h4>A sua Conta</h4>
 						<ul>
-						<li><a href="about.html">About Us</a></li>
-						<li><a href="contact.html">Customer Service</a></li>
-						<li><a href="#">Privacy Policy</a></li>
-						<li><a href="contact.html">Site Map</a></li>
-						<li><a href="#">Search Terms</a></li>
+						<li><a href="login.php">Login</a></li>
+						<li><a href="perfil.php">Perfil de utilizador</a></li>
+						<li><a href="requisicoes.php">Requisições</a></li>
+						<li><a href="devolucoes.php">Devoluções</a></li>
 						</ul>
 				</div>
 				<div class="col_1_of_4 span_1_of_4">
-					<h4>My account</h4>
-						<ul>
-							<li><a href="contact.html">Sign In</a></li>
-							<li><a href="index.html">View Cart</a></li>
-							<li><a href="#">My Wishlist</a></li>
-							<li><a href="#">Track My Order</a></li>
-							<li><a href="contact.html">Help</a></li>
-						</ul>
-				</div>
-				<div class="col_1_of_4 span_1_of_4">
-					<h4>Contacto</h4>
-						<ul>
-							<li><span>Estrada da Freiria 2440-062 Batalha</span></li>
-							<li><span><img src="images/telefone.png">244 769 290</span></li>
-							<li><span><img src="images/email.png">es3batalha@gmail.com</span></li>
-						</ul>
+					<h4>Rede Social & Web</h4>
 						<div class="social-icons">
-							<h4>Follow Us</h4>
 					   		  <ul>
-							      <li><a href="#" target="_blank"><img src="images/facebook.png" alt="" /></a></li>
-							      <li><a href="#" target="_blank"><img src="images/twitter.png" alt="" /></a></li>
-							      <li><a href="#" target="_blank"><img src="images/skype.png" alt="" /> </a></li>
-							      <li><a href="#" target="_blank"> <img src="images/dribbble.png" alt="" /></a></li>
-							      <li><a href="#" target="_blank"> <img src="images/linkedin.png" alt="" /></a></li>
+							      <li><a href="www.facebook.com/aebatalha" target="_blank"><img src="images/facebook.png" alt="Facebook" /></a></li>
+							      <li><a href="http://esbatalha.ccems.pt/" target="_blank"><img src="images/www.png" alt="Página Web" /></a></li>
+							      <li><a href="http://esbat-m.ccems.pt" target="_blank"><img src="images/moodle.png" alt="Moodle" /> </a></li>
+								  <li><a href="http://www.alfabetoaeb.pt" target="_blank"><img src="images/alfabeto.png" alt="Jornal Alfabeto" /> </a></li>
 							      <div class="clear"></div>
 						     </ul>
    	 					</div>
 				</div>
-			</div>			
+				<div class="col_1_of_4 span_1_of_4">
+					<h4>Contacto</h4>
+						<ul>
+							<li><span>Rua da Freiria<br />2440-062 Batalha</span></li>
+							<li><span><img src="images/telefone.png">244 769 290</span></li>
+							<li><span><img src="images/email.png">es3batalha@gmail.com</span></li>
+						</ul>
+				</div>
+			</div>				
         </div>
         <div class="copy_right">
-				<p>&copy; 2018 All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a> adaptado para o AEB</p>
-		   </div>
+				<p>&copy; 2018 All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a> adaptado para o AEB.</p>
+		</div>
     </div>
     <script type="text/javascript">
 		$(document).ready(function() {			
