@@ -122,6 +122,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			});
 
 		</script>
+		
 	 <div class="clear"></div>
   </div>
 	<div class="header_bottom">
@@ -148,7 +149,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	     		</form>
 	     	</div>
 	     	<div class="clear"></div>
-	     </div>	     
+	     </div>	 
+	
 	<div class="header_slide">
 			<div class="header_bottom_left">				
 				<div class="categories">
@@ -176,7 +178,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<div class="header_bottom_right">
 
 <div class="content">
-    	<div class="content_top">
+    <div class="content_top">
 			<div class="back-links">
 	<?php
 		if(!isset($_GET['id'])) {
@@ -362,7 +364,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			</div>
 		   <div class="clear"></div>
 		</div>
-   </div>
 
 </div>
    <div class="footer">
@@ -386,7 +387,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						</ul>
 				</div>
 				<div class="col_1_of_4 span_1_of_4">
-					<h4>Rede Social & Web</h4>
+					<h4>Rede Social</h4>
 						<div class="social-icons">
 					   		  <ul>
 							      <li><a href="www.facebook.com/aebatalha" target="_blank"><img src="images/facebook.png" alt="Facebook" /></a></li>
