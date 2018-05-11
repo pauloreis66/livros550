@@ -23,11 +23,36 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			</div>
 			<div class="account_desc">
 				<ul>
-					<li><a href="registar.php">Registar</a></li>
-					<li><a href="login.php">Login</a></li>
-					<li><a href="#">Delivery</a></li>
-					<li><a href="#">Checkout</a></li>
-					<li><a href="#">My Account</a></li>
+				<?php 
+					//verificar se está autenticado
+					//A sessão precisa ser iniciada em cada página diferente
+					session_start();
+					//Verifica se não há a variável da sessão que identifica o utilizador
+					if (!isset($_SESSION['UserID'])) {
+						// Destrói a sessão por segurança
+						session_destroy();
+						//Apresenta os links para Registar ou para Login
+						?>
+						<li><a href='registar.php'>Registar</a></li>
+						<li><a href='login.php'>Login</a></li>
+					<?php
+					}
+					 else {
+						//Apresenta os links para Checkout ou para Conta
+						?>
+						<li><a href='#'>Checkout</a></li>
+						<li><a href='logout.php'>Logout</a></li>
+						<li><div class='dropdownmenu'>
+							<span><a href='#'><?php echo $_SESSION['UserLogin']?></a>&nbsp;<img src='images/user18.png'></span>
+							<div class="dropdownmenu-content">
+								<p><a href='#'>Editar perfil</a></p>
+								<p><hr noshade></p>
+								<p><a href='#'>Administração</a></p>
+							</div>
+						</div></li>
+					<?php
+					}
+				?>
 				</ul>
 			</div>
 			<div class="clear"></div>
@@ -37,10 +62,36 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<a href="index.php"><img src="images/aeblogo.png" alt="" /></a>
 			</div>
 			  <div class="cart">
-			  	   <p><span><img src="images/cart32.png" alt="Cart"></span><div id="dd" class="wrapper-dropdown-2"> 0 livro(s)
-				   <ul class="dropdown">
-							<li>Não tem qualquer livro no seu carrinho.</li>
-					</ul></div></p>
+					<p><span><img src="images/bcart48.png" alt="Carrinho"></span>
+				   <?php 
+				   	//abrir ligação à bd
+					include("ligar_db.php");
+					mysqli_set_charset($ligacao, "utf8");
+					
+					session_start();
+					// prepara sessão de requisição
+					$sessao = session_id();
+					
+					// seleciona os livros requisitados temporariamente 	
+					$sql0 = "SELECT COUNT(idLivro) AS itens FROM temprequisicao WHERE sessao = '".$sessao."'";
+					$consulta0 = mysqli_query($ligacao, $sql0);
+					$resultado0 = mysqli_fetch_assoc($consulta0);
+
+					// se houver livros já requisitados, extrai o valor da contagem
+					if (mysqli_num_rows($consulta0) > 0) { 
+							$itens = $resultado0['itens']; 
+							$msg = "Tem ".$itens." livros no seu carrinho.";
+					} else {
+							$itens = 0;
+							$msg = "Não tem qualquer livro no seu carrinho.";
+					}
+					?>
+						<div id="dd" class="wrapper-dropdown-2"><?php echo $itens ?> livro(s)
+							<ul class="dropdown">
+								<li><?php echo $msg ?></li>
+						</ul>
+						</div>
+					</p>
 			  </div>
 			  <script type="text/javascript">
 			function DropDown(el) {
@@ -121,20 +172,19 @@ License URL: http://creativecommons.org/licenses/by/3.0/
   				</div>
 				<div class="col span_1_of_3">
 					<div class="contact_info">
-    	 				<h3>Find Us Here</h3>
-					    	  <div class="map">
-							   	    <iframe width="100%" height="175" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.co.in/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Lighthouse+Point,+FL,+United+States&amp;aq=4&amp;oq=light&amp;sll=26.275636,-80.087265&amp;sspn=0.04941,0.104628&amp;ie=UTF8&amp;hq=&amp;hnear=Lighthouse+Point,+Broward,+Florida,+United+States&amp;t=m&amp;z=14&amp;ll=26.275636,-80.087265&amp;output=embed"></iframe><br><small><a href="https://maps.google.co.in/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=Lighthouse+Point,+FL,+United+States&amp;aq=4&amp;oq=light&amp;sll=26.275636,-80.087265&amp;sspn=0.04941,0.104628&amp;ie=UTF8&amp;hq=&amp;hnear=Lighthouse+Point,+Broward,+Florida,+United+States&amp;t=m&amp;z=14&amp;ll=26.275636,-80.087265" style="color:#666;text-align:left;font-size:12px">View Larger Map</a></small>
+    	 				<h3>A nossa localização:</h3>
+					    	  <div class="map">								
+									<iframe width="100%" height="175" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3071.482880427657!2d-8.820538784979828!3d39.661351079460026!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd227543cb0288ad%3A0xb7675d134de618f4!2sAgrupamento+de+escolas+da+Batalha!5e0!3m2!1spt-PT!2spt!4v1526058613970" ></iframe>
+									<br><small><a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3071.482880427657!2d-8.820538784979828!3d39.661351079460026!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd227543cb0288ad%3A0xb7675d134de618f4!2sAgrupamento+de+escolas+da+Batalha!5e0!3m2!1spt-PT!2spt!4v1526058613970" style="color:#666;text-align:left;font-size:12px">Ver Mapa maior</a></small>
 							  </div>
       				</div>
       			<div class="company_address">
-				     	<h3>Company Information :</h3>
-						    	<p>500 Lorem Ipsum Dolor Sit,</p>
-						   		<p>22-56-2-9 Sit Amet, Lorem,</p>
-						   		<p>USA</p>
-				   		<p>Phone:(00) 222 666 444</p>
-				   		<p>Fax: (000) 000 00 00 0</p>
-				 	 	<p>Email: <span><a href="mailto:@example.com">info@mycompany.com</a></span></p>
-				   		<p>Follow on: <span>Facebook</span>, <span>Twitter</span></p>
+				     	<h3>O nosso endereço:</h3>
+						<p>Agrupamento de Escolas da Batalha</p>
+						<p>Estrada da Freiria</p>
+						<p>2440-062 Batalha</p>
+				   		<p><img src="images/telefone.png">244 769 290</p>
+				 	 	<p><img src="images/email.png">es3batalha@gmail.com</p>
 				   </div>
 				 </div>
 			  </div>		
@@ -145,13 +195,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
    	  <div class="wrap">	
 	     <div class="section group">
 				<div class="col_1_of_4 span_1_of_4">
-						<h4>Information</h4>
+						<h4>Informação</h4>
 						<ul>
-						<li><a href="about.html">About Us</a></li>
-						<li><a href="contact.html">Customer Service</a></li>
+						<li><a href="sobre.php">Sobre...</a></li>
+						<li><a href="contacto.php">Contactos</a></li>
 						<li><a href="#">Advanced Search</a></li>
-						<li><a href="delivery.html">Orders and Returns</a></li>
-						<li><a href="contact.html">Contact Us</a></li>
 						</ul>
 					</div>
 				<div class="col_1_of_4 span_1_of_4">
@@ -160,42 +208,31 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						<li><a href="about.html">About Us</a></li>
 						<li><a href="contact.html">Customer Service</a></li>
 						<li><a href="#">Privacy Policy</a></li>
-						<li><a href="contact.html">Site Map</a></li>
-						<li><a href="#">Search Terms</a></li>
 						</ul>
 				</div>
 				<div class="col_1_of_4 span_1_of_4">
-					<h4>My account</h4>
-						<ul>
-							<li><a href="contact.html">Sign In</a></li>
-							<li><a href="index.html">View Cart</a></li>
-							<li><a href="#">My Wishlist</a></li>
-							<li><a href="#">Track My Order</a></li>
-							<li><a href="contact.html">Help</a></li>
-						</ul>
-				</div>
-				<div class="col_1_of_4 span_1_of_4">
-					<h4>Contact</h4>
-						<ul>
-							<li><span>+91-123-456789</span></li>
-							<li><span>+00-123-000000</span></li>
-						</ul>
+					<h4>Rede Social</h4>
 						<div class="social-icons">
-							<h4>Follow Us</h4>
 					   		  <ul>
-							      <li><a href="#" target="_blank"><img src="images/facebook.png" alt="" /></a></li>
-							      <li><a href="#" target="_blank"><img src="images/twitter.png" alt="" /></a></li>
-							      <li><a href="#" target="_blank"><img src="images/skype.png" alt="" /> </a></li>
-							      <li><a href="#" target="_blank"> <img src="images/dribbble.png" alt="" /></a></li>
-							      <li><a href="#" target="_blank"> <img src="images/linkedin.png" alt="" /></a></li>
+							      <li><a href="www.facebook.com/aebatalha" target="_blank"><img src="images/facebook.png" alt="" /></a></li>
+							      <li><a href="http://esbatalha.ccems.pt/" target="_blank"><img src="images/www.png" alt="" /></a></li>
+							      <li><a href="http://esbat-m.ccems.pt" target="_blank"><img src="images/moodle.png" alt="" /> </a></li>
 							      <div class="clear"></div>
 						     </ul>
    	 					</div>
 				</div>
+				<div class="col_1_of_4 span_1_of_4">
+					<h4>Contacto</h4>
+						<ul>
+							<li><span>Estrada da Freiria 2440-062 Batalha</span></li>
+							<li><span><img src="images/telefone.png">244 769 290</span></li>
+							<li><span><img src="images/email.png">es3batalha@gmail.com</span></li>
+						</ul>
+				</div>
 			</div>			
         </div>
         <div class="copy_right">
-				<p>&copy; 2013 home_shoppe. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
+				<p>&copy; 2018 All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a> adaptado para o AEB</p>
 		   </div>
     </div>
     <script type="text/javascript">
