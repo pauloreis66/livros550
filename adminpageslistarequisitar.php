@@ -15,6 +15,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <script type="text/javascript" src="js/move-top.js"></script>
 <script type="text/javascript" src="js/easing.js"></script>
 <script type="text/javascript" src="js/startstop-slider.js"></script>
+
 </head>
 <body>
   <div class="wrap">
@@ -49,7 +50,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				?>
 						<li><a href='registar.php'>Registar</a></li>
 						<li><a href='login.php'>Login</a></li>
-					<?php
+				<?php
 					}
 					 else {
 						//Apresenta os links para Checkout ou para Conta
@@ -167,60 +168,128 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <div class="content">
     	<div class="section group">
 		
-			<div class="col_1_of_3 span_1_of_3">
-				<h3>LIVROS</h3>
-				<img src="images/books2.png" alt="">
-				<p>Tarefas disponíveis para gestão do catálogo de livros:</p>
-				<div class="clear"></div>
-				<div class="list">
-					<ul>
-						<li><a href="adminpagecategories.php">Categorias Técnicas</a></li>
-						<li><a href="adminpageeditors.php">Editoras</a></li>
-						<li><a href="adminpagelanguages.php">Idiomas</a></li>
-						<li><a href="adminpagefinance.php">Origem / Medidas de Financiamento</a></li>
-						<li><a href="adminpagebooks.php">Registos de Livros</a></li>
-					</ul>
-				</div>
-				<div class="clear"></div>
-			</div>
-		
-				
-			<div class="col_1_of_3 span_1_of_3">
+			<div class="col span_1_of_3">
 				<h3>REQUISIÇÕES</h3>
 				<img src="images/calendar2.png" alt="">
 				<p>Tarefas disponíveis para gestão de requisições:</p>
 				<div class="clear"></div>
-					<div class="list">
+				<div class="list">
 					<ul>
 						<li><a href="adminpageslistarequisitar.php">Registos de Requisições</a></li>
 						<li><a href="#">Registos de Entregas</a></li>
 						<li><a href="#">Estatísticas</a></li>
 						<li><a href="#">Relatórios</a></li>
 					</ul>
-					</div>
+				</div>
 				<div class="clear"></div>
+			</div>
+				
+			<div class="col span_2_of_3">
+				<h2><img src="images/grid.png" alt="Registos">&nbsp;Registos de Requisições</h2>
+				<div class="clear"></div>
+				<div class="gridtable">
+					<p>Registos das requisições de livros efetuadas.</p>
+					<table><tr><th>Req.</th><th>User</th><th>Utilizador</th><th>Data</th><th>Estado</th><th colspan="2">operações</th></tr>
+
+<?php
+	//navegação de paginas
+	$registosPagina = 10;
+	if (empty($_GET['pagina'])) {
+		$_GET['pagina'] = 1;
+		$pagina = 1;
+	}
+	$primeiroReg = ($_GET['pagina'] * $registosPagina) - $registosPagina;
+	//Connect To Database
+	$servidor="localhost";
+	$utilizador="root";
+	$password="root";
+	$basedados="aeblivros";
+	$campo1="idReq";
+	$campo2="idUser";
+	$campo3="nome";
+	$campo4="dataRequisicao";
+	$campo5="estado";
+		
+	$ligacao = mysqli_connect($servidor,$utilizador,$password,$basedados) or die ("<html><script language='JavaScript'>alert('Unable to connect to database! Please try again later.'),history.go(-1)</script></html>");
+	mysqli_select_db($ligacao, $basedados);
+	mysqli_set_charset($ligacao, "utf8");
+	
+	# Verificar se existem registos
+	$consulta = " SELECT r.idReq, r.idUser, u.nome, r.dataRequisicao, r.estado 
+	FROM requisicao AS r INNER JOIN utilizadores AS u ON r.idUser=u.idUser ORDER BY 1 ASC LIMIT $primeiroReg, $registosPagina";
+	
+	$resultado = mysqli_query($ligacao, $consulta);
+	
+	if(!empty(mysqli_num_rows($resultado))) {
+
+		while($linha = mysqli_fetch_array($resultado)){
+			$idR = $linha["$campo1"];
+			$idU = $linha["$campo2"];
+			$nome = $linha["$campo3"];
+			$data = $linha["$campo4"];
+			$estado = $linha["$campo5"];
+			echo "<tr><td>" .$idR. "</td><td>".$idU."</td><td>".$nome."</td><td>".$data."</td><td>".$estado."</td><td><span><a href='adminpageusersrec.php?id=".$idR."&mode=edit'><img src='images/edit.png' alt='editar'>editar</a></span></td>";
+			echo "<td><span><a href='adminpageusersrec.php?id=".$idR."&mode=delete'><img src='images/trash.png' alt='eliminar'>eliminar</span></td></tr>";
+		}
+		echo "</table><br>";
+		//-----navegação entre páginas
+		echo "<table><tr><td align='center'>";
+		echo "<a href='adminpageusersnew.php'><img src='images/add.png' alt='novo'>novo registo</a></td>";
+		echo "<td><img src='images/pages.png' alt='páginas'> Página:&nbsp;";
+		//calcular o numero de registos e numero de paginas necessarias
+		$sqlTodosReg = mysqli_query($ligacao, "SELECT * FROM utilizadores ORDER BY login");
+		$totalRegistos = mysqli_num_rows($sqlTodosReg);
+		$totalPaginas = ceil($totalRegistos / $registosPagina);
+		$totalPaginas++;
+		//determinar o valor da pagina atual
+		$pagina = $_GET['pagina'];
+		//determinar se é a primeira pagina e mostrar numero
+		if ($pagina ==1) {
+			echo "<a href=?pagina=".($pagina)."></a>";
+		}
+		else {
+			echo "<a href=?pagina=".($pagina-1).">Anterior</a>";
+		}
+		//determinar numero de paginas e coloca-los
+		for ($pag=1; $pag<$totalPaginas; $pag++) {
+			//determinar a pagina atual
+			if ($pagina == $pag) {
+				//apresentar os numeros restantes
+				echo "&nbsp;[$pag]&nbsp;";
+			}
+			else {
+				$paginaSeguinte = $pag;
+				echo "&nbsp;<a href=?pagina=$paginaSeguinte>$pag</a>&nbsp;";
+			}
+		}
+		//determinar se é a ultima pagina
+		if (($pagina+1) < $totalPaginas) {
+			//se não é ultima, adiciona ligacao para a seguinte
+			echo "<a href=?pagina=".($pagina+1).">Seguinte</a>";
+		}
+		else {
+			echo "";
+		}
+		echo "</td></tr></table>";
+	}
+	else {
+			//caso não existam registos
+			echo "<tr><td colspan='7'>Não existem registos.</td></tr></table>";
+			echo "<br>";
+			echo "<table><tr><td align='center'>";
+			echo "<a href='adminpageusersnew.php'><img src='images/add.png' alt='novo'>novo registo</a></td>";
+			echo "</td></tr></table>";
+	}
+?>
+				</div>
 			</div>
 			
-			<div class="col_1_of_3 span_1_of_3">
-				<h3>UTILIZADORES</h3>
-				<img src="images/userProfile.png" alt="">
-				<p>Tarefas disponíveis para gestão de utilizadores:</p>
-				<div class="clear"></div>
-					<div class="list">
-					<ul>
-						<li><a href="adminpageusers.php">Lista de Utilizadores</a></li>
-						<li><a href="#">Procurar um utilizador</a></li>
-						<li><a href="#">Editar dados do utilizador</a></li>
-						<li><a href="#">Inserir um novo utilizador</a></li>
-						<li><a href="#">Bloquear/Remover utilizador</a></li>
-					</ul>
-					</div>
-				<div class="clear"></div>
-			</div>
-		</div>
+			
     </div>
 </div>
- 
+
+</div>
+
    <div class="footer">
    	  <div class="wrap">	
 	    	<div class="section group">
@@ -245,8 +314,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<h4>Rede Social</h4>
 						<div class="social-icons">
 					   		  <ul>
-							      <li><a href="www.facebook.com/aebatalha" target="_blank"><img src="images/facebook.png" alt="Facebook" /></a></li>
 							      <li><a href="http://esbatalha.ccems.pt/" target="_blank"><img src="images/www.png" alt="Página Web" /></a></li>
+								  <li><a href="www.facebook.com/aebatalha" target="_blank"><img src="images/facebook.png" alt="Facebook" /></a></li>
 							      <li><a href="http://esbat-m.ccems.pt" target="_blank"><img src="images/moodle.png" alt="Moodle" /> </a></li>
 								  <li><a href="http://bit.ly/craeb" target="_blank"><img src="images/craeb.png" alt="Clube de Robótica" /> </a></li>
 								  <li><a href="http://www.alfabetoaeb.pt" target="_blank"><img src="images/alfabeto.png" alt="Jornal Alfabeto" /> </a></li>
