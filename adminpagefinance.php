@@ -55,7 +55,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					 else {
 						//Apresenta os links para Checkout ou para Conta
 						?>
-						<li><a href='#'>Checkout</a></li>
+						<li><a href='listarequisitar.php'>Checkout</a></li>
 						<li><a href='logout.php'>Logout</a></li>
 						<li><div class='dropdownmenu'>
 							<span><a href='#'><?php echo $_SESSION['UserLogin']?></a>&nbsp;<img src='images/user18.png'></span>
@@ -141,8 +141,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	     	<div class="menu">
 	     		<ul>
 			    	<li><a href="index.php">Home</a></li>
-			    	<li><a href="about.html">Sobre</a></li>
-			    	<li><a href="delivery.html">Requisitar</a></li>
+			    	<li><a href="sobre.php">Sobre</a></li>
+			    	<li><a href="listarequisitar.php">Requisitar</a></li>
 			    	<li><a href="contacto.php">Contacto</a></li>
 					<?php
 						//verificar se é administrador
@@ -186,7 +186,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			</div>
 				
 			<div class="col span_2_of_3">
-				<h2>Origem / Medidas de Financiamento</h2>
+				<h2><img src="images/grid.png" alt="Registos">&nbsp;Origem / Medidas de Financiamento</h2>
 				<div class="clear"></div>
 				<div class="gridtable">
 					<p>Registos de origem / medidas de financiamento na aquisição de livros.</p>
@@ -228,7 +228,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		//-----navegação entre páginas
 		echo "<table><tr><td align='center'>";
 		echo "<a href='adminpagefinancenew.php'><img src='images/add.png' alt='novo'>novo registo</a></td>";
-		echo "<td>Página:&nbsp;";
+		echo "<td><img src='images/pages.png' alt='páginas'> Página:&nbsp;";
 		//calcular o numero de registos e numero de paginas necessarias
 		$sqlTodosReg = mysqli_query($ligacao, "SELECT * FROM origem ORDER BY 1 ASC");
 		$totalRegistos = mysqli_num_rows($sqlTodosReg);

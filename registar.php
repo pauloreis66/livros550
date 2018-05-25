@@ -13,6 +13,18 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script> 
 <script type="text/javascript" src="js/move-top.js"></script>
 <script type="text/javascript" src="js/easing.js"></script>
+
+
+<style type="text/css">
+input:invalid {
+  border: 2px dashed red;
+}
+
+input:valid {
+  border: 2px solid black;
+}
+</style>
+
 </head>
 <body>
   <div class="wrap">
@@ -40,7 +52,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					 else {
 						//Apresenta os links para Checkout ou para Conta
 						?>
-						<li><a href='#'>Checkout</a></li>
 						<li><a href='logout.php'>Logout</a></li>
 						<li><div class='dropdownmenu'>
 							<span><a href='#'><?php echo $_SESSION['UserLogin']?></a>&nbsp;<img src='images/user18.png'></span>
@@ -155,15 +166,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							?>&nbsp;</div>
 					    	<div>
 						    	<span><label>Utilizador / Nº Cartão</label></span>
-						    	<span><input type="text" name="login" id="login" placeholder="Insira o seu nome de utilizador"></span>
+						    	<span><input type="text" name="login" id="login" placeholder="Insira o seu nome de utilizador" required></span>
 						    </div>
 					    	<div>
 						    	<span><label>Nome e Apelido</label></span>
-						    	<span><input type="text" name="nome" id="nome" placeholder="Insira o seu nome próprio e apelido"></span>
+						    	<span><input type="text" name="nome" id="nome" placeholder="Insira o seu nome próprio e apelido" required></span>
 						    </div>
 					    	<div>
 						    	<span><label>Email</label></span>
-						    	<span><input type="text" name="email" id="email" placeholder="Insira o contacto de correio eletrónico "></span>
+						    	<span><input type="email" name="email" id="email" placeholder="Insira um endereço de email válido" required></span>
 						    </div>
 							<div>
 						    	<span><label>Cargo/Função</label></span>
@@ -171,11 +182,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						    </div>
 						    <div>
 						    	<span><label>Palavra-passe</label></span>
-						    	<span><input type="password" name="senha" id="senha" placeholder="Insira a sua senha pretendida para acesso"></span>
+						    	<span><input type="password" name="senha" id="senha" placeholder="Insira a sua senha pretendida para acesso" required></span>
 						    </div>
 						    <div>
 						    	<span><label>Repetir Palavra-passe</label></span>
-						    	<span><input type="password" name="resenha" id="resenha" placeholder="Digite novamente a senha pretendida"></span>
+						    	<span><input type="password" name="resenha" id="resenha" placeholder="Digite novamente a senha pretendida" required></span>
 						    </div>
 
 						  <div>
@@ -210,7 +221,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			  </div>		
          </div> 
     </div>
- </div>
+
    <div class="footer">
    	  <div class="wrap">	
 	     	     <div class="section group">

@@ -13,6 +13,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script> 
 <script type="text/javascript" src="js/move-top.js"></script>
 <script type="text/javascript" src="js/easing.js"></script>
+<style type="text/css">
+input:invalid {
+  border: 2px dashed red;
+}
+
+input:valid {
+  border: 2px solid black;
+}
+</style>
 </head>
 <body>
   <div class="wrap">
@@ -37,7 +46,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					}
 					else {
 						//Apresenta os links para Checkout ou para Conta
-						echo "<li><a href='#'>Checkout</a></li>";
+						echo "<li><a href='listarequisitar.php'>Checkout</a></li>";
 						echo "<li><a href='logout.php'>Logout</a></li>";
 						echo "<li><a href='#'>".$_SESSION['UserLogin']."</a>&nbsp;<img src='images/user18.png'></li>";
 					}
@@ -152,11 +161,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							?>&nbsp;</div>
 					    	<div>
 						    	<span><label>Utilizador / Nº Cartão</label></span>
-						    	<input type="text" name="login" id="login" placeholder="Insira nome de utilizador">
+						    	<input type="text" name="login" id="login" placeholder="Insira nome de utilizador" required>
 						    </div>
 						    <div>
 						    	<span><label>Senha</label></span>
-						    	<input type="password" name="senha" id="senha" placeholder="Insira a senha de acesso">
+						    	<input type="password" name="senha" id="senha" placeholder="Insira a senha de acesso" required>
 						    </div>
 						   <div>
 						   		<span><input type="submit" name="entrar" id="entrar" value="Login" class="myButton"></span>

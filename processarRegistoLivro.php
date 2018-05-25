@@ -12,6 +12,11 @@
 		exit;
 }
 
+	if (isset($_POST['cancel'])) {
+		header("Location: adminpagebooks.php");
+		exit;
+    }
+
 	//verificar se os campos estão preenchidos
 	//livroNome
 	//autorNome
@@ -23,9 +28,19 @@
 	//origemId
 	//exemplarNrs
 	
+	
+	
 	if (!empty($_POST) AND ( empty($_POST['livroNome']) OR empty($_POST['autorNome']) OR empty($_POST['categoriaId']) OR empty($_POST['editoraId']) OR empty($_POST['isbnNumero']) OR empty($_POST['edicaoAno']) OR empty($_POST['idiomaId']) OR empty($_POST['origemId']) AND empty($_POST['exemplarNrs'])) ) {
-		header("Location: adminpagebooks.php");
-		exit;
+		
+		if (isset($_POST['save'])) {
+			header("Location: adminpagebooksnew.php?erro=1");
+			exit;
+		}
+		else {
+			header("Location: adminpagebooks.php");
+			exit;
+			}
+		
 	}
 
 	//Connect To Database
