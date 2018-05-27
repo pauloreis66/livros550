@@ -154,38 +154,60 @@ input:valid {
  <div class="main">
     <div class="content">
     	<div class="section group">
-				<div class="col span_2_of_3">
-				  <div class="signup">
-				  <center><img src="images/user75.png" alt="Avatar"></center>
+			<div class="col span_2_of_3">
+				<div class="signup">
+					<center><img src="images/user75.png" alt="Avatar"></center>
 				  	<h2><center>Registo de novo utilizador</center></h2>
-					    <form name="form_login" method="POST" action="processarRegistar.php">
-							<div><?php
-									if(isset($_GET['erro'])) { //SE EXISTIR ERRO 
-										echo ("<p class='erro'>Todos os campos de preenchimento obrigatório.</p>");
+					<form name="form_login" method="POST" action="processarRegistar.php">
+						<div class ="erro">
+						
+							<?php
+								$msg="";		
+								if(isset($_GET['erro'])) { //SE EXISTIR ERRO 
+									$erro = $_GET['erro'];
+									$campo1 = $_POST['login'];
+									$campo2 = $_POST['nome'];
+									$campo3 = $_POST['email'];
+									$campo4 = $_POST['cargo'];
+									$campo5 = $_POST['senha'];
+									$campo6 = $_POST['resenha'];
+									switch ($erro) {
+										case 1: $msg="Todos os campos de preenchimento obrigatório."; break;
+										case 2: $msg="Erro ao inserir registo na base de dados."; break;
+										case 3: $msg="O login pretendido já está registado!"; break;
+										case 4: $msg="O email indicado já está registado!"; break;
+										case 5: $msg="A palavra-passe deve ter pelo menos 5 caracteres."; break;
+										case 6: $msg="As palavras-passe não coincidem!"; break;
 									}
+									echo $msg;
+								}
+								else {
+									$campo1 = $campo2 = $campo3 = $campo4 = $campo5 = $campo6 = NULL;
+					}								
 							?>&nbsp;</div>
+							
 					    	<div>
-						    	<span><label>Utilizador / Nº Cartão</label></span>
-						    	<span><input type="text" name="login" id="login" placeholder="Insira o seu nome de utilizador" required></span>
+						    	<span><label>Utilizador / Nº Cartão:</label></span>
+						    	<span><input type="text" name="login" id="login" value="<?php echo $campo1; ?>" placeholder="Insira o seu login de utilizador" required></span>
 						    </div>
 					    	<div>
-						    	<span><label>Nome e Apelido</label></span>
-						    	<span><input type="text" name="nome" id="nome" placeholder="Insira o seu nome próprio e apelido" required></span>
+						    	<span><label>Nome e Apelido:</label></span>
+						    	<span><input type="text" name="nome" id="nome" value="<?php echo $campo2; ?>" placeholder="Insira o seu nome próprio e apelido" required></span>
 						    </div>
 					    	<div>
-						    	<span><label>Email</label></span>
-						    	<span><input type="email" name="email" id="email" placeholder="Insira um endereço de email válido" required></span>
+						    	<span><label>Email:</label></span>
+						    	<span><input type="email" name="email" id="email" value="<?php echo $campo3; ?>" placeholder="Insira um endereço de email válido" required></span>
 						    </div>
 							<div>
-						    	<span><label>Cargo/Função</label></span>
-						    	<span><input type="text" name="cargo" id="cargo" placeholder="Insira o seu cargo ou função (ex. professor, aluno)"></span>
+						    	<span><label>Cargo / Função:</label></span>
+						    	<span><input type="text" name="cargo" id="cargo" value="<?php echo $campo4; ?>" placeholder="Insira o seu cargo ou função (ex. professor, aluno)"></span>
 						    </div>
 						    <div>
-						    	<span><label>Palavra-passe</label></span>
+						    	<span><label>Palavra-passe:</label></span>
 						    	<span><input type="password" name="senha" id="senha" placeholder="Insira a sua senha pretendida para acesso" required></span>
 						    </div>
 						    <div>
-						    	<span><label>Repetir Palavra-passe</label></span>
+						    	<span><label>Repetir Palavra-passe:</label></span>
 						    	<span><input type="password" name="resenha" id="resenha" placeholder="Digite novamente a senha pretendida" required></span>
 						    </div>
 

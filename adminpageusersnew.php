@@ -16,6 +16,16 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <script type="text/javascript" src="js/easing.js"></script>
 <script type="text/javascript" src="js/startstop-slider.js"></script>
 
+<style type="text/css">
+input:invalid {
+  border: 2px dashed red;
+}
+
+input:valid {
+  border: 2px solid black;
+}
+</style>
+
 </head>
 <body>
   <div class="wrap">
@@ -47,10 +57,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						// Destrói a sessão por segurança
 						session_destroy();
 						//Apresenta os links para Registar ou para Login
-				?>
+						?>
 						<li><a href='registar.php'>Registar</a></li>
 						<li><a href='login.php'>Login</a></li>
-				<?php
+					<?php
 					}
 					 else {
 						//Apresenta os links para Checkout ou para Conta
@@ -186,104 +196,128 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			</div>
 				
 			<div class="col span_2_of_3">
-				<h2><img src="images/grid.png" alt="Registos">&nbsp;Lista de Utilizadores</h2>
+				<h2>Utilizadores >> Novo Registo</h2>
 				<div class="clear"></div>
-				<div class="gridtable">
-					<p>Registos de utilizadores.</p>
-					<table><tr><th>id</th><th>Login</th><th>Nome</th><th>Nível</th><th>Ativo</th><th colspan="2">operações</th></tr>
+				<div class="reccord-form">
+					<p>Digite os dados solicitados nos campos seguintes.</p>
+					<div class="clear"></div>
+					<div class="clear"></div>
+					
+				<form id="form_registo" name="form_registo" method="POST" action="processarRegistoUserNew.php">
+				
+				<div class="erro"><?php
+					if (isset($_POST['cancel'])) {
+						header("Location: adminpageusersnew.php");
+						exit;
+					}
+					
+					if(isset($_GET['erro'])) { //SE EXISTIR ERRO 
+						$erro = $_GET['erro'];
+						$msge = $_GET['msg'];
+						$msgw = "";
+						$campo2 = $_POST['login'];
+						$campo3 = $_POST['nome'];
+						$campo4 = $_POST['email'];
+						$campo5 = $_POST['cargo'];
+						$campo6 = $_POST['nivel'];
+						$campo7 = $_POST['ativo'];
+						switch ($erro) {
+							case 1: $msgw="Os dados inseridos não são válidos."; break;
+							case 2: $msgw="Erro ao inserir registo na base de dados."; break;
+							case 3: $msgw="O login pretendido já está registado!"; break;
+							case 4: $msgw="O email indicado já está registado!"; break;							
+						}
+						echo $msgw;
+						echo "<br>".$msge;
+					}
+					else {
+						$campo2 = $campo3 = $campo4 = $campo5 = $campo6 = $campo7 = NULL;
+					}
+				?>&nbsp;</div>
+				
+				<!---
+					<div>
+						<span><label>ID:</label></span>
+						<span><input type="text" class="short inactive" readonly></span>
+					</div>
+				--->
+					<div>
+						<span><label>* Utilizador / Nº Cartão:</label></span>
+						<span><input type="text" class="textbox" name="login" value="<?php echo $campo2; ?>" placeholder="Insira o login de utilizador"></span>
+					</div>
+					
+					<div>
+						<span><label>* Nome e Apelido:</label></span>
+						<span><input type="text" class="textbox" name="nome" value="<?php echo $campo3; ?>" placeholder="Insira o nome próprio e apelido"></span>
+					</div>
+					
+					<div>
+						<span><label>* Email:</label></span>
+						<span><input type="email" name="email" id="email" value="<?php echo $campo4; ?>" placeholder="Insira um endereço de email válido"></span>
+					</div>
+					
+					<div>
+						<span><label>Cargo / Função:</label></span>
+						<span><input type="text" name="cargo" id="cargo" value="<?php echo $campo5; ?>" placeholder="Insira o seu cargo ou função (ex. professor, aluno)"></span>
+					</div>
+					
+					<div>
+						<span><label>* Palavra-passe:</label></span>
+						<span><input type="password" name="senha" id="senha" placeholder="Insira a senha pretendida para acesso"></span>
+					</div>
+					
+					<div>
+						<span><label>* Repetir Palavra-passe:</label></span>
+						<span><input type="password" name="resenha" id="resenha" placeholder="Digite novamente a senha pretendida"></span>
+					</div>		
 
-<?php
-	//navegação de paginas
-	$registosPagina = 10;
-	if (empty($_GET['pagina'])) {
-		$_GET['pagina'] = 1;
-		$pagina = 1;
-	}
-	$primeiroReg = ($_GET['pagina'] * $registosPagina) - $registosPagina;
-	//Connect To Database
-	$servidor="localhost";
-	$utilizador="root";
-	$password="root";
-	$basedados="aeblivros";
-	$campo1="idUser";
-	$campo2="login";
-	$campo3="nome";
-	$campo4="nivel";
-	$campo5="ativo";
-		
-	$ligacao = mysqli_connect($servidor,$utilizador,$password,$basedados) or die ("<html><script language='JavaScript'>alert('Unable to connect to database! Please try again later.'),history.go(-1)</script></html>");
-	mysqli_select_db($ligacao, $basedados);
-	mysqli_set_charset($ligacao, "utf8");
-	
-	# Verificar se existem registos
-	$consulta = "SELECT idUser, login, nome, nivel, ativo FROM utilizadores ORDER BY 2 ASC LIMIT $primeiroReg, $registosPagina";
-	$resultado = mysqli_query($ligacao, $consulta);
-	
-	if(!empty(mysqli_num_rows($resultado))) {
+					<div>
+						<span><label>Nível:</label></span>
+						<span>
+						<?php 
+							$niveis = array('Aluno', 'Professor', 'Admin');
+							echo "<select name='nivel'>";
+							for ($i = 0; $i < count($niveis); $i++) {  
+								$k = $i + 1;
+								if ($k == $campo6) {
+									echo "<option selected value='$k'>$niveis[$i]</option>";
+								}
+								else {
+									echo "<option value='$k'>$niveis[$i]</option>";
+								}
+							}
+							echo "</select>";
+						?>
+						</span>
+					</div>		
 
-		while($linha = mysqli_fetch_array($resultado)){
-			$id = $linha["$campo1"];
-			$login = $linha["$campo2"];
-			$nome = $linha["$campo3"];
-			$nivel = $linha["$campo4"];
-			$ativo = $linha["$campo5"];
-			echo "<tr><td>" .$id. "</td><td>".$login."</td><td>".$nome."</td><td>".$nivel."</td><td>".$ativo."</td><td><span><a href='adminpageusersrec.php?id=".$id."&mode=edit'><img src='images/edit.png' alt='editar'>editar</a></span></td>";
-			echo "<td><span><a href='adminpageusersrec.php?id=".$id."&mode=delete'><img src='images/trash.png' alt='eliminar'>eliminar</span></td></tr>";
-		}
-		echo "</table><br>";
-		//-----navegação entre páginas
-		echo "<table><tr><td align='center'>";
-		echo "<a href='adminpageusersnew.php'><img src='images/add.png' alt='novo'>novo registo</a></td>";
-		echo "<td><img src='images/pages.png' alt='páginas'> Página:&nbsp;";
-		//calcular o numero de registos e numero de paginas necessarias
-		$sqlTodosReg = mysqli_query($ligacao, "SELECT * FROM utilizadores ORDER BY login");
-		$totalRegistos = mysqli_num_rows($sqlTodosReg);
-		$totalPaginas = ceil($totalRegistos / $registosPagina);
-		$totalPaginas++;
-		//determinar o valor da pagina atual
-		$pagina = $_GET['pagina'];
-		//determinar se é a primeira pagina e mostrar numero
-		if ($pagina ==1) {
-			echo "<a href=?pagina=".($pagina)."></a>";
-		}
-		else {
-			echo "<a href=?pagina=".($pagina-1).">Anterior</a>";
-		}
-		//determinar numero de paginas e coloca-los
-		for ($pag=1; $pag<$totalPaginas; $pag++) {
-			//determinar a pagina atual
-			if ($pagina == $pag) {
-				//apresentar os numeros restantes
-				echo "&nbsp;[$pag]&nbsp;";
-			}
-			else {
-				$paginaSeguinte = $pag;
-				echo "&nbsp;<a href=?pagina=$paginaSeguinte>$pag</a>&nbsp;";
-			}
-		}
-		//determinar se é a ultima pagina
-		if (($pagina+1) < $totalPaginas) {
-			//se não é ultima, adiciona ligacao para a seguinte
-			echo "<a href=?pagina=".($pagina+1).">Seguinte</a>";
-		}
-		else {
-			echo "";
-		}
-		echo "</td></tr></table>";
-	}
-	else {
-			//caso não existam registos
-			echo "<tr><td colspan='7'>Não existem registos.</td></tr></table>";
-			echo "<br>";
-			echo "<table><tr><td align='center'>";
-			echo "<a href='adminpageusersnew.php'><img src='images/add.png' alt='novo'>novo registo</a></td>";
-			echo "</td></tr></table>";
-	}
-?>
+					<div>
+						<span><label>Ativo:</label></span>
+						<span>
+						<?php 
+							$estado = array('Não', 'Sim');
+							echo "<select name='ativo'>";
+							for ($i = 0; $i < count($estado); $i++) {  
+								if ($i == $campo7) {
+									echo "<option selected value='$i'>$estado[$i]</option>";
+								}
+								else {
+									echo "<option value='$i'>$estado[$i]</option>";
+								}
+							}
+							echo "</select>";
+						?>
+						</span>
+					</div>					
+				<div class="clear"></div>
+				<small><label>Campos assinalados com asterisco (*) são de preenchimento obrigatório.</label></small>
+				<div class="clear"></div>					
+					<span><input type="submit" name="save" value="Guardar">
+							<input type="submit" name="cancel" value="Cancelar" ></span>
+							
+				</form>
 				</div>
 			</div>
-			
-			
     </div>
 </div>
 
@@ -313,8 +347,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<h4>Rede Social</h4>
 						<div class="social-icons">
 					   		  <ul>
+							      <li><a href="www.facebook.com/aebatalha" target="_blank"><img src="images/facebook.png" alt="Facebook" /></a></li>
 							      <li><a href="http://esbatalha.ccems.pt/" target="_blank"><img src="images/www.png" alt="Página Web" /></a></li>
-								  <li><a href="www.facebook.com/aebatalha" target="_blank"><img src="images/facebook.png" alt="Facebook" /></a></li>
 							      <li><a href="http://esbat-m.ccems.pt" target="_blank"><img src="images/moodle.png" alt="Moodle" /> </a></li>
 								  <li><a href="http://bit.ly/craeb" target="_blank"><img src="images/craeb.png" alt="Clube de Robótica" /> </a></li>
 								  <li><a href="http://www.alfabetoaeb.pt" target="_blank"><img src="images/alfabeto.png" alt="Jornal Alfabeto" /> </a></li>
@@ -336,6 +370,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<p>&copy; 2018 All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a> adaptado para o AEB.</p>
 		</div>
     </div>
+	
     <script type="text/javascript">
 		$(document).ready(function() {			
 			$().UItoTop({ easingType: 'easeOutQuart' });

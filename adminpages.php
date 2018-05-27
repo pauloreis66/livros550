@@ -211,7 +211,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						<li><a href="adminpageusers.php">Lista de Utilizadores</a></li>
 						<li><a href="#">Procurar um utilizador</a></li>
 						<li><a href="#">Editar dados do utilizador</a></li>
-						<li><a href="#">Inserir um novo utilizador</a></li>
+						<li><a href="adminpageusersnew.php">Inserir um novo utilizador</a></li>
 						<li><a href="#">Bloquear/Remover utilizador</a></li>
 					</ul>
 					</div>
