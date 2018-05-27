@@ -13,4 +13,10 @@
 --- atualizado o mapa de localização
 --- sobre.php - > atualizada com informação para o utilizador
 
+27-05-2018
+--- novas páginas para administração de utilizadores -> adminpagesusers.php, adminpagesusersnew.php, adminpagesusersrec.php
+--- scripts para validar utilizadores -> processarRegistoUser.php, processarRegistoUserNew.php
+--- registar.php -> foi atualizado para prever a validação de dados
+--- processarRegistar.php -> idem
+--- nova página para administração das requisições -> adminpageslistarequisitar.php 
 
