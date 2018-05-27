@@ -493,7 +493,7 @@ body {
 }/* all browsers except IE6 and lower */
 .span_1_of_4 {
 	width: 20.5%;
-	padding:1.0% 1.0% 0 0;
+	padding:1.0% 0.5% 0 0;
 	border-left:1px solid #CECECE;
 }
 .span_1_of_4  h4 {
@@ -502,7 +502,7 @@ body {
 	font-size: 1.2em;
 	line-height: 1.2;
 	font-family: 'ambleregular';
-	font-weight: normal;
+	font-weight: normal; 
 	margin-top: 0px;
 	letter-spacing: -1px;
 	text-transform: uppercase;
@@ -511,7 +511,7 @@ body {
 	padding-left:20px;
 }
 .span_1_of_4 ul{
-	padding-left:20px;
+	padding-left:10px;
 }
 .span_1_of_4  li a {
 	font-size: 0.8125em;
@@ -1057,7 +1057,7 @@ body {
 } 
 
 
-.signup input[type="text"], .signup input[type="password"], .input[type="reset"] {
+.signup input[type="text"], .signup input[type="password"], .signup input[type="email"], .input[type="reset"] {
 	width: 100%;
 	padding: 12px 20px;
 	margin: 8px 0;
@@ -1154,6 +1154,7 @@ body {
 	font-weight: normal;
 	margin-top: 0px;
 	text-transform: uppercase;
+	font-weight: bold;
  }
  
  .span_1_of_3  h4 {
@@ -1195,6 +1196,7 @@ body {
 	background: url(../images/drop_arrow.png) no-repeat 0px 10px;
 	display: block;
 	font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-weight: bold;
 }
 .span_1_of_3 .list li a:hover {
 	text-decoration:underline;
@@ -1441,7 +1443,7 @@ body {
 	margin-bottom: 0.5em;
 	line-height: 1.0;
 	font-family: 'ambleregular';
-	font-weight: normal;
+	font-weight: bold;
 	margin-top: 0px;
 }
 
@@ -1458,6 +1460,11 @@ body {
 .reccord-form div {
 	padding: 5px 0;
 }
+
+.div2 div {
+	padding: 0px 0;
+}
+
 .reccord-form span {
 	display: block;
 	font-size: 0.9em;
@@ -1465,6 +1472,16 @@ body {
 	padding-bottom: 5px;
 	font-family: verdana, arial, helvetica, helve, sans-serif;
 }
+
+.erro {
+	display: block;
+	font-size: 0.8125em;
+	color: #f44242;
+	padding-bottom: 5px;
+	font-family: 'ambleregular';
+	text-align: center;
+}
+
 .reccord-form p {
 	font-size: 0.8125em;
 	color: #757575;
@@ -1508,9 +1525,7 @@ body {
 	color: #727272;
 }
 
-
-
-.reccord-form input.inactive2[type="text"] {
+.reccord-form input.inactive2[type="text"], input.inactive2[type="email"] {
 	width: 100%;
 	padding: 12px 20px;
 	margin: 8px 0;
@@ -1521,7 +1536,7 @@ body {
 	color: #727272;
 }
 
-.reccord-form input[type="text"] {
+.reccord-form input[type="text"], .reccord-form input[type="email"], .reccord-form input[type="password"] {
 	width: 100%;
 	padding: 12px 20px;
 	margin: 8px 0;
@@ -1686,7 +1701,7 @@ body {
 .gridtable th {
 	text-align: left;
 	padding: 8px;
-	font-size:1em;
+	font-size:0.9em;
 	font-family: 'ambleregular';
 	color: #fff;
 	font-weight: bold;
@@ -1804,12 +1819,12 @@ body {
 
 /**** Responsive Layout ****/
 @media only screen and (max-width: 1440px) {
-	.signup input[type="text"], .signup input[type="password"] {
+	.signup input[type="text"], .signup input[type="password"], .signup input[type="email"] {
 		width: 66.5%;
 	}
 }
 @media only screen and (max-width: 1366px) {
-	.signup input[type="text"], .signup input[type="password"] {
+	.signup input[type="text"], .signup input[type="password"], .signup input[type="email"] {
 		width: 65%;
 	}
 }
@@ -1826,7 +1841,7 @@ body {
 	.desc {
 		margin: 2.6% 0 0;
 	}
-	.signup input[type="text"], .signup input[type="password"] {
+	.signup input[type="text"], .signup input[type="password"], .signup input[type="email"] {
 		width: 62%;
 	}
 }
@@ -1856,7 +1871,7 @@ body {
 		float: left;
 		padding:0;
 	}
-	.signup input[type="text"], .signup input[type="password"] {
+	.signup input[type="text"], .signup input[type="password"], .signup input[type="email"] {
 		width: 79%;
 	}
 	.span_1_of_2 {
@@ -1882,10 +1897,10 @@ body {
 	.wish-list li {
 		margin-right:20px;
 	}
-	.signup input[type="text"], .signup input[type="password"] {
+	.signup input[type="text"], .signup input[type="password"], .signup input[type="email"] {
 		width:64%;
 	}
-	.signup input[type="submit"], .signup input[type="reset"]{
+	.signup input[type="submit"], .signup input[type="reset"] {
 		padding:8px 0;
 		width:71px;
 	}
@@ -1895,7 +1910,7 @@ body {
 	.images_3_of_2 {
 		width: 58.6%;
 	}
-	.signup input[type="text"], .signup input[type="password"] {
+	.signup input[type="text"], .signup input[type="password"], .signup input[type="email"] {
 		width: 82%;
 	}
 }
@@ -1951,10 +1966,10 @@ body {
 	.signup{
 		width:50%;
 	}
-	.signup input[type="text"], .signup input[type="password"]{
+	.signup input[type="text"], .signup input[type="password"], .signup input[type="email"] {
 		width:77%;
 	}
-	.signup input[type="submit"], .signup input[type="reset"]{
+	.signup input[type="submit"], .signup input[type="reset"] {
 		width:72px;
 	}
 	.span_1_of_4 h4{
@@ -1966,7 +1981,7 @@ body {
 	.subscribe, .community-poll {
 		margin: 0 0 30px 27px;
 	}
-	.signup input[type="text"], .signup input[type="password"] {
+	.signup input[type="text"], .signup input[type="password"], .signup input[type="email"] {
 		width: 64%;
 	}
 }
@@ -2092,7 +2107,7 @@ body {
 	.wish-list li{
 		margin-right:10px;
 	}
-	.signup input[type="text"], .signup input[type="password"]{
+	.signup input[type="text"], .signup input[type="password"], .signup input[type="email"]{
 		width:71%;
 	}
 	.span_1_of_3 p.history{
@@ -2275,7 +2290,7 @@ body {
 	.available li {
 		display: block;
 	}
-	.signup input[type="text"], .signup input[type="password"] {
+	.signup input[type="text"], .signup input[type="password"], .signup input[type="email"] {
 		width: 66%;
 	}
 	.community-poll p {
@@ -2323,7 +2338,7 @@ body {
 	.slides_container a {
 		width: 315px;
 	}
-	.signup input[type="text"], .signup input[type="password"] {
+	.signup input[type="text"], .signup input[type="password"], .signup input[type="email"] {
 		width: 63%;
 	}
 	
@@ -2342,7 +2357,7 @@ body {
 	.signup {
 		width: 85%;
 	}
-	.signup input[type="text"], .signup input[type="password"] {
+	.signup input[type="text"], .signup input[type="password"], .signup input[type="email"] {
 		width: 67%;
 	}
 }
