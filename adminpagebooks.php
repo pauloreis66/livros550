@@ -186,10 +186,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			</div>
 				
 			<div class="col span_2_of_3">
-				<h2><img src="images/grid.png" alt="Registos">&nbsp;Registos de Livros</h2>
+				<h2>Registos de Livros</h2>
 				<div class="clear"></div>
 				<div class="gridtable">
-					<p>Registo individual de livro existente no catálogo de livros.</p>
+					<p><img src="images/grid.png" alt="Registos">&nbsp;Registo individual de livro existente no catálogo de livros.</p>
 					<table><tr><th>id</th><th>Título/Categoria/Autor(es)</th><th colspan="4">operações</th></tr>
 
 <?php

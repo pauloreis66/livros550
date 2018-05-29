@@ -186,10 +186,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			</div>
 				
 			<div class="col span_2_of_3">
-				<h2><img src="images/grid.png" alt="Registos">&nbsp;Editoras</h2>
+				<h2>Editoras</h2>
 				<div class="clear"></div>
 				<div class="gridtable">
-					<p>Registos de editoras existentes no catálogo de livros.</p>
+					<p><img src="images/grid.png" alt="Registos">&nbsp;Registos de editoras existentes no catálogo de livros.</p>
 					<table><tr><th>id</th><th>Editora</th><th>URL</th><th colspan="2">operações</th></tr>
 
 <?php

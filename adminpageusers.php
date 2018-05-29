@@ -157,7 +157,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	     	</div>
 	     	<div class="search_box">
 	     		<form>
-	     			<input type="text" value="Procurar" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}"><input type="submit" value="">
+	     			<input type="text" value="Procurar" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">
+					<input type="submit" value="">
 	     		</form>
 	     	</div>
 	     	<div class="clear"></div>
@@ -176,7 +177,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="list">
 					<ul>
 						<li><a href="adminpageusers.php">Lista de Utilizadores</a></li>
-						<li><a href="#">Procurar um utilizador</a></li>
+						<li><a href="adminpageusersearch.php">Procurar um utilizador</a></li>
 						<li><a href="#">Editar dados do utilizador</a></li>
 						<li><a href="adminpageusersnew.php">Inserir um novo utilizador</a></li>
 						<li><a href="#">Bloquear/Remover utilizador</a></li>
@@ -186,10 +187,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			</div>
 				
 			<div class="col span_2_of_3">
-				<h2><img src="images/grid.png" alt="Registos">&nbsp;Lista de Utilizadores</h2>
+				<h2>Lista de Utilizadores</h2>
 				<div class="clear"></div>
 				<div class="gridtable">
-					<p>Registos de utilizadores.</p>
+					<p><img src="images/grid.png" alt="Registos">&nbsp;Registos de utilizadores.</p>
 					<table><tr><th>id</th><th>Login</th><th>Nome</th><th>Nível</th><th>Ativo</th><th colspan="2">operações</th></tr>
 
 <?php

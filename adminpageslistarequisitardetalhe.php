@@ -169,28 +169,75 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     	<div class="section group">
 		
 			<div class="col span_1_of_3">
-				<h3>LIVROS</h3>
-				<img src="images/books2.png" alt="">
-				<p>Tarefas disponíveis para gestão do catálogo de livros:</p>
+				<h3>REQUISIÇÕES</h3>
+				<img src="images/calendar2.png" alt="">
+				<p>Tarefas disponíveis para gestão de requisições:</p>
 				<div class="clear"></div>
 				<div class="list">
 					<ul>
-						<li><a href="adminpagecategories.php">Categorias Técnicas</a></li>
-						<li><a href="adminpageeditors.php">Editoras</a></li>
-						<li><a href="adminpagelanguages.php">Idiomas</a></li>
-						<li><a href="adminpagefinance.php">Origem / Medidas de Financiamento</a></li>
-						<li><a href="adminpagebooks.php">Registos de Livros</a></li>
+						<li><a href="adminpageslistarequisitar.php">Registos de Requisições</a></li>
+						<li><a href="#">Registos de Devoluções</a></li>
+						<li><a href="#">Estatísticas</a></li>
+						<li><a href="#">Relatórios</a></li>
 					</ul>
 				</div>
 				<div class="clear"></div>
 			</div>
 				
 			<div class="col span_2_of_3">
-				<h2>Origem / Medidas de Financiamento</h2>
+				<h2>Registos de Requisições</h2>
 				<div class="clear"></div>
 				<div class="gridtable">
-					<p><img src="images/grid.png" alt="Registos">&nbsp;Registos de origem / medidas de financiamento na aquisição de livros.</p>
-					<table><tr><th>id</th><th>Origem/Medida</th><th colspan="2">operações</th></tr>
+					<p><img src="images/grid.png" alt="Registos">&nbsp;Registo de requisição.</p>
+					
+					<table><tr><th>Req.</th><th>Data de Requisição</th><th>Estado</th><th>Utilizador</th>
+<?php
+	if(!isset($_GET['id'])) {
+		//não existe id
+		header("Location: adminpageslistarequisitar.php");
+		exit;
+	}
+	else {
+		$idReq = $_GET['id'];
+	}
+	//Connect To Database
+	$servidor="localhost";
+	$utilizador="root";
+	$password="root";
+	$basedados="aeblivros";
+	
+	$campo1="idReq";
+	$campo2="nome";
+	$campo3="dataRequisicao";
+	$campo4="estado";
+	
+	$ligacao = mysqli_connect($servidor,$utilizador,$password,$basedados) or die ("<html><script language='JavaScript'>alert('Unable to connect to database! Please try again later.'),history.go(-1)</script></html>");
+	mysqli_select_db($ligacao, $basedados);
+	mysqli_set_charset($ligacao, "utf8");
+	
+	$consulta = "SELECT r.idReq, r.idUser, u.nome, r.dataRequisicao, r.estado 
+	FROM requisicao AS r INNER JOIN utilizadores AS u ON r.idUser=u.idUser WHERE r.idReq =" .$idReq;
+	$resultado = mysqli_query($ligacao, $consulta);
+	if(!empty(mysqli_num_rows($resultado))) {
+		
+		while($linha = mysqli_fetch_array($resultado)){
+			$idR = $linha["$campo1"];
+			$nome = $linha["$campo2"];
+			$data = $linha["$campo3"];
+			$estado = $linha["$campo4"];
+			if ($estado == 1) { $estadolbl = "Requisitado"; } else { $estadolbl = "Entregue";}
+			echo "<tr><td>" .$idR. "</td><td>".$data."</td><td>".$estadolbl."</td><td>".$nome."</td></tr>";
+		}
+	}
+?>
+					</table>
+				</div>	
+				
+				<div class="clear">&nbsp;</div>
+
+				<div class="gridtable">
+					<p><img src="images/grid.png" alt="Registos">&nbsp;Detalhe da requisição efetuada.</p>
+					<table><tr><th>Req.</th><th>Titulo</th><th>Qtd.</th><th>Data Entrega<th colspan="2">operações</th></tr>
 
 <?php
 	//navegação de paginas
@@ -200,37 +247,42 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		$pagina = 1;
 	}
 	$primeiroReg = ($_GET['pagina'] * $registosPagina) - $registosPagina;
-	//Connect To Database
-	$servidor="localhost";
-	$utilizador="root";
-	$password="root";
-	$basedados="aeblivros";
-	$campo1="idOrigem";
-	$campo2="origem";
-		
-	$ligacao = mysqli_connect($servidor,$utilizador,$password,$basedados) or die ("<html><script language='JavaScript'>alert('Unable to connect to database! Please try again later.'),history.go(-1)</script></html>");
-	mysqli_select_db($ligacao, $basedados);
-	mysqli_set_charset($ligacao, "utf8");
+
+	$campo1="idReq";
+	$campo2="idLivro";
+	$campo3="titulo";
+	$campo4="quantidade";
+	$campo5="dataDevolucao";
+			
+	# Verificar se existem registos
+	$consulta = "SELECT d.idReq, d.idLivro, l.titulo, d.quantidade, d.dataDevolucao 
+	FROM detalhesrequisicao AS d INNER JOIN livros AS l ON d.idLivro=l.idLivro WHERE d.idReq = " .$idReq. 
+	" ORDER BY 1 ASC LIMIT $primeiroReg, $registosPagina";
 	
-	# Verificar se o registo existe
-	$consulta = "SELECT idOrigem, origem FROM origem ORDER BY 1 ASC LIMIT $primeiroReg, $registosPagina";
 	$resultado = mysqli_query($ligacao, $consulta);
 	
-	if(!empty(mysqli_num_rows($resultado))){
+	if(!empty(mysqli_num_rows($resultado))) {
 
 		while($linha = mysqli_fetch_array($resultado)){
-			$id = $linha["$campo1"];
-			$nome = $linha["$campo2"];
-			echo "<tr><td>" .$id. "</td><td>".$nome."</td><td><span><a href='adminpagefinancerec.php?id=".$id."&mode=edit'><img src='images/edit.png' alt='editar'>editar</a></span></td>";
-			echo "<td><span><a href='adminpagefinancerec.php?id=".$id."&mode=delete'><img src='images/trash.png' alt='eliminar'>eliminar</span></td></tr>";
+			$idR = $linha["$campo1"];
+			$idL = $linha["$campo2"];
+			$titulo = $linha["$campo3"];
+			$qtd = $linha["$campo4"];
+			$dataE = $linha["$campo5"];
+			
+			echo "<tr><td>" .$idR. "</td><td>".$titulo."</td><td>".$qtd."</td><td>".$dataE."</td>";
+			echo "<td><span><a href='adminpageusersrec.php?id=".$idR."&mode=edit'><img src='images/edit.png' alt='editar'>editar</a></span></td>";
+			echo "<td><span><a href='adminpageusersrec.php?id=".$idR."&mode=delete'><img src='images/trash.png' alt='eliminar'>eliminar</span></td></tr>";
 		}
 		echo "</table><br>";
 		//-----navegação entre páginas
 		echo "<table><tr><td align='center'>";
-		echo "<a href='adminpagefinancenew.php'><img src='images/add.png' alt='novo'>novo registo</a></td>";
+		echo "<a href='adminpageusersnew.php'><img src='images/undo.png' alt='voltar'>voltar</a></td>";
+		echo "<td align='center'><a href='adminpageusersnew.php'><img src='images/add.png' alt='novo'>novo registo</a></td>";
 		echo "<td><img src='images/pages.png' alt='páginas'> Página:&nbsp;";
 		//calcular o numero de registos e numero de paginas necessarias
-		$sqlTodosReg = mysqli_query($ligacao, "SELECT * FROM origem ORDER BY 1 ASC");
+		$sqlTodosReg = mysqli_query($ligacao, "SELECT r.idReq, r.idUser, u.nome, r.dataRequisicao, r.estado 
+	FROM requisicao AS r INNER JOIN utilizadores AS u ON r.idUser=u.idUser ORDER BY 1");
 		$totalRegistos = mysqli_num_rows($sqlTodosReg);
 		$totalPaginas = ceil($totalRegistos / $registosPagina);
 		$totalPaginas++;
@@ -267,19 +319,25 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	}
 	else {
 			//caso não existam registos
-			echo "<tr><td colspan='4'>Não existem registos.</td></tr></table>";
-			echo "</table><br>";
+			echo "<tr><td colspan='6'>Não existem registos.</td></tr></table>";
+			echo "<br>";
 			echo "<table><tr><td align='center'>";
-			echo "<a href='adminpagefinancenew.php'><img src='images/add.png' alt='novo'>novo registo</a></td>";
+			echo "<a href='adminpageusersnew.php'><img src='images/undo.png' alt='voltar'>voltar</a></td>";
+			echo "<td align='center'><a href='adminpageusersnew.php'><img src='images/add.png' alt='novo'>novo registo</a></td>";
 			echo "</td></tr></table>";
 	}
 ?>
 				</div>
 			</div>
+			
+			
     </div>
 </div>
 
 </div>
+
+<?php include("footer.php"); ?>
+<!---
 
    <div class="footer">
    	  <div class="wrap">	
@@ -305,8 +363,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<h4>Rede Social</h4>
 						<div class="social-icons">
 					   		  <ul>
-							      <li><a href="www.facebook.com/aebatalha" target="_blank"><img src="images/facebook.png" alt="Facebook" /></a></li>
 							      <li><a href="http://esbatalha.ccems.pt/" target="_blank"><img src="images/www.png" alt="Página Web" /></a></li>
+								  <li><a href="www.facebook.com/aebatalha" target="_blank"><img src="images/facebook.png" alt="Facebook" /></a></li>
 							      <li><a href="http://esbat-m.ccems.pt" target="_blank"><img src="images/moodle.png" alt="Moodle" /> </a></li>
 								  <li><a href="http://bit.ly/craeb" target="_blank"><img src="images/craeb.png" alt="Clube de Robótica" /> </a></li>
 								  <li><a href="http://www.alfabetoaeb.pt" target="_blank"><img src="images/alfabeto.png" alt="Jornal Alfabeto" /> </a></li>
@@ -335,6 +393,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		});
 	</script>
     <a href="#" id="toTop"><span id="toTopHover"> </span></a>
+	
+--->
 </body>
 </html>
 

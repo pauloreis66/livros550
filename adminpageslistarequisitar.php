@@ -176,7 +176,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="list">
 					<ul>
 						<li><a href="adminpageslistarequisitar.php">Registos de Requisições</a></li>
-						<li><a href="#">Registos de Entregas</a></li>
+						<li><a href="#">Registos de Devoluções</a></li>
 						<li><a href="#">Estatísticas</a></li>
 						<li><a href="#">Relatórios</a></li>
 					</ul>
@@ -185,11 +185,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			</div>
 				
 			<div class="col span_2_of_3">
-				<h2><img src="images/grid.png" alt="Registos">&nbsp;Registos de Requisições</h2>
+				<h2>Registos de Requisições</h2>
 				<div class="clear"></div>
 				<div class="gridtable">
-					<p>Registos das requisições de livros efetuadas.</p>
-					<table><tr><th>Req.</th><th>Data</th><th>Estado</th><th>User</th><th>Utilizador</th><th colspan="3">operações</th></tr>
+					<p><img src="images/grid.png" alt="Registos">&nbsp;Registos das requisições de livros efetuadas.</p>
+					<table><tr><th>Req.</th><th>Data</th><th>Estado</th><th>Utilizador</th><th colspan="3">operações</th></tr>
 
 <?php
 	//navegação de paginas
@@ -205,10 +205,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	$password="root";
 	$basedados="aeblivros";
 	$campo1="idReq";
-	$campo2="idUser";
-	$campo3="nome";
-	$campo4="dataRequisicao";
-	$campo5="estado";
+	$campo2="nome";
+	$campo3="dataRequisicao";
+	$campo4="estado";
 		
 	$ligacao = mysqli_connect($servidor,$utilizador,$password,$basedados) or die ("<html><script language='JavaScript'>alert('Unable to connect to database! Please try again later.'),history.go(-1)</script></html>");
 	mysqli_select_db($ligacao, $basedados);
@@ -224,14 +223,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 		while($linha = mysqli_fetch_array($resultado)){
 			$idR = $linha["$campo1"];
-			$idU = $linha["$campo2"];
-			$nome = $linha["$campo3"];
-			$data = $linha["$campo4"];
-			$estado = $linha["$campo5"];
+			$nome = $linha["$campo2"];
+			$data = $linha["$campo3"];
+			$estado = $linha["$campo4"];
 			if ($estado == 1) { $estadolbl = "Requisitado"; } else { $estadolbl = "Entregue";}
 			
-			echo "<tr><td>" .$idR. "</td><td>".$data."</td><td>".$estadolbl."</td><td>".$idU."</td><td>".$nome."</td>";
-			echo "<td><span><a href='adminpagelistarequisitardetalhe.php?id=".$idR."'><img src='images/details.png' alt='editar'>detalhe</a></span></td>";
+			echo "<tr><td>" .$idR. "</td><td>".$data."</td><td>".$estadolbl."</td><td>".$nome."</td>";
+			echo "<td><span><a href='adminpageslistarequisitardetalhe.php?id=".$idR."'><img src='images/details.png' alt='editar'>detalhe</a></span></td>";
 			echo "<td><span><a href='adminpageusersrec.php?id=".$idR."&mode=edit'><img src='images/edit.png' alt='editar'>editar</a></span></td>";
 			echo "<td><span><a href='adminpageusersrec.php?id=".$idR."&mode=delete'><img src='images/trash.png' alt='eliminar'>eliminar</span></td></tr>";
 		}
@@ -279,7 +277,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	}
 	else {
 			//caso não existam registos
-			echo "<tr><td colspan='8'>Não existem registos.</td></tr></table>";
+			echo "<tr><td colspan='7'>Não existem registos.</td></tr></table>";
 			echo "<br>";
 			echo "<table><tr><td align='center'>";
 			echo "<a href='adminpageusersnew.php'><img src='images/add.png' alt='novo'>novo registo</a></td>";

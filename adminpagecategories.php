@@ -186,10 +186,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			</div>
 				
 			<div class="col span_2_of_3">
-				<h2><img src="images/grid.png" alt="Registos">&nbsp;Categorias Técnicas</h2>
+				<h2>Categorias Técnicas</h2>
 				<div class="clear"></div>
 				<div class="gridtable">
-					<p>Registos de categorias técnicas existentes no catálogo de livros.</p>
+					<p><img src="images/grid.png" alt="Registos">&nbsp;Registos de categorias técnicas existentes no catálogo de livros.</p>
 					<table><tr><th>id</th><th>Categoria</th><th colspan="2">operações</th></tr>
 
 <?php
