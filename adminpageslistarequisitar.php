@@ -189,7 +189,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="clear"></div>
 				<div class="gridtable">
 					<p>Registos das requisições de livros efetuadas.</p>
-					<table><tr><th>Req.</th><th>User</th><th>Utilizador</th><th>Data</th><th>Estado</th><th colspan="2">operações</th></tr>
+					<table><tr><th>Req.</th><th>Data</th><th>Estado</th><th>User</th><th>Utilizador</th><th colspan="3">operações</th></tr>
 
 <?php
 	//navegação de paginas
@@ -215,7 +215,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	mysqli_set_charset($ligacao, "utf8");
 	
 	# Verificar se existem registos
-	$consulta = " SELECT r.idReq, r.idUser, u.nome, r.dataRequisicao, r.estado 
+	$consulta = "SELECT r.idReq, r.idUser, u.nome, r.dataRequisicao, r.estado 
 	FROM requisicao AS r INNER JOIN utilizadores AS u ON r.idUser=u.idUser ORDER BY 1 ASC LIMIT $primeiroReg, $registosPagina";
 	
 	$resultado = mysqli_query($ligacao, $consulta);
@@ -228,7 +228,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			$nome = $linha["$campo3"];
 			$data = $linha["$campo4"];
 			$estado = $linha["$campo5"];
-			echo "<tr><td>" .$idR. "</td><td>".$idU."</td><td>".$nome."</td><td>".$data."</td><td>".$estado."</td><td><span><a href='adminpageusersrec.php?id=".$idR."&mode=edit'><img src='images/edit.png' alt='editar'>editar</a></span></td>";
+			if ($estado == 1) { $estadolbl = "Requisitado"; } else { $estadolbl = "Entregue";}
+			
+			echo "<tr><td>" .$idR. "</td><td>".$data."</td><td>".$estadolbl."</td><td>".$idU."</td><td>".$nome."</td>";
+			echo "<td><span><a href='adminpagelistarequisitardetalhe.php?id=".$idR."'><img src='images/details.png' alt='editar'>detalhe</a></span></td>";
+			echo "<td><span><a href='adminpageusersrec.php?id=".$idR."&mode=edit'><img src='images/edit.png' alt='editar'>editar</a></span></td>";
 			echo "<td><span><a href='adminpageusersrec.php?id=".$idR."&mode=delete'><img src='images/trash.png' alt='eliminar'>eliminar</span></td></tr>";
 		}
 		echo "</table><br>";
@@ -237,7 +241,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		echo "<a href='adminpageusersnew.php'><img src='images/add.png' alt='novo'>novo registo</a></td>";
 		echo "<td><img src='images/pages.png' alt='páginas'> Página:&nbsp;";
 		//calcular o numero de registos e numero de paginas necessarias
-		$sqlTodosReg = mysqli_query($ligacao, "SELECT * FROM utilizadores ORDER BY login");
+		$sqlTodosReg = mysqli_query($ligacao, "SELECT r.idReq, r.idUser, u.nome, r.dataRequisicao, r.estado 
+	FROM requisicao AS r INNER JOIN utilizadores AS u ON r.idUser=u.idUser ORDER BY 1");
 		$totalRegistos = mysqli_num_rows($sqlTodosReg);
 		$totalPaginas = ceil($totalRegistos / $registosPagina);
 		$totalPaginas++;
@@ -274,7 +279,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	}
 	else {
 			//caso não existam registos
-			echo "<tr><td colspan='7'>Não existem registos.</td></tr></table>";
+			echo "<tr><td colspan='8'>Não existem registos.</td></tr></table>";
 			echo "<br>";
 			echo "<table><tr><td align='center'>";
 			echo "<a href='adminpageusersnew.php'><img src='images/add.png' alt='novo'>novo registo</a></td>";
