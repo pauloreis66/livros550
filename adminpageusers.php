@@ -190,8 +190,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<h2>Lista de Utilizadores</h2>
 				<div class="clear"></div>
 				<div class="gridtable">
-					<p><img src="images/grid.png" alt="Registos">&nbsp;Registos de utilizadores.</p>
-					<table><tr><th>id</th><th>Login</th><th>Nome</th><th>Nível</th><th>Ativo</th><th colspan="2">operações</th></tr>
+					<p>Registos de utilizadores.</p>
+					<table><tr><th>Login:</th><th>Nome:</th><th>Nível:</th><th>Ativo:</th><th colspan="2">Operações:</th></tr>
 
 <?php
 	//navegação de paginas
@@ -227,15 +227,18 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			$login = $linha["$campo2"];
 			$nome = $linha["$campo3"];
 			$nivel = $linha["$campo4"];
+			if ($nivel == 3) { $nivellbl = "Admin"; } elseif ($nivel == 2) { $nivellbl = "Professor";} else { $nivellbl = "Aluno";}
 			$ativo = $linha["$campo5"];
-			echo "<tr><td>" .$id. "</td><td>".$login."</td><td>".$nome."</td><td>".$nivel."</td><td>".$ativo."</td><td><span><a href='adminpageusersrec.php?id=".$id."&mode=edit'><img src='images/edit.png' alt='editar'>editar</a></span></td>";
+			if ($ativo == 1) { $ativolbl = "Sim"; } else { $ativolbl = "Não";}
+			echo "<tr><td>".$login."</td><td>".$nome."</td><td>".$nivellbl."</td><td>".$ativolbl."</td>";
+			echo "<td><span><a href='adminpageusersrec.php?id=".$id."&mode=edit'><img src='images/edit.png' alt='editar'>editar</a></span></td>";
 			echo "<td><span><a href='adminpageusersrec.php?id=".$id."&mode=delete'><img src='images/trash.png' alt='eliminar'>eliminar</span></td></tr>";
 		}
 		echo "</table><br>";
 		//-----navegação entre páginas
-		echo "<table><tr><td align='center'>";
-		echo "<a href='adminpageusersnew.php'><img src='images/add.png' alt='novo'>novo registo</a></td>";
-		echo "<td><img src='images/pages.png' alt='páginas'> Página:&nbsp;";
+		echo "<table><tr><th>";
+		echo "<a href='adminpageusersnew.php'><img src='images/add.png' alt='novo'>novo registo</a></th>";
+		echo "<th><img src='images/pages.png' alt='páginas'> Página:&nbsp;";
 		//calcular o numero de registos e numero de paginas necessarias
 		$sqlTodosReg = mysqli_query($ligacao, "SELECT * FROM utilizadores ORDER BY login");
 		$totalRegistos = mysqli_num_rows($sqlTodosReg);
@@ -270,15 +273,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		else {
 			echo "";
 		}
-		echo "</td></tr></table>";
+		echo "</th></tr></table>";
 	}
 	else {
 			//caso não existam registos
-			echo "<tr><td colspan='7'>Não existem registos.</td></tr></table>";
+			echo "<tr><td colspan='6'>Não existem registos.</td></tr></table>";
 			echo "<br>";
-			echo "<table><tr><td align='center'>";
-			echo "<a href='adminpageusersnew.php'><img src='images/add.png' alt='novo'>novo registo</a></td>";
-			echo "</td></tr></table>";
+			echo "<table><tr><th colspan='6'>";
+			echo "<a href='adminpageusersnew.php'><img src='images/add.png' alt='novo'>novo registo</a></th>";
+			echo "</tr></table>";
 	}
 ?>
 				</div>
@@ -290,60 +293,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 </div>
 
-   <div class="footer">
-   	  <div class="wrap">	
-	    	<div class="section group">
-				<div class="col_1_of_4 span_1_of_4">
-						<h4>Informação</h4>
-						<ul>
-						<li><a href="sobre.php">Sobre...</a></li>
-						<li><a href="policy.php">Privacidade & Termos de Utilização</a></li>
-						<li><a href="regulamento.php">Regulamento de Requisição de Livros</a></li>
-						</ul>
-					</div>
-				<div class="col_1_of_4 span_1_of_4">
-					<h4>A sua Conta</h4>
-						<ul>
-						<li><a href="login.php">Login</a></li>
-						<li><a href="perfil.php">Perfil de utilizador</a></li>
-						<li><a href="requisicoes.php">Requisições</a></li>
-						<li><a href="devolucoes.php">Devoluções</a></li>
-						</ul>
-				</div>
-				<div class="col_1_of_4 span_1_of_4">
-					<h4>Rede Social</h4>
-						<div class="social-icons">
-					   		  <ul>
-							      <li><a href="http://esbatalha.ccems.pt/" target="_blank"><img src="images/www.png" alt="Página Web" /></a></li>
-								  <li><a href="www.facebook.com/aebatalha" target="_blank"><img src="images/facebook.png" alt="Facebook" /></a></li>
-							      <li><a href="http://esbat-m.ccems.pt" target="_blank"><img src="images/moodle.png" alt="Moodle" /> </a></li>
-								  <li><a href="http://bit.ly/craeb" target="_blank"><img src="images/craeb.png" alt="Clube de Robótica" /> </a></li>
-								  <li><a href="http://www.alfabetoaeb.pt" target="_blank"><img src="images/alfabeto.png" alt="Jornal Alfabeto" /> </a></li>
-							      <div class="clear"></div>
-						     </ul>
-   	 					</div>
-				</div>
-				<div class="col_1_of_4 span_1_of_4">
-					<h4>Contacto</h4>
-						<ul>
-							<li><span>Rua da Freiria<br />2440-062 Batalha</span></li>
-							<li><span><img src="images/telefone.png">244 769 290</span></li>
-							<li><span><img src="images/email.png">es3batalha@gmail.com</span></li>
-						</ul>
-				</div>
-			</div>			
-        </div>
-        <div class="copy_right">
-				<p>&copy; 2018 All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a> adaptado para o AEB.</p>
-		</div>
-    </div>
-    <script type="text/javascript">
-		$(document).ready(function() {			
-			$().UItoTop({ easingType: 'easeOutQuart' });
-			
-		});
-	</script>
-    <a href="#" id="toTop"><span id="toTopHover"> </span></a>
+<?php include("footer.php"); ?>
+
 </body>
 </html>
 

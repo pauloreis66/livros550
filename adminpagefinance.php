@@ -189,8 +189,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<h2>Origem / Medidas de Financiamento</h2>
 				<div class="clear"></div>
 				<div class="gridtable">
-					<p><img src="images/grid.png" alt="Registos">&nbsp;Registos de origem / medidas de financiamento na aquisição de livros.</p>
-					<table><tr><th>id</th><th>Origem/Medida</th><th colspan="2">operações</th></tr>
+					<p>Registos de origem / medidas de financiamento na aquisição de livros.</p>
+					<table><tr><th>ID</th><th>Origem/Medida:</th><th colspan="2">Operações:</th></tr>
 
 <?php
 	//navegação de paginas
@@ -221,14 +221,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		while($linha = mysqli_fetch_array($resultado)){
 			$id = $linha["$campo1"];
 			$nome = $linha["$campo2"];
-			echo "<tr><td>" .$id. "</td><td>".$nome."</td><td><span><a href='adminpagefinancerec.php?id=".$id."&mode=edit'><img src='images/edit.png' alt='editar'>editar</a></span></td>";
+			echo "<tr><td>" .$id. "</td><td>".$nome."</td>";
+			echo "<td><span><a href='adminpagefinancerec.php?id=".$id."&mode=edit'><img src='images/edit.png' alt='editar'>editar</a></span></td>";
 			echo "<td><span><a href='adminpagefinancerec.php?id=".$id."&mode=delete'><img src='images/trash.png' alt='eliminar'>eliminar</span></td></tr>";
 		}
 		echo "</table><br>";
 		//-----navegação entre páginas
-		echo "<table><tr><td align='center'>";
-		echo "<a href='adminpagefinancenew.php'><img src='images/add.png' alt='novo'>novo registo</a></td>";
-		echo "<td><img src='images/pages.png' alt='páginas'> Página:&nbsp;";
+		echo "<table><tr><th>";
+		echo "<a href='adminpagefinancenew.php'><img src='images/add.png' alt='novo'>novo registo</a></th>";
+		echo "<th><img src='images/pages.png' alt='páginas'> Página:&nbsp;";
 		//calcular o numero de registos e numero de paginas necessarias
 		$sqlTodosReg = mysqli_query($ligacao, "SELECT * FROM origem ORDER BY 1 ASC");
 		$totalRegistos = mysqli_num_rows($sqlTodosReg);
@@ -263,15 +264,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		else {
 			echo "";
 		}
-		echo "</td></tr></table>";
+		echo "</th></tr></table>";
 	}
 	else {
 			//caso não existam registos
 			echo "<tr><td colspan='4'>Não existem registos.</td></tr></table>";
 			echo "</table><br>";
-			echo "<table><tr><td align='center'>";
-			echo "<a href='adminpagefinancenew.php'><img src='images/add.png' alt='novo'>novo registo</a></td>";
-			echo "</td></tr></table>";
+			echo "<table><tr><th colspan='4'>";
+			echo "<a href='adminpagefinancenew.php'><img src='images/add.png' alt='novo'>novo registo</a></th>";
+			echo "</tr></table>";
 	}
 ?>
 				</div>

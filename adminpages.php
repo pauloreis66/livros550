@@ -193,7 +193,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<div class="list">
 					<ul>
 						<li><a href="adminpageslistarequisitar.php">Registos de Requisições</a></li>
-						<li><a href="#">Registos de Entregas</a></li>
+						<li><a href="#">Registos de Devoluções</a></li>
 						<li><a href="#">Estatísticas</a></li>
 						<li><a href="#">Relatórios</a></li>
 					</ul>

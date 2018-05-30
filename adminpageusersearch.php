@@ -169,28 +169,41 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     	<div class="section group">
 		
 			<div class="col span_1_of_3">
-				<h3>LIVROS</h3>
-				<img src="images/books2.png" alt="">
-				<p>Tarefas disponíveis para gestão do catálogo de livros:</p>
+				<h3>UTILIZADORES</h3>
+				<img src="images/userProfile.png" alt="">
+				<p>Tarefas disponíveis para gestão de utilizadores:</p>
 				<div class="clear"></div>
 				<div class="list">
 					<ul>
-						<li><a href="adminpagecategories.php">Categorias Técnicas</a></li>
-						<li><a href="adminpageeditors.php">Editoras</a></li>
-						<li><a href="adminpagelanguages.php">Idiomas</a></li>
-						<li><a href="adminpagefinance.php">Origem / Medidas de Financiamento</a></li>
-						<li><a href="adminpagebooks.php">Registos de Livros</a></li>
+						<li><a href="adminpageusers.php">Lista de Utilizadores</a></li>
+						<li><a href="adminpageusersearch.php">Procurar um utilizador</a></li>
+						<li><a href="#">Editar dados do utilizador</a></li>
+						<li><a href="adminpageusersnew.php">Inserir um novo utilizador</a></li>
+						<li><a href="#">Bloquear/Remover utilizador</a></li>
 					</ul>
 				</div>
 				<div class="clear"></div>
 			</div>
 				
 			<div class="col span_2_of_3">
-				<h2>Categorias Técnicas</h2>
+				<h2>Procurar um Utilizador</h2>
 				<div class="clear"></div>
+				
 				<div class="gridtable">
-					<p>Registos de categorias técnicas existentes no catálogo de livros.</p>
-					<table><tr><th>ID</th><th>Categoria:</th><th colspan="2">Operações:</th></tr>
+				<table><tr><th>Digitar um login ou email a procurar:
+				<div class="search_box2">
+					<form>
+						<input type="text" value="Procurar" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">
+						<input type="submit" value="">
+					</form>
+				</div>
+				</th></tr></table>
+				</div>
+				
+				<div class="clear">&nbsp:</div>
+				<div class="gridtable">
+					<p>Lista de utilizadores.</p>
+					<table><tr><th>Login:</th><th>Nome:</th><th>Nível:</th><th>Ativo:</th><th colspan="2">Operações:</th></tr>
 
 <?php
 	//navegação de paginas
@@ -205,33 +218,42 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	$utilizador="root";
 	$password="root";
 	$basedados="aeblivros";
-	$campo1="idCat";
-	$campo2="categoria";
+	$campo1="idUser";
+	$campo2="login";
+	$campo3="nome";
+	$campo4="nivel";
+	$campo5="ativo";
 		
 	$ligacao = mysqli_connect($servidor,$utilizador,$password,$basedados) or die ("<html><script language='JavaScript'>alert('Unable to connect to database! Please try again later.'),history.go(-1)</script></html>");
 	mysqli_select_db($ligacao, $basedados);
 	mysqli_set_charset($ligacao, "utf8");
 	
 	# Verificar se existem registos
-	$consulta = "SELECT idCat, categoria FROM categorias ORDER BY 2 ASC LIMIT $primeiroReg, $registosPagina";
+	$consulta = "SELECT idUser, login, nome, nivel, ativo FROM utilizadores ORDER BY 2 ASC LIMIT $primeiroReg, $registosPagina";
 	$resultado = mysqli_query($ligacao, $consulta);
 	
 	if(!empty(mysqli_num_rows($resultado))) {
 
 		while($linha = mysqli_fetch_array($resultado)){
 			$id = $linha["$campo1"];
-			$nome = $linha["$campo2"];
-			echo "<tr><td>" .$id. "</td><td>".$nome."</td>";
-			echo "<td nowrap><span><a href='adminpagecategoriesrec.php?id=".$id."&mode=edit'><img src='images/edit.png' alt='editar'>editar</a></span></td>";
-			echo "<td nowrap><span><a href='adminpagecategoriesrec.php?id=".$id."&mode=delete'><img src='images/trash.png' alt='eliminar'>eliminar</span></td></tr>";
+			$login = $linha["$campo2"];
+			$nome = $linha["$campo3"];
+			$nivel = $linha["$campo4"];
+			if ($nivel == 3) { $nivellbl = "Admin"; } elseif ($nivel == 2) { $nivellbl = "Professor";} else { $nivellbl = "Aluno";}
+			$ativo = $linha["$campo5"];
+			if ($ativo == 1) { $ativolbl = "Sim"; } else { $ativolbl = "Não";}
+			
+			echo "<tr><td>".$login."</td><td>".$nome."</td><td>".$nivellbl."</td><td>".$ativolbl."</td>";
+			echo "<td><span><a href='adminpageusersrec.php?id=".$id."&mode=edit'><img src='images/edit.png' alt='editar'>editar</a></span></td>";
+			echo "<td><span><a href='adminpageusersrec.php?id=".$id."&mode=delete'><img src='images/trash.png' alt='eliminar'>eliminar</span></td></tr>";
 		}
 		echo "</table><br>";
 		//-----navegação entre páginas
-		echo "<table><tr><th align='center'>";
-		echo "<a href='adminpagecategoriesnew.php'><img src='images/add.png' alt='novo'>novo registo</a></th>";
+		echo "<table><tr><th>";
+		echo "<a href='adminpageusersnew.php'><img src='images/add.png' alt='novo'>novo registo</a></th>";
 		echo "<th><img src='images/pages.png' alt='páginas'> Página:&nbsp;";
 		//calcular o numero de registos e numero de paginas necessarias
-		$sqlTodosReg = mysqli_query($ligacao, "SELECT * FROM categorias ORDER BY categoria");
+		$sqlTodosReg = mysqli_query($ligacao, "SELECT * FROM utilizadores ORDER BY login");
 		$totalRegistos = mysqli_num_rows($sqlTodosReg);
 		$totalPaginas = ceil($totalRegistos / $registosPagina);
 		$totalPaginas++;
@@ -268,10 +290,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	}
 	else {
 			//caso não existam registos
-			echo "<tr><td colspan='4'>Não existem registos.</td></tr></table>";
+			echo "<tr><td colspan='6'>Não existem registos.</td></tr></table>";
 			echo "<br>";
-			echo "<table><tr><th colspan='4'>";
-			echo "<a href='adminpagecategoriesnew.php'><img src='images/add.png' alt='novo'>novo registo</a></th>";
+			echo "<table><tr><th colspan='6'>";
+			echo "<a href='adminpageusersnew.php'><img src='images/add.png' alt='novo'>novo registo</a></th>";
 			echo "</tr></table>";
 	}
 ?>

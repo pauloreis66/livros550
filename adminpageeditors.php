@@ -189,8 +189,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<h2>Editoras</h2>
 				<div class="clear"></div>
 				<div class="gridtable">
-					<p><img src="images/grid.png" alt="Registos">&nbsp;Registos de editoras existentes no catálogo de livros.</p>
-					<table><tr><th>id</th><th>Editora</th><th>URL</th><th colspan="2">operações</th></tr>
+					<p>Registos de editoras existentes no catálogo de livros.</p>
+					<table><tr><th>ID</th><th>Editora:</th><th>URL:</th><th colspan="2">Operações:</th></tr>
 
 <?php
 	//navegação de paginas
@@ -223,14 +223,16 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			$id = $linha["$campo1"];
 			$nome = $linha["$campo2"];
 			$web = $linha["$campo3"];
-			echo "<tr><td>" .$id. "</td><td>".$nome."</td><td><span>".$web."</span></td><td><span><a href='adminpageeditorsrec.php?id=".$id."&mode=edit'><img src='images/edit.png' alt='editar'>editar</a></span></td>";
-			echo "<td><span><a href='adminpageeditorsrec.php?id=".$id."&mode=delete'><img src='images/trash.png' alt='eliminar'>eliminar</span></td></tr>";
+			echo "<tr><td>" .$id. "</td><td>".$nome."</td>";
+			echo "<td><span><a href='".$web."' target='_blank'>".$web."</span></td>";
+			echo "<td nowrap><span><a href='adminpageeditorsrec.php?id=".$id."&mode=edit'><img src='images/edit.png' alt='editar'>editar</a></span></td>";
+			echo "<td nowrap><span><a href='adminpageeditorsrec.php?id=".$id."&mode=delete'><img src='images/trash.png' alt='eliminar'>eliminar</span></td></tr>";
 		}
 		echo "</table><br>";
 		//-----navegação entre páginas
-		echo "<table><tr><td align='center'>";
-		echo "<a href='adminpageeditorsnew.php'><img src='images/add.png' alt='novo'>novo registo</a></td>";
-		echo "<td><img src='images/pages.png' alt='páginas'> Página:&nbsp;";
+		echo "<table><tr><th>";
+		echo "<a href='adminpageeditorsnew.php'><img src='images/add.png' alt='novo'>novo registo</a></th>";
+		echo "<th><img src='images/pages.png' alt='páginas'> Página:&nbsp;";
 		//calcular o numero de registos e numero de paginas necessarias
 		$sqlTodosReg = mysqli_query($ligacao, "SELECT * FROM editoras ORDER BY editora ASC");
 		$totalRegistos = mysqli_num_rows($sqlTodosReg);
@@ -265,15 +267,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		else {
 			echo "";
 		}
-		echo "</td></tr></table>";
+		echo "</th></tr></table>";
 	}
 	else {
 			//caso não existam registos
 			echo "<tr><td colspan='5'>Não existem registos.</td></tr></table>";
 			echo "</table><br>";
-			echo "<table><tr><td align='center'>";
-			echo "<a href='adminpageeditorsnew.php'><img src='images/add.png' alt='novo'>novo registo</a></td>";
-			echo "</td></tr></table>";
+			echo "<table><tr><th colspan='5'>";
+			echo "<a href='adminpageeditorsnew.php'><img src='images/add.png' alt='novo'>novo registo</a></th>";
+			echo "</tr></table>";
 	}
 	?>
 				</div>
@@ -283,60 +285,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 </div>
 
-   <div class="footer">
-   	  <div class="wrap">	
-	    	<div class="section group">
-				<div class="col_1_of_4 span_1_of_4">
-						<h4>Informação</h4>
-						<ul>
-						<li><a href="sobre.php">Sobre...</a></li>
-						<li><a href="policy.php">Privacidade & Termos de Utilização</a></li>
-						<li><a href="regulamento.php">Regulamento de Requisição de Livros</a></li>
-						</ul>
-					</div>
-				<div class="col_1_of_4 span_1_of_4">
-					<h4>A sua Conta</h4>
-						<ul>
-						<li><a href="login.php">Login</a></li>
-						<li><a href="perfil.php">Perfil de utilizador</a></li>
-						<li><a href="requisicoes.php">Requisições</a></li>
-						<li><a href="devolucoes.php">Devoluções</a></li>
-						</ul>
-				</div>
-				<div class="col_1_of_4 span_1_of_4">
-					<h4>Rede Social</h4>
-						<div class="social-icons">
-					   		  <ul>
-							      <li><a href="www.facebook.com/aebatalha" target="_blank"><img src="images/facebook.png" alt="Facebook" /></a></li>
-							      <li><a href="http://esbatalha.ccems.pt/" target="_blank"><img src="images/www.png" alt="Página Web" /></a></li>
-							      <li><a href="http://esbat-m.ccems.pt" target="_blank"><img src="images/moodle.png" alt="Moodle" /> </a></li>
-								  <li><a href="http://bit.ly/craeb" target="_blank"><img src="images/craeb.png" alt="Clube de Robótica" /> </a></li>
-								  <li><a href="http://www.alfabetoaeb.pt" target="_blank"><img src="images/alfabeto.png" alt="Jornal Alfabeto" /> </a></li>
-							      <div class="clear"></div>
-						     </ul>
-   	 					</div>
-				</div>
-				<div class="col_1_of_4 span_1_of_4">
-					<h4>Contacto</h4>
-						<ul>
-							<li><span>Rua da Freiria<br />2440-062 Batalha</span></li>
-							<li><span><img src="images/telefone.png">244 769 290</span></li>
-							<li><span><img src="images/email.png">es3batalha@gmail.com</span></li>
-						</ul>
-				</div>
-			</div>			
-        </div>
-        <div class="copy_right">
-				<p>&copy; 2018 All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a> adaptado para o AEB.</p>
-		</div>
-    </div>
-    <script type="text/javascript">
-		$(document).ready(function() {			
-			$().UItoTop({ easingType: 'easeOutQuart' });
-			
-		});
-	</script>
-    <a href="#" id="toTop"><span id="toTopHover"> </span></a>
+<?php include("footer.php"); ?>
+
 </body>
 </html>
 
