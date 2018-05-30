@@ -221,13 +221,20 @@ body {
 	-moz-border-rfadius:6px 0 0 6px;
 	-o-border-radius:6px 0 0 6px;
 }
+.search p{
+	font-family: 'ambleregular';
+	font-size:1.0em;
+	font-weight: bold;
+	color:#9C9C9C;
+}
+
 .search_box {
 	float: right;
 	border: 1px solid #3C3C3C;
 	background: #FFF;
 	border-radius: 0.3em;
 	-webkit-border-radius: 0.3em;
-	-moz-border-radius: 0.3em;
+	-moz-border-radius: 0.0em;
 	-o-border-radius: 0.3em;
 	position: relative;
 	margin-top:8px;
@@ -243,7 +250,32 @@ body {
 	width:75%;
 	padding:5px;
 }
-.search_box form input[type="submit"] {
+
+.search_box2 {
+	float: right;
+	border: 1px solid #3C3C3C;
+	background: #FFF;
+	border-radius: 0.3em;
+	-webkit-border-radius: 0.3em;
+	-moz-border-radius: 0.3em;
+	-o-border-radius: 0.3em;
+	position: relative;
+	margin-top:8px;
+	margin-right: 15px;
+	width:50%;
+}
+
+.search_box2 form input[type="text"] {
+	border: none;
+	outline: none;
+	background: none;
+	font-size:12px;
+	color: #acacac;
+	width:75%;
+	padding:5px;
+}
+
+.search_box form input[type="submit"], .search_box2 form input[type="submit"] {
 	border: none;
 	cursor: pointer;
 	background: url(../images/search.png) no-repeat 0px 7px;
@@ -252,6 +284,8 @@ body {
 	width: 20px;
 	height: 25px;
 }
+
+
 .header_slide{
 	margin-top:10px;
 }
@@ -1680,45 +1714,51 @@ body {
 
 
 /****MY TABLES STYLE****/
-.gridtable {
-	overflow-x:auto;
+
+.gridtable table {
+    border-collapse: collapse;
+    width: 100%;
 }
+
+.gridtable th {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+	border-top: 1px solid #ddd;
+	font-family: 'ambleregular';
+	font-size:0.9em;
+	background: #f5f5f5;
+	//color: #fff;
+}
+
+.gridtable td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+	font-family: 'ambleregular';
+}
+
+.gridtable td span {
+	text-align: center;
+	padding: 8px;
+	//font-size:0.7em;
+	font-family: 'ambleregular';
+	//font-weight: normal;
+}
+
+.gridtable tr:hover {background-color:#f5f5f5;}
 
 .gridtable p {
 	font-size:0.9em;
 	padding:5px 0;
-	color: #969696;
+	color: #454745;
 	line-height: 1.6em;
-	font-family: verdana, arial, helvetica, helve, sans-serif;
-}
-.gridtable table {
-    border-collapse: collapse;
-    border-spacing: 0;
-    width: 100%;
-    border: 1px solid #ddd;
-}
-
-.gridtable th {
-	text-align: left;
-	padding: 8px;
-	font-size:0.9em;
 	font-family: 'ambleregular';
-	color: #fff;
 	font-weight: bold;
-	text-transform:uppercase;
-	//background: #C10000;
-	background: #000;
+	text-transform: uppercase;
 }
 
-.gridtable td {
-	text-align: left;
-	padding: 8px;
-	font-size:0.9em;
-	font-family: 'ambleregular';
-	font-weight: normal;
-}
-
-.gridtable td span {
+.gridtable small {
 	text-align: left;
 	padding: 8px;
 	font-size:0.7em;
@@ -1726,16 +1766,77 @@ body {
 	font-weight: normal;
 }
 
-.gridtable a, .listagrid a {
+.gridtable3 {
+	overflow-x:auto;
+}
+
+.gridtable3 p {
+	font-size:0.9em;
+	padding:5px 0;
+	color: #454745;
+	line-height: 1.6em;
+	font-family: 'ambleregular';
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.gridtable3 table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+.gridtable3 th {
+	text-align: left;
+	padding: 8px;
+	font-size:0.9em;
+	font-family: 'ambleregular';
+	color: #fff;
+	font-weight: bold;
+	text-transform:uppercase;
+	//background: #454745;
+	background: #000096;
+}
+
+.gridtable3 tr { background-color: #f2f2f2}
+.gridtable3 tr:hover {background-color: #f5f5f5;}
+
+.gridtable3 td {
+	text-align: left;
+	padding: 8px;
+	font-size:0.9em;
+	font-family: 'ambleregular';
+	font-weight: normal;
+}
+
+.gridtable3 td span {
+	text-align: left;
+	padding: 8px;
+	font-size:0.7em;
+	font-family: 'ambleregular';
+	font-weight: normal;
+	background: #e0e0e0;
+}
+
+.gridtable3 small {
+	text-align: left;
+	padding: 8px;
+	font-size:0.7em;
+	font-family: 'ambleregular';
+	font-weight: normal;
+}
+
+.gridtable3 a, .listagrid a {
 	color: #E4292F;
 }
-.gridtable a:hover{
+.gridtable3 a:hover{
 	color: #E4292F;
 	text-decoration: underline;
 	cursor: pointer;
 }
 
-.gridtable tr:nth-child(even){background-color: #f2f2f2}
+.gridtable3 tr:nth-child(even){background-color: #fff}
 /****END MY TABLES STYLE****/
 
 
