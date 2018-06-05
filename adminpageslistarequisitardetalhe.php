@@ -188,7 +188,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<h2>Registos de Requisições</h2>
 				<div class="clear"></div>
 				<div class="gridtable">
-					<p>Registo de requisição.</p>
+					<p>Ordem de requisição.</p>
 					
 					<table><tr><th>Req.</th><th>Data de Requisição:</th><th>Estado:</th><th>Utilizador:</th>
 <?php
@@ -237,8 +237,25 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="clear">&nbsp;</div>
 
 				<div class="gridtable">
-					<p>Detalhe da requisição efetuada.</p>
-					<table><tr><th>Req.</th><th>Titulo:</th><th>Qtd.:</th><th>Entregue:<th colspan="2">Operações:</th></tr>
+					<p>Detalhe da ordem de requisição efetuada.</p>
+					<div class="erro">
+					<?php
+						if (isset($_GET['e'])) {
+							$erro = $_GET['e'];
+							switch ($erro) {
+								case 1: $msge="Operação realizada com sucesso."; break;
+								case 2: $msge="Erro ao atualizar registo."; break;
+								case 3: $msge="Erro ao eliminar registo."; break;		
+								case 4: $msge="Erro ao inserir registo."; break;									
+						}
+						echo $msge;
+						}
+						else {
+							echo " ";
+						}	
+					?>
+					</div>
+					<table><tr><th>Req.</th><th>Titulo:</th><th>Qtd.:</th><th>Entregue em:<th colspan="2">Operações:</th></tr>
 
 <?php
 	//navegação de paginas
@@ -272,14 +289,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			$dataE = $linha["$campo5"];
 			
 			echo "<tr><td>" .$idR. "</td><td>".$titulo."</td><td>".$qtd."</td><td>".$dataE."</td>";
-			echo "<td nowrap><span><a href='adminpageusersrec.php?id=".$idR."&mode=edit'><img src='images/edit.png' alt='editar'>editar</a></span></td>";
-			echo "<td nowrap><span><a href='adminpageusersrec.php?id=".$idR."&mode=delete'><img src='images/trash.png' alt='eliminar'>eliminar</span></td></tr>";
+			echo "<td nowrap><span><a href='adminpageslistarequisitardetalherec.php?idR=".$idR."&idL=".$idL."&q=".$qtd."&mode=edit'><img src='images/edit.png' alt='editar'>editar</a></span></td>";
+			echo "<td nowrap><span><a href='adminpageslistarequisitardetalherec.php?idR=".$idR."&idL=".$idL."&q=".$qtd."&mode=delete'><img src='images/trash.png' alt='eliminar'>eliminar</span></td></tr>";
 		}
 		echo "</table><br>";
 		//-----navegação entre páginas
 		echo "<table><tr><th>";
 		echo "<a href='adminpageslistarequisitar.php'><img src='images/undo.png' alt='voltar'>voltar</a></th>";
-		echo "<th><a href='adminpageusersnew.php'><img src='images/add.png' alt='novo'>novo registo</a></th>";
+		echo "<th><a href='adminpageslistarequisitardetalhenew.php?idR=".$idR."'><img src='images/add.png' alt='novo'>novo registo</a></th>";
 		echo "<th><img src='images/pages.png' alt='páginas'> Página:&nbsp;";
 		//calcular o numero de registos e numero de paginas necessarias
 		$sqlTodosReg = mysqli_query($ligacao, "SELECT r.idReq, r.idUser, u.nome, r.dataRequisicao, r.estado 
@@ -324,7 +341,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			echo "<br>";
 			echo "<table><tr><th colspan='6'>";
 			echo "<a href='adminpageslistarequisitar.php'><img src='images/undo.png' alt='voltar'>voltar</a></th>";
-			echo "<th><a href='adminpageusersnew.php'><img src='images/add.png' alt='novo'>novo registo</a></th>";
+			echo "<th><a href='adminpageslistarequisitardetalhenew.php?idR=".$idR."'><img src='images/add.png' alt='novo'>novo registo</a></th>";
 			echo "</tr></table>";
 	}
 ?>

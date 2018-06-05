@@ -170,7 +170,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<div class="col_1_of_3 span_1_of_3">
 				<h3>LIVROS</h3>
 				<img src="images/books2.png" alt="">
-				<p>Tarefas disponíveis para gestão do catálogo de livros:</p>
+				<p>Tarefas para gestão do catálogo de livros:</p>
 				<div class="clear"></div>
 				<div class="list">
 					<ul>
@@ -188,7 +188,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<div class="col_1_of_3 span_1_of_3">
 				<h3>REQUISIÇÕES</h3>
 				<img src="images/calendar2.png" alt="">
-				<p>Tarefas disponíveis para gestão de requisições:</p>
+				<p>Tarefas para gestão de requisições:</p>
 				<div class="clear"></div>
 					<div class="list">
 					<ul>
@@ -204,12 +204,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<div class="col_1_of_3 span_1_of_3">
 				<h3>UTILIZADORES</h3>
 				<img src="images/userProfile.png" alt="">
-				<p>Tarefas disponíveis para gestão de utilizadores:</p>
+				<p>Tarefas para gestão de utilizadores:</p>
 				<div class="clear"></div>
 					<div class="list">
 					<ul>
 						<li><a href="adminpageusers.php">Lista de Utilizadores</a></li>
-						<li><a href="#">Procurar um utilizador</a></li>
+						<li><a href="adminpageusersearch.php">Procurar um utilizador</a></li>
 						<li><a href="#">Editar dados do utilizador</a></li>
 						<li><a href="adminpageusersnew.php">Inserir um novo utilizador</a></li>
 						<li><a href="#">Bloquear/Remover utilizador</a></li>
@@ -221,60 +221,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     </div>
 </div>
  
-   <div class="footer">
-   	  <div class="wrap">	
-	    	<div class="section group">
-				<div class="col_1_of_4 span_1_of_4">
-						<h4>Informação</h4>
-						<ul>
-						<li><a href="sobre.php">Sobre...</a></li>
-						<li><a href="policy.php">Privacidade & Termos de Utilização</a></li>
-						<li><a href="regulamento.php">Regulamento de Requisição de Livros</a></li>
-						</ul>
-					</div>
-				<div class="col_1_of_4 span_1_of_4">
-					<h4>A sua Conta</h4>
-						<ul>
-						<li><a href="login.php">Login</a></li>
-						<li><a href="perfil.php">Perfil de utilizador</a></li>
-						<li><a href="requisicoes.php">Requisições</a></li>
-						<li><a href="devolucoes.php">Devoluções</a></li>
-						</ul>
-				</div>
-				<div class="col_1_of_4 span_1_of_4">
-					<h4>Rede Social</h4>
-						<div class="social-icons">
-					   		  <ul>
-							      <li><a href="www.facebook.com/aebatalha" target="_blank"><img src="images/facebook.png" alt="Facebook" /></a></li>
-							      <li><a href="http://esbatalha.ccems.pt/" target="_blank"><img src="images/www.png" alt="Página Web" /></a></li>
-							      <li><a href="http://esbat-m.ccems.pt" target="_blank"><img src="images/moodle.png" alt="Moodle" /> </a></li>
-								  <li><a href="http://bit.ly/craeb" target="_blank"><img src="images/craeb.png" alt="Clube de Robótica" /> </a></li>
-								  <li><a href="http://www.alfabetoaeb.pt" target="_blank"><img src="images/alfabeto.png" alt="Jornal Alfabeto" /> </a></li>
-							      <div class="clear"></div>
-						     </ul>
-   	 					</div>
-				</div>
-				<div class="col_1_of_4 span_1_of_4">
-					<h4>Contacto</h4>
-						<ul>
-							<li><span>Rua da Freiria<br />2440-062 Batalha</span></li>
-							<li><span><img src="images/telefone.png">244 769 290</span></li>
-							<li><span><img src="images/email.png">es3batalha@gmail.com</span></li>
-						</ul>
-				</div>
-			</div>			
-        </div>
-        <div class="copy_right">
-				<p>&copy; 2018 All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a> adaptado para o AEB.</p>
-		</div>
-    </div>
-    <script type="text/javascript">
-		$(document).ready(function() {			
-			$().UItoTop({ easingType: 'easeOutQuart' });
-			
-		});
-	</script>
-    <a href="#" id="toTop"><span id="toTopHover"> </span></a>
+<?php include("footer.php"); ?>
+
 </body>
 </html>
 

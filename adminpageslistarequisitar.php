@@ -188,7 +188,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<h2>Registos de Requisições</h2>
 				<div class="clear"></div>
 				<div class="gridtable">
-					<p>Registos das requisições de livros efetuadas.</p>
+					<p>Registos das ordens de requisição efetuadas.</p>
 					<table><tr><th>Req.</th><th>Data:</th><th>Estado:</th><th>Utilizador:</th><th colspan="3">Operações:</th></tr>
 
 <?php

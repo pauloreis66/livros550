@@ -55,7 +55,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					 else {
 						//Apresenta os links para Checkout ou para Conta
 						?>
-						<li><a href='#'>Checkout</a></li>
+						<li><a href='listarequisitar.php'>Checkout</a></li>
 						<li><a href='logout.php'>Logout</a></li>
 						<li><div class='dropdownmenu'>
 							<span><a href='#'><?php echo $_SESSION['UserLogin']?></a>&nbsp;<img src='images/user18.png'></span>
@@ -141,8 +141,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	     	<div class="menu">
 	     		<ul>
 			    	<li><a href="index.php">Home</a></li>
-			    	<li><a href="about.html">Sobre</a></li>
-			    	<li><a href="delivery.html">Requisitar</a></li>
+			    	<li><a href="sobre.php">Sobre</a></li>
+			    	<li><a href="listarequisitar.php">Requisitar</a></li>
 			    	<li><a href="contacto.php">Contacto</a></li>
 					<?php
 						//verificar se é administrador
@@ -279,7 +279,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	}
 	else {
 			//caso não existam registos
-			echo "Não foi encontrado o registo.";
+			echo "<p class='erro'>Não foi encontrado o registo.</p>";
+			echo "<p><img src='images/edit.png'>&nbsp;<a href='adminpageeditors.php'>Voltar</a></p>";
 	}
 	?>
 			</form>
