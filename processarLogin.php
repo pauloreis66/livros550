@@ -21,7 +21,7 @@
 	
 	# Verificar se o registo existe
 	
-	$consulta = "SELECT idUser, Login, Senha, Nome, Nivel FROM utilizadores1 WHERE Login='$userlogin' AND Senha='$password' ";
+	$consulta = "SELECT idUser, Login, Senha, Nome, Nivel FROM utilizadores WHERE Login='$userlogin' AND Senha='$password' ";
 	$resultado = mysqli_query($ligacao, $consulta);
 	
 	//verificar se foram devolvidos dados
