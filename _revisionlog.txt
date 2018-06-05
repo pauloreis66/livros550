@@ -20,3 +20,7 @@
 --- processarRegistar.php -> idem
 --- nova página para administração das requisições -> adminpageslistarequisitar.php 
 
+05-06-2018
+--- nova página para administração das requisições -> adminpageslistarequisitar.php 
+--- scripts para visualizar e gerir as requisições -> adminpageslistarequisitardetalhe.php, adminpageslistarequisitardetalhenew.php, adminpageslistarequisitardetalherec.php, processarRegistoRequisitado.php
+
