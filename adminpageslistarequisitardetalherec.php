@@ -293,18 +293,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<span><input type="text" class="mediuminactive" value="<?php echo $livro[1] ?>" readonly></span>
 				</div>
 				
-				<div>
-					<span><label>Livro pretendido:</label></span>
-					<span>
-					
-					<?php 
-						if ($modo=='edit') {
-							echo "<select name='idLivro'>";
-						}
-						else {
-							$botao = "Eliminar";
-							echo "<select disabled class='inactive' name='idLivro'>";
-						}
+				<?php
+					if ($modo=='edit') {
+						echo "<div><span><label>Livro pretendido:</label></span><span>";
+						echo "<select name='idLivro'>";
 						while ($row = mysqli_fetch_array($resultadoLivros, MYSQLI_ASSOC)) {
 								if ($row["idLivro"] == $campo2) {
 									echo "<option selected value=".$row['idLivro'].">".$row['titulo']."</option>";
@@ -314,9 +306,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								}
 						}
 						echo "</select>";
-					?>					
-					</span>
-				</div>
+					}
+					else {
+						$botao = "Eliminar";
+						echo "<input type='hidden' value=".$campo2." name='idLivro' />";
+					}
+				?>
 				
 				<div>
 					<span><label>Quantidade:</label></span>
@@ -326,7 +321,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							echo "<input type='text' class='short' name='quantidade' value='$campo3'>";
 						}
 						else {
-							echo "<input type='text' class='short inactive2' name='quantidade' value='$campo3' readonly>";
+							echo "<input type='text' class='mediuminactive' name='quantidade' value='$campo3' readonly>";
 						}
 					?>
 					</span>
