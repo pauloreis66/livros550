@@ -16,6 +16,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <script type="text/javascript" src="js/easing.js"></script>
 <script type="text/javascript" src="js/startstop-slider.js"></script>
 
+<script type="text/javascript">
+function goTo()
+{
+    location.href = document.getElementById('userSearch').value;
+}
+</script>
+
 </head>
 <body>
   <div class="wrap">
@@ -177,9 +184,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<ul>
 						<li><a href="adminpageusers.php">Lista de Utilizadores</a></li>
 						<li><a href="adminpageusersearch.php">Procurar um utilizador</a></li>
-						<li><a href="#">Editar dados do utilizador</a></li>
 						<li><a href="adminpageusersnew.php">Inserir um novo utilizador</a></li>
-						<li><a href="#">Bloquear/Remover utilizador</a></li>
+						<li><a href="adminpageusersblock.php">Bloquear/Ativar utilizador</a></li>
 					</ul>
 				</div>
 				<div class="clear"></div>
@@ -190,20 +196,27 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="clear"></div>
 				
 				<div class="gridtable">
-				<table><tr><th>Digitar um login ou email a procurar:
+				<table><tr><th>Digitar um login, nome ou email a procurar:
 				<div class="search_box2">
-					<form>
-						<input type="text" value="Procurar" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">
-						<input type="submit" value="">
+					<form method="post">
+					
+						<input type="text" name="userSearch" value="Procurar" autocomplete="off" 
+								onfocus="this.value = '';" 
+								onblur="if (this.value == '') {this.value = 'Procurar';}"
+								onClick="javascript:goTo()" />
+						<input type="submit" value=""> <!-- mostra a lupa--->
+					
 					</form>
 				</div>
+								
+				<div id="results"></div>
 				</th></tr></table>
 				</div>
 				
-				<div class="clear">&nbsp:</div>
+				<div class="clear">&nbsp;</div>
 				<div class="gridtable">
 					<p>Lista de utilizadores.</p>
-					<table><tr><th>Login:</th><th>Nome:</th><th>Nível:</th><th>Ativo:</th><th colspan="2">Operações:</th></tr>
+					<table><tr><th>Login:</th><th>Nome:</th><th>Email:</th><th>Nível:</th><th>Ativo:</th><th colspan="2">Operações:</th></tr>
 
 <?php
 	//navegação de paginas
@@ -213,23 +226,24 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		$pagina = 1;
 	}
 	$primeiroReg = ($_GET['pagina'] * $registosPagina) - $registosPagina;
-	//Connect To Database
-	$servidor="localhost";
-	$utilizador="root";
-	$password="root";
-	$basedados="aeblivros";
+
 	$campo1="idUser";
 	$campo2="login";
 	$campo3="nome";
 	$campo4="nivel";
 	$campo5="ativo";
+	$campo6="email";
 		
-	$ligacao = mysqli_connect($servidor,$utilizador,$password,$basedados) or die ("<html><script language='JavaScript'>alert('Unable to connect to database! Please try again later.'),history.go(-1)</script></html>");
-	mysqli_select_db($ligacao, $basedados);
-	mysqli_set_charset($ligacao, "utf8");
-	
 	# Verificar se existem registos
-	$consulta = "SELECT idUser, login, nome, nivel, ativo FROM utilizadores ORDER BY 2 ASC LIMIT $primeiroReg, $registosPagina";
+	if (isset($_POST['userSearch'])) {
+		$userSearch = $_POST['userSearch'];
+		$consulta = "SELECT idUser, login, nome, nivel, ativo, email FROM utilizadores 
+				WHERE login LIKE '" .$userSearch. "%' OR nome LIKE '" .$userSearch. "%' OR email LIKE '" .$userSearch. "%'
+				ORDER BY 2 ASC LIMIT $primeiroReg, $registosPagina";
+	}
+	else {
+		$consulta = "SELECT idUser, login, nome, nivel, ativo, email FROM utilizadores ORDER BY 2 ASC LIMIT $primeiroReg, $registosPagina";
+	}
 	$resultado = mysqli_query($ligacao, $consulta);
 	
 	if(!empty(mysqli_num_rows($resultado))) {
@@ -242,8 +256,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			if ($nivel == 3) { $nivellbl = "Admin"; } elseif ($nivel == 2) { $nivellbl = "Professor";} else { $nivellbl = "Aluno";}
 			$ativo = $linha["$campo5"];
 			if ($ativo == 1) { $ativolbl = "Sim"; } else { $ativolbl = "Não";}
+			$email = $linha["$campo6"];
 			
-			echo "<tr><td>".$login."</td><td>".$nome."</td><td>".$nivellbl."</td><td>".$ativolbl."</td>";
+			echo "<tr><td>".$login."</td><td>".$nome."</td><td>".$email."</td><td>".$nivellbl."</td><td>".$ativolbl."</td>";
 			echo "<td><span><a href='adminpageusersrec.php?id=".$id."&mode=edit'><img src='images/edit.png' alt='editar'>editar</a></span></td>";
 			echo "<td><span><a href='adminpageusersrec.php?id=".$id."&mode=delete'><img src='images/trash.png' alt='eliminar'>eliminar</span></td></tr>";
 		}
@@ -290,9 +305,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	}
 	else {
 			//caso não existam registos
-			echo "<tr><td colspan='6'>Não existem registos.</td></tr></table>";
+			echo "<tr><td colspan='7'>Não existem registos.</td></tr></table>";
 			echo "<br>";
-			echo "<table><tr><th colspan='6'>";
+			echo "<table><tr><th colspan='7'>";
 			echo "<a href='adminpageusersnew.php'><img src='images/add.png' alt='novo'>novo registo</a></th>";
 			echo "</tr></table>";
 	}
