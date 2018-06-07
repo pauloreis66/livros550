@@ -24,3 +24,6 @@
 --- nova página para administração das requisições -> adminpageslistarequisitar.php 
 --- scripts para visualizar e gerir as requisições -> adminpageslistarequisitardetalhe.php, adminpageslistarequisitardetalhenew.php, adminpageslistarequisitardetalherec.php, processarRegistoRequisitado.php
 
+07-06-2018
+--- página para procurar utilizadores (adminpagesusersearch.php) foi atualizada
+--- nova página para bloquear/ativar utilizadores (adminpagesusersblock.php) e respetivo script (processarUserBlock.php)
