@@ -77,10 +77,35 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<a href="index.php"><img src="images/aeblogo.png" alt="Agrupamento de Escolas da Batalha" /></a>
 			</div>
 			  <div class="cart">
-			  	   <p><span><img src="images/cart32.png" alt="Carrinho"></span><div id="dd" class="wrapper-dropdown-2"> 0 livro(s)
-			  	   	<ul class="dropdown">
-							<li>Não tem qualquer livro no seu carrinho.</li>
-					</ul></div></p>
+					<p><span><img src="images/bcart48.png" alt="Carrinho"></span>
+					<?php 
+				   	//abrir ligação à bd
+					include("ligar_db.php");
+					mysqli_set_charset($ligacao, "utf8");
+					
+					// prepara sessão de requisição
+					$sessao = session_id();
+					
+					// seleciona os livros requisitados temporariamente 	
+					$sql0 = "SELECT COUNT(idLivro) AS itens FROM temprequisicao WHERE sessao = '".$sessao."'";
+					$consulta0 = mysqli_query($ligacao, $sql0);
+					$resultado0 = mysqli_fetch_assoc($consulta0);
+
+					// se houver livros já requisitados, extrai o valor da contagem
+					if (mysqli_num_rows($consulta0) > 0) { 
+							$itens = $resultado0['itens']; 
+							$msg = "Tem ".$itens." livros no seu carrinho.";
+					} else {
+							$itens = 0;
+							$msg = "Não tem qualquer livro no seu carrinho.";
+					}
+					?>
+						<div id="dd" class="wrapper-dropdown-2"><?php echo $itens ?> livro(s)
+							<ul class="dropdown">
+								<li><?php echo $msg ?></li>
+						</ul>
+						</div>
+					</p>
 			  </div>
 			  <script type="text/javascript">
 			function DropDown(el) {
@@ -131,8 +156,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
      			</ul>
 	     	</div>
 	     	<div class="search_box">
-	     		<form>
-	     			<input type="text" value="Procurar" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}"><input type="submit" value="">
+	     		<form method="POST" action="livroscatalogo.php">
+					
+					<input type="text" name="idSearch" value="Procurar" autocomplete="off" 
+								onfocus="this.value = '';" 
+								onblur="if (this.value == '') {this.value = 'Procurar';}" />
+					<input type="submit" value=""> <!-- mostra a lupa--->
+											
 	     		</form>
 	     	</div>
 	     	<div class="clear"></div>
@@ -223,12 +253,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		?>
 			<p><?php echo $botao. " do livro." ?></p>
 			<div class="clear"></div>
-			<form id="form_registo" method="POST" 
-			action="processarRegistoLivro.php?id=<?php echo $campo1 ?>&mode=<?php echo $modo ?>">
+			<form id="form_registo" method="POST" action="processarRegistoLivroSinopse.php">
+			<!---
 				<div>
 					<span><label>ID:</label></span>
 					<span><input type="text" class="short inactive" value="<?php echo $campo1 ?>" readonly></span>
 				</div>
+			--->
 				<div>
 					<span><label>Título:</label></span>
 					<span><input type="text" class="inactive2" name="livroNome" value="<?php echo $campo4; ?>" readonly></span>
@@ -316,8 +347,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				</div>
 				
 				<div class="clear"></div>
-				<span><input type="submit" name="doit" value="<?php echo $botao ?>">
-							<input type="submit" name="cancel" value="Cancelar" ></span>
+					<span><input type="submit" name="doit" value="<?php echo $botao ?>">
+						<input type="hidden" name="id" value="<?php echo $campo1 ?>">
+						<input type="submit" name="cancel" value="Cancelar" ></span>
 							
 				
 	<?php
@@ -335,60 +367,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 </div>
 
-   <div class="footer">
-   	  <div class="wrap">	
-	    	<div class="section group">
-				<div class="col_1_of_4 span_1_of_4">
-						<h4>Informação</h4>
-						<ul>
-						<li><a href="sobre.php">Sobre...</a></li>
-						<li><a href="policy.php">Privacidade & Termos de Utilização</a></li>
-						<li><a href="regulamento.php">Regulamento de Requisição de Livros</a></li>
-						</ul>
-					</div>
-				<div class="col_1_of_4 span_1_of_4">
-					<h4>A sua Conta</h4>
-						<ul>
-						<li><a href="login.php">Login</a></li>
-						<li><a href="perfil.php">Perfil de utilizador</a></li>
-						<li><a href="requisicoes.php">Requisições</a></li>
-						<li><a href="devolucoes.php">Devoluções</a></li>
-						</ul>
-				</div>
-				<div class="col_1_of_4 span_1_of_4">
-					<h4>Rede Social</h4>
-						<div class="social-icons">
-					   		  <ul>
-								  <li><a href="http://esbatalha.ccems.pt/" target="_blank"><img src="images/www.png" alt="Página Web" /></a></li>
-							      <li><a href="www.facebook.com/aebatalha" target="_blank"><img src="images/facebook.png" alt="Facebook" /></a></li>
-							      <li><a href="http://esbat-m.ccems.pt" target="_blank"><img src="images/moodle.png" alt="Moodle" /> </a></li>
-								  <li><a href="http://bit.ly/craeb" target="_blank"><img src="images/craeb.png" alt="Clube de Robótica" /> </a></li>
-								  <li><a href="http://www.alfabetoaeb.pt" target="_blank"><img src="images/alfabeto.png" alt="Jornal Alfabeto" /> </a></li>
-							      <div class="clear"></div>
-						     </ul>
-   	 					</div>
-				</div>
-				<div class="col_1_of_4 span_1_of_4">
-					<h4>Contacto</h4>
-						<ul>
-							<li><span>Rua da Freiria<br />2440-062 Batalha</span></li>
-							<li><span><img src="images/telefone.png">244 769 290</span></li>
-							<li><span><img src="images/email.png">es3batalha@gmail.com</span></li>
-						</ul>
-				</div>
-			</div>			
-        </div>
-        <div class="copy_right">
-				<p>&copy; 2018 All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a> adaptado para o AEB.</p>
-		</div>
-    </div>
-    <script type="text/javascript">
-		$(document).ready(function() {			
-			$().UItoTop({ easingType: 'easeOutQuart' });
-			
-		});
-	</script>
-    <a href="#" id="toTop"><span id="toTopHover"> </span></a>
+<?php include("footer.php"); ?>
+
 </body>
 </html>
 

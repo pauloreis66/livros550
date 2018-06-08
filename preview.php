@@ -144,8 +144,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	     	<div class="menu">
 	     		<ul>
 			    	<li class="active"><a href="index.php">Home</a></li>
-			    	<li><a href="about.html">Sobre</a></li>
-			    	<li><a href="delivery.html">Requisitar</a></li>
+			    	<li><a href="sobre.php">Sobre</a></li>
+			    	<li><a href="listarequisitar.php">Requisitar</a></li>
 			    	<li><a href="contacto.php">Contacto</a></li>
 					<?php
 						//verificar se é administrador
@@ -159,8 +159,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
      			</ul>
 	     	</div>
 	     	<div class="search_box">
-	     		<form>
-	     			<input type="text" value="Procurar" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}"><input type="submit" value="">
+	     		<form method="POST" action="livroscatalogo.php">
+					
+					<input type="text" name="idSearch" value="Procurar" autocomplete="off" 
+								onfocus="this.value = '';" 
+								onblur="if (this.value == '') {this.value = 'Procurar';}" />
+					<input type="submit" value=""> <!-- mostra a lupa--->
+											
 	     		</form>
 	     	</div>
 	     	<div class="clear"></div>
@@ -213,6 +218,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				$capa = $linha["imgCapa"];
 				$pastaCapas = "images/capas/";
 				$ano = $linha["anoEdicao"];
+				$sinopse = $linha["sinopse"];
 			}
 		}
 	?>
@@ -297,8 +303,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				</ul>
 				<div class="resp-tabs-container">
 					<div class="product-desc">
-						<p>Lorem Ipsum is simply dummy text of the <span>printing and typesetting industry</span>. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, <span>when an unknown printer took a galley of type and scrambled</span> it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.<span> It has survived not only five centuries</span>, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+						<p><?php echo $sinopse; ?></p>
 					</div>
 
 
@@ -420,70 +425,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
  	</div>
     </div>
  </div>
-   <div class="footer">
-   	  <div class="wrap">	
-	     <div class="section group">
-				<div class="col_1_of_4 span_1_of_4">
-						<h4>Information</h4>
-						<ul>
-						<li><a href="about.html">About Us</a></li>
-						<li><a href="contact.html">Customer Service</a></li>
-						<li><a href="#">Advanced Search</a></li>
-						<li><a href="delivery.html">Orders and Returns</a></li>
-						<li><a href="contact.html">Contact Us</a></li>
-						</ul>
-					</div>
-				<div class="col_1_of_4 span_1_of_4">
-					<h4>Why buy from us</h4>
-						<ul>
-						<li><a href="about.html">About Us</a></li>
-						<li><a href="contact.html">Customer Service</a></li>
-						<li><a href="#">Privacy Policy</a></li>
-						<li><a href="contact.html">Site Map</a></li>
-						<li><a href="#">Search Terms</a></li>
-						</ul>
-				</div>
-				<div class="col_1_of_4 span_1_of_4">
-					<h4>My account</h4>
-						<ul>
-							<li><a href="contact.html">Sign In</a></li>
-							<li><a href="index.html">View Cart</a></li>
-							<li><a href="#">My Wishlist</a></li>
-							<li><a href="#">Track My Order</a></li>
-							<li><a href="contact.html">Help</a></li>
-						</ul>
-				</div>
-				<div class="col_1_of_4 span_1_of_4">
-					<h4>Contact</h4>
-						<ul>
-							<li><span>+91-123-456789</span></li>
-							<li><span>+00-123-000000</span></li>
-						</ul>
-						<div class="social-icons">
-							<h4>Follow Us</h4>
-					   		  <ul>
-							      <li><a href="#" target="_blank"><img src="images/facebook.png" alt="" /></a></li>
-							      <li><a href="#" target="_blank"><img src="images/twitter.png" alt="" /></a></li>
-							      <li><a href="#" target="_blank"><img src="images/skype.png" alt="" /> </a></li>
-							      <li><a href="#" target="_blank"> <img src="images/dribbble.png" alt="" /></a></li>
-							      <li><a href="#" target="_blank"> <img src="images/linkedin.png" alt="" /></a></li>
-							      <div class="clear"></div>
-						     </ul>
-   	 					</div>
-				</div>
-			</div>			
-        </div>
-        <div class="copy_right">
-				<p>&copy; 2013 home_shoppe. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
-		   </div>
-    </div>
-   <script type="text/javascript">
-		$(document).ready(function() {			
-			$().UItoTop({ easingType: 'easeOutQuart' });
-			
-		});
-	</script>
-    <a href="#" id="toTop"><span id="toTopHover"> </span></a>
+ 
+<?php include("footer.php"); ?>
+
 </body>
 </html>
 
