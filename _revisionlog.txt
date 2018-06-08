@@ -27,3 +27,7 @@
 07-06-2018
 --- página para procurar utilizadores (adminpagesusersearch.php) foi atualizada
 --- nova página para bloquear/ativar utilizadores (adminpagesusersblock.php) e respetivo script (processarUserBlock.php)
+
+08-06-2018
+--- index.php -> apresenta o código com o form para procurar (<div class="search_box">) que será replicado nas restantes páginas (exceputando a livroscatalogo.php)
+--- livroscatalogo.php -> atualizada para receber os pedidos de pesquisa e exibir os resultados
