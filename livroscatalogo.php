@@ -144,9 +144,25 @@ License URL: http://creativecommons.org/licenses/by/3.0/
      			</ul>
 	     	</div>
 	     	<div class="search_box">
-	     		<form>
-	     			<input type="text" value="Procurar" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}"><input type="submit" value="">
+			
+			<?php 
+				if(isset($_GET['id'])) {
+					$id = $_GET['id'];
+					echo "<form method='POST' action='livroscatalogo.php?id=".$id."'>";
+				}
+				else {
+					echo "<form method='POST' action='livroscatalogo.php'>";
+				}
+			?>
+			
+					<input type="text" name="idSearch" value="Procurar" autocomplete="off" 
+								onfocus="this.value = '';" 
+								onblur="if (this.value == '') {this.value = 'Procurar';}" />
+
+					<input type="submit" value=""> <!-- mostra a lupa--->
+											
 	     		</form>
+				
 	     	</div>
 	     	<div class="clear"></div>
 	     </div>	 
@@ -181,23 +197,38 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <div class="content_top">
 			<div class="back-links">
 	<?php
+	
 		if(!isset($_GET['id'])) {
 			//não existe id
 			$mode=0;
-			$categoriaLink = "Todo o cátalogo";
+			if(isset($_POST['idSearch'])) { 
+				$procurar = $_POST['idSearch'];
+				$categoriaLink = "Procurar no catálogo: ".$procurar;
+			}
+			else {
+				$categoriaLink = "Todo o catálogo";
+				$procurar = "";
+			}
 		}
 		else {
 			$idCat = $_GET['id'];
 			$mode=1;
+			$procurar = "";
 			$categoriaID = $idCat;
 			$obterCat = mysqli_query($ligacao, "SELECT * FROM categorias WHERE idCat='$categoriaID'");
 			$categoriaLink = mysqli_fetch_array($obterCat)[1];
 			if (strlen($categoriaLink)==0) {
 				//se o id passado por url é inexistente
-				$categoriaLink = "Todo o cátalogo";
+				$categoriaLink = "Todo o catálogo";
 				$mode=0;
+				$procurar = "";
+			}
+			if(isset($_POST['idSearch'])) { 
+				$procurar = $_POST['idSearch'];
+				$categoriaLink = $categoriaLink.": ".$procurar;
 			}
 		}
+		
 	?>
 					<p><a href="index.php">Home</a> > <?php echo "<a href='?id=" .$id. "'>".$categoriaLink."</a>"; ?></p>
 			</div>
@@ -224,11 +255,28 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	
 	//criar a consulta à base de dados
 	if ($mode !=0) {
-		$consulta = "SELECT * FROM livros WHERE idCat='$categoriaID' ORDER BY titulo ASC LIMIT $primeiroReg, $registosPagina";
+		
+		if(isset($_POST['idSearch'])) { 
+			$procurar = $_POST['idSearch'];
+			$consulta = "SELECT * FROM livros WHERE idCat='$categoriaID' AND titulo LIKE '%".$procurar."%' ORDER BY titulo ASC LIMIT $primeiroReg, $registosPagina";
+		}
+		else {
+			$consulta = "SELECT * FROM livros WHERE idCat='$categoriaID' ORDER BY titulo ASC LIMIT $primeiroReg, $registosPagina";
+		}
+		
 	}
 	else {
-		$consulta = "SELECT * FROM livros ORDER BY titulo ASC LIMIT $primeiroReg, $registosPagina";
+		
+		if(isset($_POST['idSearch'])) { 
+			$procurar = $_POST['idSearch'];
+			$consulta = "SELECT * FROM livros WHERE titulo LIKE '%".$procurar."%' ORDER BY titulo ASC LIMIT $primeiroReg, $registosPagina";
+		}
+		else {
+			$consulta = "SELECT * FROM livros ORDER BY titulo ASC LIMIT $primeiroReg, $registosPagina";
+		}
+		
 	}
+	
 	$resultado = mysqli_query($ligacao, $consulta);
 	
 	//verificar se existem resultados a exibir
@@ -281,10 +329,25 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <?php
 		//calcular o numero de registos e numero de paginas necessarias
 		if ($mode !=0) {
-			$sqlTodosReg = mysqli_query($ligacao, "SELECT * FROM livros WHERE idCat='$categoriaID' ORDER BY titulo ASC");
+			
+			if(isset($_POST['idSearch'])) { 
+				$procurar = $_POST['idSearch'];
+				$sqlTodosReg = mysqli_query($ligacao, "SELECT * FROM livros WHERE idCat='$categoriaID' AND titulo LIKE '".$procurar."%' ORDER BY titulo ASC");
+			}
+			else {
+				$sqlTodosReg = mysqli_query($ligacao, "SELECT * FROM livros WHERE idCat='$categoriaID' ORDER BY titulo ASC");
+			}
+			
 		}
 		else {
-			$sqlTodosReg = mysqli_query($ligacao, "SELECT * FROM livros ORDER BY titulo ASC");
+			
+			if(isset($_POST['idSearch'])) { 
+				$procurar = $_POST['idSearch'];
+				$sqlTodosReg = mysqli_query($ligacao, "SELECT * FROM livros WHERE titulo LIKE '%".$procurar."%' ORDER BY titulo ASC");
+			}
+			else {
+				$sqlTodosReg = mysqli_query($ligacao, "SELECT * FROM livros ORDER BY titulo ASC");
+			}
 		}
 		$totalRegistos = mysqli_num_rows($sqlTodosReg);
 		$totalPaginas = ceil($totalRegistos / $registosPagina);
@@ -366,59 +429,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		</div>
 
 </div>
-   <div class="footer">
-   	  <div class="wrap">	
-	     <div class="section group">
-				<div class="col_1_of_4 span_1_of_4">
-						<h4>Informação</h4>
-						<ul>
-						<li><a href="sobre.php">Sobre...</a></li>
-						<li><a href="policy.php">Privacidade & Termos de Utilização</a></li>
-						<li><a href="regulamento.php">Regulamento de Requisição de Livros</a></li>
-						</ul>
-					</div>
-				<div class="col_1_of_4 span_1_of_4">
-					<h4>A sua Conta</h4>
-						<ul>
-						<li><a href="login.php">Login</a></li>
-						<li><a href="perfil.php">Perfil de utilizador</a></li>
-						<li><a href="requisicoes.php">Requisições</a></li>
-						<li><a href="devolucoes.php">Devoluções</a></li>
-						</ul>
-				</div>
-				<div class="col_1_of_4 span_1_of_4">
-					<h4>Rede Social</h4>
-						<div class="social-icons">
-					   		  <ul>
-							      <li><a href="www.facebook.com/aebatalha" target="_blank"><img src="images/facebook.png" alt="Facebook" /></a></li>
-							      <li><a href="http://esbatalha.ccems.pt/" target="_blank"><img src="images/www.png" alt="Página Web" /></a></li>
-							      <li><a href="http://esbat-m.ccems.pt" target="_blank"><img src="images/moodle.png" alt="Moodle" /> </a></li>
-								  <li><a href="http://www.alfabetoaeb.pt" target="_blank"><img src="images/alfabeto.png" alt="Jornal Alfabeto" /> </a></li>
-							      <div class="clear"></div>
-						     </ul>
-   	 					</div>
-				</div>
-				<div class="col_1_of_4 span_1_of_4">
-					<h4>Contacto</h4>
-						<ul>
-							<li><span>Rua da Freiria<br />2440-062 Batalha</span></li>
-							<li><span><img src="images/telefone.png">244 769 290</span></li>
-							<li><span><img src="images/email.png">es3batalha@gmail.com</span></li>
-						</ul>
-				</div>
-			</div>				
-        </div>
-        <div class="copy_right">
-				<p>&copy; 2018 All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a> adaptado para o AEB.</p>
-		</div>
-    </div>
-    <script type="text/javascript">
-		$(document).ready(function() {			
-			$().UItoTop({ easingType: 'easeOutQuart' });
-			
-		});
-	</script>
-    <a href="#" id="toTop"><span id="toTopHover"> </span></a>
+
+<?php include("footer.php"); ?>
+
 </body>
 </html>
 
