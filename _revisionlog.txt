@@ -37,7 +37,7 @@
 13-06-2018
 --- foram revistos as páginas de administração das requisições
 --- novas páginas e scripts para gerir requisições
---- ficou completa esta funcionalidade
+
 
 
 
