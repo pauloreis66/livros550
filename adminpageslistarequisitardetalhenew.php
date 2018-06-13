@@ -272,7 +272,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				
 			<div>
 				<span><label>Data (preencher apenas em caso de entrega):</label></span>
-				<span><input type="date" class="inactive" name="datae" readonly></span>
+				<span><input type="date" name="datae" ></span>
+				<!---<span><input type="date" class="inactive" name="datae" readonly></span>-->
 				</div>				
 				
 				<div class="clear"></div>

@@ -287,7 +287,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			$titulo = $linha["$campo3"];
 			$qtd = $linha["$campo4"];
 			$dataE = $linha["$campo5"];
-		
+			
+			//if(strtotime($linha["$campo5"])!='0000-00-00'){
+			//	$dataE = date('d-m-Y', strtotime($linha["$campo5"]));
+			//}
+			if(strtotime($linha["$campo5"])>0){
+				$dataE = date('d-m-Y', strtotime($linha["$campo5"]));
+			}
+			
+			
 			echo "<tr><td>" .$idR. "</td><td>".$titulo."</td><td>".$qtd."</td><td>".$dataE."</td>";
 			echo "<td nowrap><span><a href='adminpageslistarequisitardetalherec.php?idR=".$idR."&idL=".$idL."&q=".$qtd."&mode=edit'><img src='images/edit.png' alt='editar'>editar</a></span></td>";
 			echo "<td nowrap><span><a href='adminpageslistarequisitardetalherec.php?idR=".$idR."&idL=".$idL."&q=".$qtd."&mode=delete'><img src='images/trash.png' alt='eliminar'>eliminar</span></td></tr>";

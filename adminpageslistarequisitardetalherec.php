@@ -329,7 +329,18 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				
 				<div>
 					<span><label>Data (preencher apenas em caso de entrega):</label></span>
-					<span><input type="date" class="inactive" name="datae" value="<?php echo $campo4; ?>" readonly>
+					<span>
+					<?php 
+						if ($modo=='edit') {
+							echo "<input type='date' name='datae' value='$campo4'>";
+						}
+						else {
+							echo "<input type='date' class='inactive' name='datae' value='$campo4' readonly>";
+						}
+					?>				
+					<!---
+					<input type="date" class="inactive" name="datae" value="<?php echo $campo4; ?>" readonly>
+					--->
 					</span>
 				</div>				
 				

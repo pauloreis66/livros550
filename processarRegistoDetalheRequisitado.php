@@ -37,6 +37,7 @@
 	//estas variáveis são as do formulário
 	$idLivro= $_POST['idLivro'];
 	$qtd = $_POST['quantidade'];
+	$data = $_POST['datae'];
 	
 	//obter as variáveis ocultas passadas para controlar o registo
 	$modo = $_POST['mode'];
@@ -46,6 +47,7 @@
 			$idRi= $_POST['idRi'];
 			$idLi= $_POST['idLi'];
 			$qtdi = $_POST['qtdi'];
+			$datai = $_POST['datai'];
 	}
 
 	
@@ -74,7 +76,15 @@
 		elseif (mysqli_num_rows($contagem) == 0) {
 					//vai ser inserido num novo registo
 					mysqli_free_result($contagem);
-					$consulta = "INSERT INTO detalhesrequisicao (idReq, idLivro, quantidade) VALUES (".$id.",".$idLivro.",".$qtd.")";
+					
+					if(strtotime($data)>0){
+						//foi inserida uma data
+							$dDevolucao = date('Y-m-d', strtotime($data));
+					} else {
+							$dDevolucao = "0000-00-00";
+					}	
+					
+					$consulta = "INSERT INTO detalhesrequisicao (idReq, idLivro, quantidade, dataDevolucao) VALUES (".$id.",".$idLivro.",".$qtd.",'".$dDevolucao."')";
 					$resultado = mysqli_query($ligacao, $consulta);
 					echo $consulta;
 					if (($resultado) !=1) {
@@ -96,9 +106,20 @@
 			//ATUALIZAR
 			//verificar se existe alteração do livro ou da qtd
 			if ($idLi == $idLivro) {
+				//quantidade alterada
 				if ($qtdi != $qtd) {
-					//existe atualização para a quantidade
-					$consulta = "UPDATE detalhesrequisicao SET quantidade=".$qtd." WHERE idReq=".$idRi." AND idLivro=".$idLi;
+					
+					if ($data != $datai) {
+						
+						if(strtotime($data)>0){
+							//foi inserida uma data
+							$dDevolucao = date('Y-m-d', strtotime($data));
+						} else {
+							$dDevolucao = "0000-00-00";
+						}				
+					}
+					$consulta = "UPDATE detalhesrequisicao SET quantidade=".$qtd.", dataDevolucao='".$dDevolucao."' WHERE idReq=".$idRi." AND idLivro=".$idLi;
+					echo $consulta;
 					$resultado = mysqli_query($ligacao, $consulta);
 					if (($resultado) !=1) {
 						echo "Erro ao atualizar registo: " . $resultado . "<br>" . mysqli_error($ligacao);
@@ -111,10 +132,32 @@
 						exit;
 					}
 				}
+				//mantem a quantidade
 				else {
-					//nada a fazer
-					header("Location: adminpageslistarequisitardetalhe.php?id=".$id);
-					exit;
+					
+					if ($data != $datai) {
+						
+						if(strtotime($data)>0){
+							//foi inserida uma data
+							$dDevolucao = date('Y-m-d', strtotime($data));
+						} else {
+							$dDevolucao = "0000-00-00";
+						}				
+					}					
+					
+					$consulta = "UPDATE detalhesrequisicao SET dataDevolucao='".$dDevolucao."' WHERE idReq=".$idRi." AND idLivro=".$idLi;
+					$resultado = mysqli_query($ligacao, $consulta);
+					echo $consulta;
+					if (($resultado) !=1) {
+						echo "Erro ao atualizar registo: " . $resultado . "<br>" . mysqli_error($ligacao);
+						header("Location: adminpageslistarequisitardetalhe.php?id=".$id."&e=2");
+						exit;
+					}
+					else {
+						echo "Registo atualizado com sucesso. ";
+						header("Location: adminpageslistarequisitardetalhe.php?id=".$id."&e=1");
+						exit;
+					}
 				}
 			}
 			else {
@@ -130,7 +173,18 @@
 				elseif (mysqli_num_rows($contagem) == 0) {
 					//vai ser atualizado o registo
 					mysqli_free_result($contagem);
-					$consulta = "UPDATE detalhesrequisicao SET idLivro=".$idLivro.", quantidade=".$qtd." WHERE idReq=".$idRi." AND idLivro=".$idLi;
+					
+					if ($data != $datai) {
+						
+						if(strtotime($data)>0){
+							//foi inserida uma data
+							$dDevolucao = date('Y-m-d', strtotime($data));
+						} else {
+							$dDevolucao = "0000-00-00";
+						}				
+					}					
+					
+					$consulta = "UPDATE detalhesrequisicao SET idLivro=".$idLivro.", quantidade=".$qtd.", dataDevolucao='".$dDevolucao."' WHERE idReq=".$idRi." AND idLivro=".$idLi;
 					$resultado = mysqli_query($ligacao, $consulta);
 			
 					if (($resultado) !=1) {
