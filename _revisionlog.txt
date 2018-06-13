@@ -34,3 +34,10 @@
 --- preview.php -> atualizado para exibir a sinopse do livro
 --- página para editar a sinopse do livro (adminpagebookstext.php) e respetivo script (processarRegistoLivroSinopse.php)
 
+13-06-2018
+--- foram revistos as páginas de administração das requisições
+--- novas páginas e scripts para gerir requisições
+--- ficou completa esta funcionalidade
+
+
+
