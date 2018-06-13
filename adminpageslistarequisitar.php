@@ -272,7 +272,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			echo "<tr><td colspan='7'>Não existem registos.</td></tr></table>";
 			echo "<br>";
 			echo "<table><tr><th colspan='7'>";
-			echo "<a href='adminpageusersnew.php'><img src='images/add.png' alt='novo'>novo registo</a></th>";
+			echo "<a href='adminpageslistarequisitarnew.php'><img src='images/add.png' alt='novo'>novo registo</a></th>";
 			echo "</tr></table>";
 	}
 ?>
