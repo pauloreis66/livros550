@@ -200,21 +200,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		$pagina = 1;
 	}
 	$primeiroReg = ($_GET['pagina'] * $registosPagina) - $registosPagina;
-	//Connect To Database
-	$servidor="localhost";
-	$utilizador="root";
-	$password="root";
-	$basedados="aeblivros";
+
 	$campo1="idUser";
 	$campo2="login";
 	$campo3="nome";
 	$campo4="nivel";
 	$campo5="ativo";
 		
-	$ligacao = mysqli_connect($servidor,$utilizador,$password,$basedados) or die ("<html><script language='JavaScript'>alert('Unable to connect to database! Please try again later.'),history.go(-1)</script></html>");
-	mysqli_select_db($ligacao, $basedados);
-	mysqli_set_charset($ligacao, "utf8");
-	
 	# Verificar se existem registos
 	$consulta = "SELECT idUser, login, nome, nivel, ativo FROM utilizadores ORDER BY 2 ASC LIMIT $primeiroReg, $registosPagina";
 	$resultado = mysqli_query($ligacao, $consulta);
