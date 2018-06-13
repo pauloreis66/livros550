@@ -176,7 +176,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="list">
 					<ul>
 						<li><a href="adminpageslistarequisitar.php">Registos de Requisições</a></li>
-						<li><a href="#">Registos de Devoluções</a></li>
+						<li><a href="adminpageslistadevolver.php">Registos de Devoluções</a></li>
 						<li><a href="#">Estatísticas</a></li>
 						<li><a href="#">Relatórios</a></li>
 					</ul>
@@ -248,7 +248,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 ?>
 		<p>Inserir novo registo de detalhe da requisição.</p>
 		<div class="clear"></div>
-		<form id="form_registo" method="POST" action="processarRegistoRequisitado.php">
+		<form id="form_registo" method="POST" action="processarRegistoDetalheRequisitado.php">
 				
 			<div>
 				<span><label>Livro pretendido:</label></span>

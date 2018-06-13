@@ -176,7 +176,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="list">
 					<ul>
 						<li><a href="adminpageslistarequisitar.php">Registos de Requisições</a></li>
-						<li><a href="#">Registos de Devoluções</a></li>
+						<li><a href="adminpageslistadevolver.php">Registos de Devoluções</a></li>
 						<li><a href="#">Estatísticas</a></li>
 						<li><a href="#">Relatórios</a></li>
 					</ul>
@@ -188,7 +188,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<h2>Registos de Requisições</h2>
 				<div class="clear"></div>
 				<div class="gridtable">
-					<p>Registos das ordens de requisição efetuadas.</p>
+					<p>Registos das ordens de requisição efetuadas.</p>					
 					<table><tr><th>Req.</th><th>Data:</th><th>Estado:</th><th>Utilizador:</th><th colspan="3">Operações:</th></tr>
 
 <?php
@@ -199,20 +199,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		$pagina = 1;
 	}
 	$primeiroReg = ($_GET['pagina'] * $registosPagina) - $registosPagina;
-	//Connect To Database
-	$servidor="localhost";
-	$utilizador="root";
-	$password="root";
-	$basedados="aeblivros";
+
 	$campo1="idReq";
 	$campo2="nome";
 	$campo3="dataRequisicao";
 	$campo4="estado";
-		
-	$ligacao = mysqli_connect($servidor,$utilizador,$password,$basedados) or die ("<html><script language='JavaScript'>alert('Unable to connect to database! Please try again later.'),history.go(-1)</script></html>");
-	mysqli_select_db($ligacao, $basedados);
-	mysqli_set_charset($ligacao, "utf8");
-	
+			
 	# Verificar se existem registos
 	$consulta = "SELECT r.idReq, r.idUser, u.nome, r.dataRequisicao, r.estado 
 	FROM requisicao AS r INNER JOIN utilizadores AS u ON r.idUser=u.idUser ORDER BY 1 ASC LIMIT $primeiroReg, $registosPagina";
@@ -224,19 +216,19 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		while($linha = mysqli_fetch_array($resultado)){
 			$idR = $linha["$campo1"];
 			$nome = $linha["$campo2"];
-			$data = $linha["$campo3"];
+			$data = date('d-m-Y', strtotime($linha["$campo3"]));
 			$estado = $linha["$campo4"];
 			if ($estado == 1) { $estadolbl = "Requisitado"; } else { $estadolbl = "Entregue";}
 			
 			echo "<tr><td>" .$idR. "</td><td>".$data."</td><td>".$estadolbl."</td><td>".$nome."</td>";
 			echo "<td><span><a href='adminpageslistarequisitardetalhe.php?id=".$idR."'><img src='images/details.png' alt='editar'> detalhe</a></span></td>";
-			echo "<td><span><a href='adminpageusersrec.php?id=".$idR."&mode=edit'><img src='images/edit.png' alt='editar'>editar</a></span></td>";
-			echo "<td><span><a href='adminpageusersrec.php?id=".$idR."&mode=delete'><img src='images/trash.png' alt='eliminar'>eliminar</span></td></tr>";
+			echo "<td><span><a href='adminpageslistarequisitarrec.php?id=".$idR."&mode=edit'><img src='images/edit.png' alt='editar'>editar</a></span></td>";
+			echo "<td><span><a href='adminpageslistarequisitarrec.php?id=".$idR."&mode=delete'><img src='images/trash.png' alt='eliminar'>eliminar</span></td></tr>";
 		}
 		echo "</table><br>";
 		//-----navegação entre páginas
 		echo "<table><tr><th>";
-		echo "<a href='adminpageusersnew.php'><img src='images/add.png' alt='novo'>novo registo</a></th>";
+		echo "<a href='adminpageslistarequisitarnew.php'><img src='images/add.png' alt='novo'>novo registo</a></th>";
 		echo "<th><img src='images/pages.png' alt='páginas'> Página:&nbsp;";
 		//calcular o numero de registos e numero de paginas necessarias
 		$sqlTodosReg = mysqli_query($ligacao, "SELECT r.idReq, r.idUser, u.nome, r.dataRequisicao, r.estado 

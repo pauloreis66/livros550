@@ -189,171 +189,62 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="clear"></div>
 					
 				<div class="gridtable">
-					<p>Ordem de Requisição:</p>
-					
-					<table><tr><th>Req.</th><th>Data de Requisição:</th><th>Estado:</th><th>Utilizador:</th>
-<?php
-	if(!isset($_GET['idR'])) {
-		//não existe id
-		header("Location: adminpageslistarequisitar.php");
-		exit;
-	}
-	else {
-		$idReq = $_GET['idR'];
-	}
-	//Connect To Database
-	$servidor="localhost";
-	$utilizador="root";
-	$password="root";
-	$basedados="aeblivros";
-	
-	$campo1="idReq";
-	$campo2="nome";
-	$campo3="dataRequisicao";
-	$campo4="estado";
-	
-	$ligacao = mysqli_connect($servidor,$utilizador,$password,$basedados) or die ("<html><script language='JavaScript'>alert('Unable to connect to database! Please try again later.'),history.go(-1)</script></html>");
-	mysqli_select_db($ligacao, $basedados);
-	mysqli_set_charset($ligacao, "utf8");
-	
-	$consulta = "SELECT r.idReq, r.idUser, u.nome, r.dataRequisicao, r.estado 
-	FROM requisicao AS r INNER JOIN utilizadores AS u ON r.idUser=u.idUser WHERE r.idReq =" .$idReq;
-	$resultado = mysqli_query($ligacao, $consulta);
-	if(!empty(mysqli_num_rows($resultado))) {
-		
-		while($linha = mysqli_fetch_array($resultado)){
-			$idR = $linha["$campo1"];
-			$nome = $linha["$campo2"];
-			$data = $linha["$campo3"];
-			$estado = $linha["$campo4"];
-			if ($estado == 1) { $estadolbl = "Requisitado"; } else { $estadolbl = "Entregue";}
-			echo "<tr><td>" .$idR. "</td><td>".$data."</td><td>".$estadolbl."</td><td>".$nome."</td></tr>";
-		}
-	}
-?>
-					</table>
+					<p>Nova Ordem de Requisição</p>
 				</div>	
-				
-					
-				<div class="clear">&nbsp;</div>
-				<div class="clear">&nbsp;</div>
-				
-				
+									
+
+						
 				<div class="reccord-form">
 
 <?php
-	//verificar qual os ids e o mode
-	$botao = "";
-	if(!isset($_GET['mode'])) {
-		//não existe mode
-		header("Location: adminpageslistarequisitar.php");
-		exit;
-	}
-	elseif (!isset($_GET['idR']) OR !isset($_GET['idL']) OR !isset($_GET['q'])) {
-			//não existe ids nem qtd
-			header("Location: adminpageslistarequisitar.php");
-			exit;
-			}		
-		else {
-				$idR = $_GET['idR'];
-				$idL = $_GET['idL'];
-				$qtd = $_GET['q'];
-				$modo = $_GET['mode'];
-				if ($modo == 'edit') { $botao = "Atualizar"; }
-				if ($modo == 'delete') { $botao = "Eliminar"; }
-			}
+	# obter id de utilizador para caixa de seleção
+	$obterUser = mysqli_query($ligacao, "SELECT idUser, nome FROM utilizadores ORDER BY nome ASC");
 	
-	# criar lista de livros para a caixa de seleção
-	$consultaLivros = "SELECT idLivro, titulo FROM livros ORDER BY titulo ASC";
-	$resultadoLivros = mysqli_query($ligacao, $consultaLivros);
-	
-	# obter titulo do livro requisitado
-	$obterLivro = mysqli_query($ligacao, "SELECT idLivro, titulo FROM livros WHERE idLivro='$idL'");
-	$livro = mysqli_fetch_array($obterLivro);
-	
-	# Verificar se o registo existe
-	$consulta = "SELECT * FROM detalhesrequisicao WHERE idReq=".$idR." AND idLivro=".$idL." AND quantidade=".$qtd;
-	$resultado = mysqli_query($ligacao, $consulta);
-	
-	if($resultado){
-		//existe o registo
-		while($linha = mysqli_fetch_array($resultado)){
-			$campo1= $linha["idReq"];
-			$campo2 = $linha["idLivro"];
-			$campo3 = $linha["quantidade"];
-			$campo4 = $linha["dataDevolucao"];
-		}
-		?>
-			<p><?php echo $botao. " registo de detalhe da requisição." ?></p>
+?>
+			<p><?php echo "Só é possível inserir utilizador e data. Os detalhes de requisição devem ser inseridos de seguida." ?></p>
 			<div class="clear"></div>
-			<form id="form_registo" method="POST" action="processarRegistoDetalheRequisitado.php">
-				
-				<div>
-					<span><label>Requisitado:</label></span>
-					<span><input type="text" class="mediuminactive" value="<?php echo $livro[1] ?>" readonly></span>
-				</div>
-				
+			<div class="erro">
 				<?php
-					if ($modo=='edit') {
-						echo "<div><span><label>Livro pretendido:</label></span><span>";
-						echo "<select name='idLivro'>";
-						while ($row = mysqli_fetch_array($resultadoLivros, MYSQLI_ASSOC)) {
-								if ($row["idLivro"] == $campo2) {
-									echo "<option selected value=".$row['idLivro'].">".$row['titulo']."</option>";
-								}
-								else {
-									echo "<option value=".$row['idLivro'].">".$row['titulo']."</option>";
-								}
+					if (isset($_GET['e'])) {
+						$erro = $_GET['e'];
+						switch ($erro) {
+							case 1: $msge="Operação realizada com sucesso."; break;
+							case 2: $msge="Erro ao inserir o registo."; break;
 						}
-						echo "</select>";
-					}
+						echo $msge;
+						}
 					else {
-						$botao = "Eliminar";
-						echo "<input type='hidden' value=".$campo2." name='idLivro' />";
-					}
+							echo " ";
+						}	
 				?>
+			</div>
+			
+			
+			<form id="form_registo" method="POST" action="processarRegistoNovaRequisicao.php">
 				
-				<div>
-					<span><label>Quantidade:</label></span>
-					<span>
-					<?php 
-						if ($modo=='edit') {
-							echo "<input type='text' class='short' name='quantidade' value='$campo3'>";
-						}
-						else {
-							echo "<input type='text' class='mediuminactive' name='quantidade' value='$campo3' readonly>";
-						}
-					?>
-					</span>
+				<div><span><label>Utilizador:</label></span>
+				<span><select name="idUser">
+				<?php
+					while ($row = mysqli_fetch_array($obterUser, MYSQLI_ASSOC)) {
+						echo "<option value=".$row['idUser'].">".$row['nome']."</option>";
+								}
+				?>
+				</select>
 				</div>
 				
+				
 				<div>
-					<span><label>Data (preencher apenas em caso de entrega):</label></span>
-					<span><input type="date" class="inactive" name="datae" value="<?php echo $campo4; ?>" readonly>
-					</span>
+					<span><label>Data de requisição:</label></span>
+					<span><input type="date" name="datae" value="<?php echo date(); ?>"></span>
 				</div>				
 				
 				<div class="clear"></div>
-				<span><input type="submit" name="doit" value="<?php echo $botao ?>">
+				<span><input type="submit" name="save" value="Inserir">
 							<input type="submit" name="cancel" value="Cancelar" >
-							<input type="hidden" value="<?php echo $modo; ?>" name="mode" />
-							<input type="hidden" value="<?php echo $campo1; ?>" name="id" />
-							<!-- estes campos são para controlar dados iniciais do registo a tratar -->
-							<input type="hidden" value="<?php echo $campo1; ?>" name="idRi" />
-							<input type="hidden" value="<?php echo $campo2; ?>" name="idLi" />
-							<input type="hidden" value="<?php echo $campo3; ?>" name="qtdi" />
-							<input type="hidden" value="<?php echo $campo4; ?>" name="datai" />
 				</span>
 				
-	<?php
-	}
-	else {
-			//caso não existam registos
-			echo "<p class='erro'>Não foi encontrado o registo.</p>";
-			echo "<p><img src='images/undo.png'>&nbsp;<a href='adminpageslistarequisitar.php'>Voltar</a></p>";
-	}
-	?>
 			</form>
+			
 				</div>
 			</div>
     </div>

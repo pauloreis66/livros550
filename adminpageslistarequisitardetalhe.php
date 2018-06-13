@@ -176,7 +176,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="list">
 					<ul>
 						<li><a href="adminpageslistarequisitar.php">Registos de Requisições</a></li>
-						<li><a href="#">Registos de Devoluções</a></li>
+						<li><a href="adminpageslistadevolver.php">Registos de Devoluções</a></li>
 						<li><a href="#">Estatísticas</a></li>
 						<li><a href="#">Relatórios</a></li>
 					</ul>
@@ -223,7 +223,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		while($linha = mysqli_fetch_array($resultado)){
 			$idR = $linha["$campo1"];
 			$nome = $linha["$campo2"];
-			$data = $linha["$campo3"];
+			$data = date('d-m-Y', strtotime($linha["$campo3"]));
 			$estado = $linha["$campo4"];
 			if ($estado == 1) { $estadolbl = "Requisitado"; } else { $estadolbl = "Entregue";}
 			echo "<tr><td>" .$idR. "</td><td>".$data."</td><td>".$estadolbl."</td><td>".$nome."</td></tr>";
@@ -287,7 +287,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			$titulo = $linha["$campo3"];
 			$qtd = $linha["$campo4"];
 			$dataE = $linha["$campo5"];
-			
+		
 			echo "<tr><td>" .$idR. "</td><td>".$titulo."</td><td>".$qtd."</td><td>".$dataE."</td>";
 			echo "<td nowrap><span><a href='adminpageslistarequisitardetalherec.php?idR=".$idR."&idL=".$idL."&q=".$qtd."&mode=edit'><img src='images/edit.png' alt='editar'>editar</a></span></td>";
 			echo "<td nowrap><span><a href='adminpageslistarequisitardetalherec.php?idR=".$idR."&idL=".$idL."&q=".$qtd."&mode=delete'><img src='images/trash.png' alt='eliminar'>eliminar</span></td></tr>";

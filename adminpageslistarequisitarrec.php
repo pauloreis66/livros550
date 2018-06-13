@@ -189,32 +189,23 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="clear"></div>
 					
 				<div class="gridtable">
-					<p>Ordem de Requisição:</p>
+					<p>Ordem de Requisição inicial:</p>
 					
 					<table><tr><th>Req.</th><th>Data de Requisição:</th><th>Estado:</th><th>Utilizador:</th>
 <?php
-	if(!isset($_GET['idR'])) {
+	if(!isset($_GET['id'])) {
 		//não existe id
 		header("Location: adminpageslistarequisitar.php");
 		exit;
 	}
 	else {
-		$idReq = $_GET['idR'];
+		$idReq = $_GET['id'];
 	}
-	//Connect To Database
-	$servidor="localhost";
-	$utilizador="root";
-	$password="root";
-	$basedados="aeblivros";
 	
 	$campo1="idReq";
 	$campo2="nome";
 	$campo3="dataRequisicao";
 	$campo4="estado";
-	
-	$ligacao = mysqli_connect($servidor,$utilizador,$password,$basedados) or die ("<html><script language='JavaScript'>alert('Unable to connect to database! Please try again later.'),history.go(-1)</script></html>");
-	mysqli_select_db($ligacao, $basedados);
-	mysqli_set_charset($ligacao, "utf8");
 	
 	$consulta = "SELECT r.idReq, r.idUser, u.nome, r.dataRequisicao, r.estado 
 	FROM requisicao AS r INNER JOIN utilizadores AS u ON r.idUser=u.idUser WHERE r.idReq =" .$idReq;
@@ -224,7 +215,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		while($linha = mysqli_fetch_array($resultado)){
 			$idR = $linha["$campo1"];
 			$nome = $linha["$campo2"];
-			$data = $linha["$campo3"];
+			$data = date('d-m-Y', strtotime($linha["$campo3"]));
 			$estado = $linha["$campo4"];
 			if ($estado == 1) { $estadolbl = "Requisitado"; } else { $estadolbl = "Entregue";}
 			echo "<tr><td>" .$idR. "</td><td>".$data."</td><td>".$estadolbl."</td><td>".$nome."</td></tr>";
@@ -233,12 +224,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 ?>
 					</table>
 				</div>	
-				
-					
+									
 				<div class="clear">&nbsp;</div>
 				<div class="clear">&nbsp;</div>
-				
-				
+						
 				<div class="reccord-form">
 
 <?php
@@ -249,87 +238,94 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		header("Location: adminpageslistarequisitar.php");
 		exit;
 	}
-	elseif (!isset($_GET['idR']) OR !isset($_GET['idL']) OR !isset($_GET['q'])) {
-			//não existe ids nem qtd
-			header("Location: adminpageslistarequisitar.php");
-			exit;
-			}		
-		else {
-				$idR = $_GET['idR'];
-				$idL = $_GET['idL'];
-				$qtd = $_GET['q'];
-				$modo = $_GET['mode'];
-				if ($modo == 'edit') { $botao = "Atualizar"; }
-				if ($modo == 'delete') { $botao = "Eliminar"; }
-			}
+	else {
+		$modo = $_GET['mode'];
+		if ($modo == 'edit') { $botao = "Atualizar"; }
+		if ($modo == 'delete') { $botao = "Eliminar"; }
+	}
 	
-	# criar lista de livros para a caixa de seleção
-	$consultaLivros = "SELECT idLivro, titulo FROM livros ORDER BY titulo ASC";
-	$resultadoLivros = mysqli_query($ligacao, $consultaLivros);
 	
-	# obter titulo do livro requisitado
-	$obterLivro = mysqli_query($ligacao, "SELECT idLivro, titulo FROM livros WHERE idLivro='$idL'");
-	$livro = mysqli_fetch_array($obterLivro);
+	# obter id de utilizador
+	$obterUser = mysqli_query($ligacao, "SELECT idUser, nome FROM utilizadores ORDER BY nome ASC");
 	
 	# Verificar se o registo existe
-	$consulta = "SELECT * FROM detalhesrequisicao WHERE idReq=".$idR." AND idLivro=".$idL." AND quantidade=".$qtd;
+	$consulta = "SELECT * FROM requisicao WHERE idReq=".$idReq;
 	$resultado = mysqli_query($ligacao, $consulta);
+
 	
 	if($resultado){
 		//existe o registo
 		while($linha = mysqli_fetch_array($resultado)){
 			$campo1= $linha["idReq"];
-			$campo2 = $linha["idLivro"];
-			$campo3 = $linha["quantidade"];
-			$campo4 = $linha["dataDevolucao"];
+			$campo2 = $linha["idUser"];
+			//$campo3 = date('d-m-Y', strtotime($linha["dataRequisicao"]));
+			$campo4 = $linha["estado"];
+			
+			$campo3 = $linha["dataRequisicao"];
+
 		}
 		?>
-			<p><?php echo $botao. " registo de detalhe da requisição." ?></p>
+			<p><?php echo $botao. " registo de requisição. Só é possível alterar utilizador e data." ?></p>
 			<div class="clear"></div>
-			<form id="form_registo" method="POST" action="processarRegistoDetalheRequisitado.php">
+			<div class="erro">
+				<?php
+					if (isset($_GET['e'])) {
+						$erro = $_GET['e'];
+						switch ($erro) {
+							case 1: $msge="Operação realizada com sucesso."; break;
+							case 2: $msge="Erro ao atualizar registo."; break;
+							case 3: $msge="Operação não válida. É primeiro necessário eliminar os registos de detalhe."; break;											
+						}
+						echo $msge;
+						}
+					else {
+							echo " ";
+						}	
+				?>
+			</div>
+			
+			
+			
+			<form id="form_registo" method="POST" action="processarRegistoRequisicao.php">
 				
 				<div>
-					<span><label>Requisitado:</label></span>
-					<span><input type="text" class="mediuminactive" value="<?php echo $livro[1] ?>" readonly></span>
+					<span><label>ID Req.:</label></span>
+					<span><input type="text" class="short inactive" value="<?php echo $campo1; ?>" readonly></span>
 				</div>
 				
 				<?php
 					if ($modo=='edit') {
-						echo "<div><span><label>Livro pretendido:</label></span><span>";
-						echo "<select name='idLivro'>";
-						while ($row = mysqli_fetch_array($resultadoLivros, MYSQLI_ASSOC)) {
-								if ($row["idLivro"] == $campo2) {
-									echo "<option selected value=".$row['idLivro'].">".$row['titulo']."</option>";
+						echo "<div><span><label>Utilizador:</label></span><span>";
+						echo "<select name='idUser'>";
+						while ($row = mysqli_fetch_array($obterUser, MYSQLI_ASSOC)) {
+								if ($row["idUser"] == $campo2) {
+									echo "<option selected value=".$row['idUser'].">".$row['nome']."</option>";
 								}
 								else {
-									echo "<option value=".$row['idLivro'].">".$row['titulo']."</option>";
+									echo "<option value=".$row['idUser'].">".$row['nome']."</option>";
 								}
 						}
 						echo "</select>";
 					}
 					else {
 						$botao = "Eliminar";
-						echo "<input type='hidden' value=".$campo2." name='idLivro' />";
+						echo "<input type='hidden' value=".$campo2." name='idUser' />";
 					}
 				?>
 				
-				<div>
-					<span><label>Quantidade:</label></span>
-					<span>
-					<?php 
-						if ($modo=='edit') {
-							echo "<input type='text' class='short' name='quantidade' value='$campo3'>";
-						}
-						else {
-							echo "<input type='text' class='mediuminactive' name='quantidade' value='$campo3' readonly>";
-						}
-					?>
-					</span>
-				</div>
 				
 				<div>
-					<span><label>Data (preencher apenas em caso de entrega):</label></span>
-					<span><input type="date" class="inactive" name="datae" value="<?php echo $campo4; ?>" readonly>
+					<span><label>Data de requisição:</label></span>
+					<span>
+					<?php
+					if ($modo=='edit') {
+						echo "<input type='date' name='datae' value='".$campo3."'>";
+					}
+					else {
+						echo "<input type='date' class='inactive' name='datae' value='".$campo3."' readonly>";
+					}
+					
+					?>
 					</span>
 				</div>				
 				
@@ -338,11 +334,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							<input type="submit" name="cancel" value="Cancelar" >
 							<input type="hidden" value="<?php echo $modo; ?>" name="mode" />
 							<input type="hidden" value="<?php echo $campo1; ?>" name="id" />
-							<!-- estes campos são para controlar dados iniciais do registo a tratar -->
-							<input type="hidden" value="<?php echo $campo1; ?>" name="idRi" />
-							<input type="hidden" value="<?php echo $campo2; ?>" name="idLi" />
-							<input type="hidden" value="<?php echo $campo3; ?>" name="qtdi" />
-							<input type="hidden" value="<?php echo $campo4; ?>" name="datai" />
 				</span>
 				
 	<?php
