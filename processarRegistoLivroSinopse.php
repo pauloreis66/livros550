@@ -46,10 +46,8 @@
     }
     else {
 		$idLivro = $_POST['id'];
-		$consulta = "UPDATE livros SET sinopse='".$sinopse."' WHERE idLivro=".$idLivro;
-								
+		$consulta = "UPDATE livros SET sinopse='".$sinopse."' WHERE idLivro=".$idLivro;						
 		$resultado = mysqli_query($ligacao, $consulta);
-		echo $consulta;
 		if (($resultado) !=1) {
 			echo "Erro ao atualizar registo: " . $resultado . "<br>" . mysqli_error($ligacao);
 			header("Location: adminpagebookstext.php?id=".$idLivro."&mode=text");
@@ -60,7 +58,6 @@
 			header("Location: adminpagebooks.php");
 			exit;
 			}
-
 	}
 	mysqli_close($ligacao);
 ?>
