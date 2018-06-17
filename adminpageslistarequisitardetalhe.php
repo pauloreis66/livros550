@@ -190,7 +190,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="gridtable">
 					<p>Ordem de requisição.</p>
 					
-					<table><tr><th>Req.</th><th>Data de Requisição:</th><th>Estado:</th><th>Utilizador:</th>
+					<table><tr><th>Req.</th><th>Data de Requisição:</th><th>Utilizador:</th><th>Estado:</th><th>&nbsp;</th>
 <?php
 	if(!isset($_GET['id'])) {
 		//não existe id
@@ -226,7 +226,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			$data = date('d-m-Y', strtotime($linha["$campo3"]));
 			$estado = $linha["$campo4"];
 			if ($estado == 1) { $estadolbl = "Requisitado"; } else { $estadolbl = "Entregue";}
-			echo "<tr><td>" .$idR. "</td><td>".$data."</td><td>".$estadolbl."</td><td>".$nome."</td></tr>";
+			echo "<tr><td>" .$idR. "</td><td>".$data."</td><td>".$nome."</td><td>".$estadolbl."</td>";
+			echo "<td><img src='images/calendar16.png' alt='conferir estado'>";
+			echo "<a href='processarConferirRequisicao.php?id=".$idR."'>conferir</a></td></tr>";
 		}
 	}
 ?>
@@ -246,7 +248,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								case 1: $msge="Operação realizada com sucesso."; break;
 								case 2: $msge="Erro ao atualizar registo."; break;
 								case 3: $msge="Erro ao eliminar registo."; break;		
-								case 4: $msge="Erro ao inserir registo."; break;									
+								case 4: $msge="Erro ao inserir registo."; break;	
+								case 5: $msge="Erro ao aceder ao registo de detalhes."; break;	
+								case 6: $msge="Erro ao conferir estado da requisicão."; break;		
+								case 7: $msge="Estado conferido e atualizado com sucesso."; break;									
 						}
 						echo $msge;
 						}
@@ -288,13 +293,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			$qtd = $linha["$campo4"];
 			$dataE = $linha["$campo5"];
 			
-			//if(strtotime($linha["$campo5"])!='0000-00-00'){
-			//	$dataE = date('d-m-Y', strtotime($linha["$campo5"]));
-			//}
 			if(strtotime($linha["$campo5"])>0){
 				$dataE = date('d-m-Y', strtotime($linha["$campo5"]));
 			}
-			
 			
 			echo "<tr><td>" .$idR. "</td><td>".$titulo."</td><td>".$qtd."</td><td>".$dataE."</td>";
 			echo "<td nowrap><span><a href='adminpageslistarequisitardetalherec.php?idR=".$idR."&idL=".$idL."&q=".$qtd."&mode=edit'><img src='images/edit.png' alt='editar'>editar</a></span></td>";
@@ -304,6 +305,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		//-----navegação entre páginas
 		echo "<table><tr><th>";
 		echo "<a href='adminpageslistarequisitar.php'><img src='images/undo.png' alt='voltar'>voltar</a></th>";
+		echo "<th><img src='images/calendar.png' alt='conferir estado'><a href='processarConferirRequisicao.php?id=".$idR."'>conferir</a></th>";
 		echo "<th><a href='adminpageslistarequisitardetalhenew.php?idR=".$idR."'><img src='images/add.png' alt='novo'>novo registo</a></th>";
 		echo "<th><img src='images/pages.png' alt='páginas'> Página:&nbsp;";
 		//calcular o numero de registos e numero de paginas necessarias
