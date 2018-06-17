@@ -38,6 +38,9 @@
 --- foram revistos as páginas de administração das requisições
 --- novas páginas e scripts para gerir requisições
 
+17-06-2018
+--- a pagina de detalhes da requisição (adminpageslistarequisitardetalhe.php) inclui uma ligação para conferir a datas de devolução e assim atualizar o respetivo estado (processarConferirRequisição.php)
+
 
 
 
