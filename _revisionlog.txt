@@ -44,6 +44,10 @@
 18-06-2018
 --- página de lista de devoluções (adminpageslistadevolver.php)
 
+19-06-2018
+--- página de listagem das requisições efetuadas pelo utilizador (requisicoes.php)
+
+
 
 
 
