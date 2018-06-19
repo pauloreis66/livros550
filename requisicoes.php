@@ -195,55 +195,28 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 <div class="content">
     <div class="content_top">
-			<div class="back-links">
-	<?php
+		<div class="back-links">
+			<p>Registos de requisição efetuadas pelo utilizador.</p>
+		</div>
+		<div class="clear"></div>
+    </div>
+	<div class="clear">&nbsp;</div>
+	<div class="section group">
+		<div class="clear"></div>
+			
+		<div class="content_top">
+			<div class="clear">&nbsp;</div>
+			<div class="listagrid">
 	
-		if(!isset($_GET['id'])) {
-			//não existe id
-			$mode=0;
-			if(isset($_POST['idSearch'])) { 
-				$procurar = $_POST['idSearch'];
-				$categoriaLink = "Procurar no catálogo: ".$procurar;
-			}
-			else {
-				$categoriaLink = "Todo o catálogo";
-				$procurar = "";
-			}
-		}
-		else {
-			$idCat = $_GET['id'];
-			$mode=1;
-			$procurar = "";
-			$categoriaID = $idCat;
-			$obterCat = mysqli_query($ligacao, "SELECT * FROM categorias WHERE idCat='$categoriaID'");
-			$categoriaLink = mysqli_fetch_array($obterCat)[1];
-			if (strlen($categoriaLink)==0) {
-				//se o id passado por url é inexistente
-				$categoriaLink = "Todo o catálogo";
-				$mode=0;
-				$procurar = "";
-			}
-			if(isset($_POST['idSearch'])) { 
-				$procurar = $_POST['idSearch'];
-				$categoriaLink = $categoriaLink.": ".$procurar;
-			}
-		}
-		
-	?>
-					<p><a href="index.php">Home</a> > <?php echo "<a href='livroscatalogo.php?id=" .$id. "'>".$categoriaLink."</a>"; ?></p>
-			</div>
-			<div class="see">
-    			<p><a href="livroscatalogo.php">Ver todo o catálogo</a></p>
-    		</div>
-			<div class="clear"></div>
-    	</div>
-		<div class="section group">
-		
+				<table>
+					<tr>
+						<th>Req.</th><th>Data:</th><th>Livro:</th><th>Qtd.:</th><th>Estado:</th><th>Entrega:</th>
+					</tr>
 	<?php
 	
 	//NAVEGAÇÃO DE PÁGINAS
 	//fixar número de registos mostrados por página
-	$registosPagina = 8;
+	$registosPagina = 10;
 	
 	//caso seja a primeira página, é atribuído o valor de página=1
 	if (empty($_GET['pagina'])) {
@@ -253,102 +226,62 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	//calcular o valor do primeiro registo a solicitar
 	$primeiroReg = ($_GET['pagina'] * $registosPagina) - $registosPagina;
 	
-	//criar a consulta à base de dados
-	if ($mode !=0) {
-		
-		if(isset($_POST['idSearch'])) { 
-			$procurar = $_POST['idSearch'];
-			$consulta = "SELECT * FROM livros WHERE idCat='$categoriaID' AND titulo LIKE '%".$procurar."%' ORDER BY titulo ASC LIMIT $primeiroReg, $registosPagina";
-		}
-		else {
-			$consulta = "SELECT * FROM livros WHERE idCat='$categoriaID' ORDER BY titulo ASC LIMIT $primeiroReg, $registosPagina";
-		}
-		
-	}
-	else {
-		
-		if(isset($_POST['idSearch'])) { 
-			$procurar = $_POST['idSearch'];
-			$consulta = "SELECT * FROM livros WHERE titulo LIKE '%".$procurar."%' ORDER BY titulo ASC LIMIT $primeiroReg, $registosPagina";
-		}
-		else {
-			$consulta = "SELECT * FROM livros ORDER BY titulo ASC LIMIT $primeiroReg, $registosPagina";
-		}
-		
-	}
+	$campo1="idReq";
+	$campo2="dataRequisicao";
+	$campo3="titulo";
+	$campo4="quantidade";
+	$campo5="estado";
+	$campo6="dataDevolucao";
+	$campo7="nome";
+	$user=$_SESSION['UserID'];
 	
+	# Verificar se existem registos
+	$consulta = "SELECT r.idReq, r.dataRequisicao, r.estado, l.titulo, d.quantidade, d.dataDevolucao, u.nome  
+	   FROM requisicao AS r 
+	   JOIN detalhesrequisicao AS d ON r.idReq = d.idReq 
+	   JOIN livros AS l ON l.idLivro=d.idLivro 
+	   JOIN utilizadores AS u ON u.idUser=r.idUser 
+	WHERE r.idUser = ".$user." ORDER BY 1 ASC LIMIT $primeiroReg, $registosPagina";
+
 	$resultado = mysqli_query($ligacao, $consulta);
 	
 	//verificar se existem resultados a exibir
 	if(!empty(mysqli_num_rows($resultado))){
-	
-		//exibir os registos
-		while ($linha = mysqli_fetch_array($resultado)){
-			$id = $linha["idLivro"];
-			$nome = $linha["titulo"];
-			$categoriaID = $linha["idCat"];
-			$editoraID = $linha["idEditora"];
-			$obterCat = mysqli_query($ligacao, "SELECT * FROM categorias WHERE idCat='$categoriaID'");
-			$categoria = mysqli_fetch_array($obterCat);
-			$obterEdit = mysqli_query($ligacao, "SELECT * FROM editoras WHERE idEditora='$editoraID'");
-			$editora = mysqli_fetch_array($obterEdit);
-			$autor = $linha["autor"];
-			$capa = $linha["imgCapa"];
-			$pastaCapas = "images/capas/";
-			$ano = $linha["anoEdicao"];
+
+			while($linha = mysqli_fetch_array($resultado)){
+
+				$idR = $linha["$campo1"];
+				$dataR = date('d-m-Y', strtotime($linha["$campo2"]));
+				$livro = $linha["$campo3"];
+				$qtd = $linha["$campo4"];
+				$estado = $linha["$campo5"];
+				if ($estado == 1) { $estadolbl = "Requisitado"; } else { $estadolbl = "Entregue";}
+				if(strtotime($campo6)>0){
+					$dataD = date('d-m-Y', strtotime($linha["$campo6"]));
+				} else {
+					//$dataD = "00-00-0000";
+					$dataD = "--/--/----";
+				}	
+				$nome = $linha["$campo7"];
+				
+				echo "<tr><td>" .$idR. "</td><td>".$dataR."</td><td>".$livro."</td><td>".$qtd."</td><td>".$estadolbl."</td><td>".$dataD."</td></tr>";
+			}
 		?>
-				<div class="grid_1_of_4 images_1_of_4">
-					 <?php 	echo "<a href='preview.php?id=".$id."'>";
-							echo "<img src='".$pastaCapas.$capa."' border='0'></a>"; ?>
-					 <h2><?php echo $nome; ?></h2>
-					 <h3><?php echo $autor; ?></h3>
-					 <h4><?php echo $categoria[1]; ?></h4>
-					<div class="price-details">
-						<div class="price-number">
-							<p><span class="escudos">
-									<?php echo $editora[1];
-										echo "<br>Ano de edição: ";
-										echo $ano; ?>
-							</span></p>
-						</div>
-						<div class="add-cart2">
-							<h4><?php echo "<a href='preview.php?id=".$id."'>"; ?>
-								<img src="images/bcart24.png" alt="Carrinho"></a></h4>
-						</div>
-						<div class="clear"></div>
-					</div>
+						</table>
 				</div>
-			<?php
-			//fim do ciclo de exibir os registos
-			}
-			?>
-			<div class="clear"></div>
-			<div class="content_top">
+				<div class="clear"></div>
 				<div class="gridtable">
+					<p>&nbsp;</p>
 					<p class="navreg">Registos:&nbsp;
-<?php
+	<?php
 		//calcular o numero de registos e numero de paginas necessarias
-		if ($mode !=0) {
-			
-			if(isset($_POST['idSearch'])) { 
-				$procurar = $_POST['idSearch'];
-				$sqlTodosReg = mysqli_query($ligacao, "SELECT * FROM livros WHERE idCat='$categoriaID' AND titulo LIKE '".$procurar."%' ORDER BY titulo ASC");
-			}
-			else {
-				$sqlTodosReg = mysqli_query($ligacao, "SELECT * FROM livros WHERE idCat='$categoriaID' ORDER BY titulo ASC");
-			}
-			
-		}
-		else {
-			
-			if(isset($_POST['idSearch'])) { 
-				$procurar = $_POST['idSearch'];
-				$sqlTodosReg = mysqli_query($ligacao, "SELECT * FROM livros WHERE titulo LIKE '%".$procurar."%' ORDER BY titulo ASC");
-			}
-			else {
-				$sqlTodosReg = mysqli_query($ligacao, "SELECT * FROM livros ORDER BY titulo ASC");
-			}
-		}
+		
+		$sqlTodosReg = mysqli_query($ligacao, "SELECT r.idReq, r.dataRequisicao, r.estado, l.titulo, d.quantidade, d.dataDevolucao, u.nome  
+	   FROM requisicao AS r 
+	   JOIN detalhesrequisicao AS d ON r.idReq = d.idReq 
+	   JOIN livros AS l ON l.idLivro=d.idLivro 
+	   JOIN utilizadores AS u ON u.idUser=r.idUser 
+	WHERE r.idUser = ".$user." ORDER BY 1 ASC");
 		$totalRegistos = mysqli_num_rows($sqlTodosReg);
 		$totalPaginas = ceil($totalRegistos / $registosPagina);
 		$totalPaginas++;
@@ -356,21 +289,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		$pagina = $_GET['pagina'];
 		//determinar se é a primeira pagina e mostrar numero
 		if ($pagina ==1) {
-			if ($mode==0) {
 				echo "<a href=?pagina=".($pagina)."></a>";
-			}
-			else {
-				echo "<a href=?id=".($idCat)."&pagina=".($pagina)."></a>";
-			}
 		}
 		else {
-			if ($mode==0) {
-				echo "<a href=?pagina=".($pagina-1).">Anterior</a>";
-			}
-			else {
-				echo "<a href=?id=".($idCat)."&pagina=".($pagina-1).">Anterior</a>";
-			}
+			echo "<a href=?pagina=".($pagina-1).">Anterior</a>";
 		}
+
 		//determinar numero de paginas e coloca-los
 		for ($pag=1; $pag<$totalPaginas; $pag++) {
 			//determinar a pagina atual
@@ -380,23 +304,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			}
 			else {
 				$paginaSeguinte = $pag;
-				if ($mode==0) {
-					echo "&nbsp;<a href=?pagina=$paginaSeguinte>$pag</a>&nbsp;";
-				}
-				else {
-					echo "&nbsp;<a href=?id=".($idCat)."&pagina=$paginaSeguinte>$pag</a>&nbsp;";
-				}
+				echo "&nbsp;<a href=?pagina=$paginaSeguinte>$pag</a>&nbsp;";
 			}
 		}
 		//determinar se é a ultima pagina
 		if (($pagina+1) < $totalPaginas) {
 			//se não é ultima, adiciona ligacao para a seguinte
-			if ($mode==0) {
-				echo "<a href=?pagina=".($pagina+1).">Seguinte</a>";
-			}
-			else {
-				echo "<a href=?id=".($idCat)."&pagina=".($pagina+1).">Seguinte</a>";
-			}
+			echo "<a href=?pagina=".($pagina+1).">Seguinte</a>";
 		}
 		else {
 			echo "";
