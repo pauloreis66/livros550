@@ -13,7 +13,16 @@
 				<div class="col_1_of_4 span_1_of_4">
 					<h4>A sua Conta</h4>
 						<ul>
-						<li><a href="login.php">Login</a></li>
+						<?php
+							//Verifica se não há a variável da sessão que identifica o utilizador
+							if (!isset($_SESSION['UserID'])) {
+								// Destrói a sessão por segurança
+								echo "<li><a href='login.php'>Login</a></li>";
+							}
+							else {
+								echo "<li><a href='logout.php'>Logout</a></li>";
+							}
+						?>
 						<li><a href="perfil.php">Perfil de utilizador</a></li>
 						<li><a href="requisicoes.php">Requisições</a></li>
 						<li><a href="devolucoes.php">Devoluções</a></li>
@@ -43,7 +52,7 @@
 			</div>			
         </div>
         <div class="copy_right">
-				<p>&copy; 2018 All rights reserved | Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a> adaptado para o AEB.</p>
+				<p>&copy; 2018 All rights reserved | Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a> | Adaptado para o AEB.</p>
 		</div>
     </div>
     <script type="text/javascript">

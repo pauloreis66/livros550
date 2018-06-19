@@ -206,8 +206,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			
 		<div class="content_top">
 			<div class="clear">&nbsp;</div>
+			
 			<div class="listagrid">
-	
 				<table>
 					<tr>
 						<th>Req.</th><th>Data:</th><th>Livro:</th><th>Qtd.:</th><th>Estado:</th><th>Entrega:</th>
@@ -264,7 +264,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				}	
 				$nome = $linha["$campo7"];
 				
-				echo "<tr><td>" .$idR. "</td><td>".$dataR."</td><td>".$livro."</td><td>".$qtd."</td><td>".$estadolbl."</td><td>".$dataD."</td></tr>";
+				echo "<tr><td>" .$idR. "</td><td>".$dataR."</td><td>".$livro."</td><td>".$qtd."</td><td>".$estadolbl."</td>";
+				if ($estado==2) {
+					echo "<td>".$dataD."</td></tr>";
+				}
+				else {
+					echo "<td><img src='images/calendar16.png' alt='devolver este livro'><a href='#'>Devolução</a></td></tr>";
+				}
 			}
 		?>
 						</table>
